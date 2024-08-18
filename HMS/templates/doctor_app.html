@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment Booking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .appointment-list {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .appointment {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+        }
+
+        .appointment h3 {
+            margin-top: 0;
+        }
+
+        .appointment p {
+            margin-bottom: 5px;
+        }
+
+        .app {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .app p {
+            margin: 0;
+        }
+
+        .acc {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            width: fit-content;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .acc p {
+            margin: 0;
+        }
+
+        #button[type="submit"] {
+            background-color: green;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #button[type="submit"]:hover {
+            background-color: blue;
+            color: white
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <header>
+        <h1 id="docName">Welcome Dr. {{ data[0] }}</h1>
+        <nav>
+            <ul>
+                <li><a href="/all_appointment">All Appointments</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="/">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="account">
+        <h2>My Account</h2>
+        <div class="account">
+            <div class="acc">
+                <p>Name: {{ data[0] }}</p>
+                <p>Email: {{ data[1] }} </p>
+                <p>Specialization: {{ data[2] }}</p>
+                <p>Phone NUmber : {{ data[3] }} </p>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="appointments">
+        <h2>My Appointments</h2>
+        <div class="appointment-list">
+            {% for appointment in appointments_data %}
+            <div class="app">
+                <div>
+                    <p>Name: {{ appointment['name'] }}</p>
+                    <p id="patEmail">Email: {{ appointment['email'] }}</p>
+                    <p>Date: {{ appointment['date'] }}</p>
+                    <p>Disease: {{ appointment['disease'] }}</p>
+                    <p>Description: {{ appointment['description'] }}</p>
+                </div>
+                
+                </div>
+            </div>
+            {% endfor %} <!-- This is where the endfor tag should be -->
+        </div>
+    </section>
+
+
+
+
+
+
+    <footer>
+        <p>&copy; 2024 SCB medical,cuttack . All rights reserved.</p>
+    </footer>
+    <script>
+        const button = document.getElementById("button");
+        const name = document.getElementById('docName')
+        button.addEventListener('click', () => {
+            name.innerHTML = '<textarea name="docName">{{data[0]}}</textarea><br><textarea name="patEmail">{{ appointment_emails[0] }}</textarea>'
+
+        })
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" id="home">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMS</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min (1).css (1).css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/user_login.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <style>
+      .form-control {
+          width: 365px;
+
+      }
+      .login-container{
+        box-shadow: 0 0 15px rgb(0, 0, 0); /* Shadow effect */
+
+      }
+      .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh; 
+            
+        }
+      </style>
+</head>
+<body>
+<!-- navigation Bar  -->
+<section class="header">
+  <nav class="navbar navbar-expand-lg bg-primary sticky-navbar" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <div class="logo">
+          <h4>SCB</h4>
+      </div>
+  </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <h3 class="mehran">Srirama Chandra Bhanja Medical</h3>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav ms-auto justify-content-end navbar1">
+        <li class="nav-item mr-3">
+            <a class="nav-link text-light" href="/">Home
+               
+            </a>
+        </li>
+        <li class="nav-item mr-3">
+            <a class="nav-link text-light" href="/#about">About Us</a>
+        </li>
+        <li class="nav-item mr-3">
+            <a class="nav-link text-light" href="/#doctors">Doctors</a>
+        </li>
+        <li class="nav-item mr-3">
+            <a class="nav-link text-light" href="/#about">Departments</a>
+        </li>
+
+        <li class="nav-item mr-3">
+            <a class="nav-link text-light" href="/#contact">Contact Us </a>
+        </li>
+
+        <li class="nav-item mr-3">
+            <a class="nav-link text-light" href="/login">Login</a>
+        </li>
+    </ul>
+  </div>
+     
+    </div>
+  </div>
+</nav>
+</section>
+
+  <!-- login detials  -->
+    <!-- login detials  -->
+    <div class="container">
+      <div class="login-container">
+        <h2>Admin Login</h2>
+        <form method="POST" action="/admin">
+          <div class="form-group">
+              <label for="username">User Name:</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+          <!-- <a href="#" class="btn btn-link">Forgot Password?</a> -->
+      </form>
+      
+      </div>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

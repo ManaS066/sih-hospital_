@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../static/css/bootstrap.min (1).css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+
+
+  <link rel="stylesheet" href="../static/css/dashboard.css">
+  <style>
+    .glow {
+      animation: glowing 2s infinite;
+    }
+
+    @keyframes glowing {
+      0% {
+        color: #fff;
+      }
+
+      25% {
+        color: #e61818;
+      }
+
+      50% {
+        color: #a5e618;
+      }
+
+      100% {
+        color: #fff;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><i class="fa-sharp fa-solid fa-hospital my-icon"
+          style="color: #ffffff;"></i>Hospital Management System</a>
+      <button class="navbar-toggler" href="/" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+        aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">
+              <i class="fa-solid fa-list fa-lg my-icon"></i><span class="glow">Home</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add_doc">
+              <i class="fa-solid fa-plus fa-lg my-icon text-white"></i><span class="glow">Add Doctor</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add_patient">
+              <i class="fa-sharp fa-solid fa-hospital-user my-icon" style="color: #fafcff;"></i><span class="glow">Add
+                Patients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/appointments" class="nav-link">
+              <i class="fa-solid fa-calendar-alt fa-lg my-appointment-icon"></i><span class="glow">Appointments</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/contact-us" class="nav-link">
+              <i class="fa-solid fa-envelope fa-lg"></i><span class="glow">Contact Us</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/" class="nav-link">
+              <i class="fa-solid fa-sign-out-alt fa-lg"></i><span class="glow"> Logout</span>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+
+
+  <section class="admin  admin-section">
+    <div class="container ">
+      <div class="mt-4 p-5 bg-primary text-white rounded">
+        <h1>ADMIN DASHBOARD</h1>
+
+        <div class="container mt-4">
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Total Patients</h5>
+                  <p class="card-text">{{patient}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Total Doctors</h5>
+                  <p class="card-text">{{doc}} </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Appointments</h5>
+                  <p class="card-text">{{appointment}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Total Contact</h5>
+                  <p class="card-text">{{contact}} </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <script src="../static/js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
