@@ -1,6 +1,6 @@
 # sih-hospital_
 
-'''Required webpages:
+Required webpages:
 
 Landing page
 
@@ -21,9 +21,13 @@ Admin Login
 Add patient
 
 Add Doctor
+
 Inventory(Medicine)
+
 Doctor Dashbord
+
 Feedback
+
 Bed Avability
+
 OPD Avalibility
-'''
