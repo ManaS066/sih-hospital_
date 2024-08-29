@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin: 0;
+            display: inline;
+        }
+
+        nav {
+            float: right;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li:first-child {
+            margin-left: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>User Account</h1>
+            <nav>
+                <ul>
+                    <li><a href="/#home">Home</a></li>
+                    <li><a href="/#appointments">Appointments</a></li>
+                    <li><a href="/#doctors">Doctors</a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="appointments">
+                <h2>My Appointments</h2>
+                <div class="appointment-list">
+                    <!-- Appointments will be dynamically added here -->
+                </div>
+            </section>
+
+            <section id="profile">
+                <h2>My Profile</h2>
+                <!-- Profile information will be displayed here -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Hospital Name. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
