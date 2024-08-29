@@ -29,7 +29,7 @@ appointment_collection = db['appointment']
 contact_collection = db['contact']
 
 bcrypt = Bcrypt(app) 
-
+#This is another testing commit
 
 
 
