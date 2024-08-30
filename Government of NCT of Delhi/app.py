@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect
-import os
+import os,secrets
 from pymongo import MongoClient
 
 app = Flask(__name__)
 
+app.secret_key=secrets.token_hex() #token for session 
 
 from flask_bcrypt import Bcrypt 
 from pymongo.mongo_client import MongoClient
