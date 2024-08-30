@@ -126,34 +126,28 @@ def appointment():
     # If GET request, just render the appointment form
     return render_template('appointment.html')
 
-#Adding Doctor
 
-@app.route('/add_doc',methods=['POST','GET'])
-def doctor_register():
-    if request.method=='POST':
-        name=request.form['doctor_name']
-        specialization=request.form['specialization']
-        qualification=request.form['qualification']
-        email=request.form['email']
-        username=request.form['username']
-        password=request.form['password']
-        hash_password=bcrypt.generate_password_hash(password).decode('utf-8')
-        phone=request.form['phone']
-        aadhar=request.form['aadhaar']
+@app.route('/admin',methods=['GET','POST'])
+def admin():
+    return render_template('admin_dashboard.html')
 
-        doctor_data={
-            'name':name,
-            'specialization':specialization,
-            'qualification':qualification,
-            'email':email,
-            'username':username,
-            'password':hash_password,
-            'phone':phone,
-            'aadhar':aadhar
-        }
-        doctors_collection.insert_one(doctor_data)
-        return render_template('add doc.html')
-    return render_template('add doc.html')
+@app.route('/admin_login',methods=["GET","POST"])
+def admin_login():
+    if request.method == 'POST':
+        username= request.form['username']
+        pa = request.form['password']
+        password=bcrypt.generate_password_hash(pa).decode('utf-8')
+        admin = admin_collection.find_one({'username': username})
+
+        if admin:
+            # Compare the entered password with the stored hashed password
+            if bcrypt.check_password_hash(admin['password'], password):
+                return redirect('/admin')
+            else:
+                return 'Wrong password'
+        
+        return 'User not found'
+    return render_template("templates/admin/login.html")
 
 
 
