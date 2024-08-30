@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Registration</title>
+    <title>User Login</title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/css/style.css" />
     <link rel="stylesheet" href="../static/css/user_login.css" />
@@ -13,10 +13,10 @@
         /* align-items: center; */
         /* justify-content: center; */
         /* height: 100vh; */
-        /* Adjusted to cover the full viewport height */
+        /* Full viewport height */
         /* margin: 0; */
         /* Remove default margin */
-        /* background-color: #f8f9fa; */
+        /* background-color: #00e1ff; */
         /* Light gray background color */
         display: flex;
         align-items: center;
@@ -24,7 +24,7 @@
         height: 100vh;
         margin: 0;
         background-color: #00e1ff;
-        background-image: url("../static/images/registration.jpg");
+        background-image: url("../static/images/helth\ 1.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -63,8 +63,8 @@
         /* Light gray color on hover */
       }
 
-      /* Registration Form */
-      .registration-container {
+      /* Login Form */
+      .login-container {
         max-width: 400px;
         padding: 20px;
         background-color: #fff;
@@ -75,12 +75,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* Center items horizontally */
         text-align: left;
         /* Center text */
       }
 
-      .registration-container h2 {
+      .login-container h2 {
         margin-bottom: 20px;
         color: #343a40;
         /* Dark color for headings */
@@ -102,13 +101,8 @@
       }
 
       .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: #00ddff;
         /* Darker shade on hover */
-      }
-
-      .navbar {
-        background-color: #388b00;
-        /* Dark blue color */
       }
 
       .bg-primary {
@@ -116,11 +110,11 @@
       }
 
       .text-align-center {
-        text-align: center;
+        text-align: left;
       }
 
       .login-link {
-        text-align: center;
+        text-align: left;
         margin-top: 20px;
       }
     </style>
@@ -244,43 +238,13 @@
       </nav>
     </section>
 
-    <!-- Registration Form -->
+    <!-- Login Form -->
     <div
       class="container d-flex align-items-center justify-content-center min-vh-100"
     >
-      <div class="registration-container">
-        <h2>Create Account</h2>
-        <form method="POST" id="registrationForm">
-          <div class="form-group">
-            <label for="name">Full Name:</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone Number:</label>
-            <input
-              type="tel"
-              class="form-control"
-              id="phone"
-              name="phone"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="phone">Email:</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              name="email"
-              required
-            />
-          </div>
+      <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST" id="loginForm">
           <div class="form-group">
             <label for="username">Username:</label>
             <input
@@ -301,42 +265,32 @@
               required
             />
           </div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" id="submit" class="btn btn-primary">
-              Register
-            </button>
-          </div>
+          <button type="submit" id="submit" class="btn btn-primary">
+            Login
+          </button>
         </form>
         <p class="text-align-center">
-          Already have an account? <a href="/user_login">Login here</a>
+          Don't have an account? <a href="/user_register">Create one</a>
         </p>
       </div>
     </div>
 
     <!-- <script>
-            const registrationForm = document.getElementById("registrationForm");
-            const name = document.getElementById("name");
-            const phone = document.getElementById("phone");
+            const loginForm = document.getElementById("loginForm");
             const username = document.getElementById("username");
             const password = document.getElementById("password");
 
-            registrationForm.addEventListener("submit", (event) => {
+            loginForm.addEventListener("submit", (event) => {
                 // Prevent default form submission behavior
 
-                const nameValue = name.value.trim();
-                const phoneValue = phone.value.trim();
                 const usernameValue = username.value.trim();
                 const passwordValue = password.value.trim();
 
-                if (nameValue === "" || phoneValue === "" || usernameValue === "" || passwordValue === "") {
-                    alert("All fields are required.");
+                if (usernameValue === "" || passwordValue === "") {
+                    alert("Username and password cannot be empty.");
                     return;
                 }
 
-                // You might want to send the data to a server or handle it appropriately here
-                // For demonstration purposes, let's store them in localStorage
-                localStorage.setItem("name", nameValue);
-                localStorage.setItem("phone", phoneValue);
                 localStorage.setItem("username", usernameValue);
                 localStorage.setItem("password", passwordValue);
 
