@@ -166,7 +166,7 @@ def all_doc():
 
 @app.route('/appointment', methods=['POST', 'GET'])
 @login_required('user')
-def appointment(current_user):
+def appointment():
     if request.method == 'POST':
         # Extract form data
         name = request.form['name']
