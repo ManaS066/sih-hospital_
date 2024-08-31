@@ -165,9 +165,8 @@ def all_doc():
 
 
 @app.route('/appointment', methods=['POST', 'GET'])
-# @token_required('user')
-@login_required('user')
-def appointment():
+@token_required('user')
+def appointment(current_user):
     if request.method == 'POST':
         # Extract form data
         name = request.form['name']
@@ -178,6 +177,7 @@ def appointment():
         time_slot = request.form['timeSlot']
         speciality = request.form['diseaseInput']
         disease_description = request.form['diseaseDescription']
+        hospital_name = request.form['hospital']
         appointment_data = {
             'name': name,
             'number': number,
@@ -186,12 +186,13 @@ def appointment():
             'appointment_date': appointment_date,
             'time_slot': time_slot,
             'speciality': speciality,
-            'disease_description': disease_description
+            'disease_description': disease_description,
+            'hospital_name':hospital_name
         }
         appointment_collection.insert_one(appointment_data)
 
         # After saving or processing, redirect or render a success page
-        return "Appointment Sucessfull"
+        return redirect('/admin/confirmation')
     # If GET request, just render the appointment form
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
@@ -227,14 +228,15 @@ def add_patient():
         return redirect(url_for('confirmation'))
     return render_template('add patient.html')
 
-@app.route('/confirmation')
+@app.route('/admin/confirmation')
 def confirmation():
     return render_template('conformation.html', message="Patient successfully added!")
 
 
-@app.route('/manage_appointment',methods=['GET','POST'])
+@app.route('/admin/manage_appointment',methods=['GET','POST'])
 def manage():
-    return render_template('manage_appointment.html')
+    appointments= appointment_collection.find()
+    return render_template('manage_appointment.html',appointments = appointments)
 
 
 
