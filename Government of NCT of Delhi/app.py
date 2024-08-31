@@ -134,6 +134,11 @@ def user_register():
     return render_template('user register.html')
 
 
+@app.route('/all_doctor')
+def all_doc():
+    return render_template('doctor.html')
+
+
 @app.route('/appointment', methods=['POST', 'GET'])
 @token_required
 def appointment(current_user):
@@ -201,7 +206,7 @@ def confirmation():
 
 @app.route('/manage_appointment',methods=['GET','POST'])
 def manage():
-    pass
+    return render_template('manage_appointment.html')
 
 
 
