@@ -128,7 +128,7 @@ def appointment():
         # After saving or processing, redirect or render a success page
         return "Appointment Sucessfull"
     # If GET request, just render the appointment form
-    hospitals = hospital_data_collection.find({}, {'_id': 0, 'name': 1})
+    hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
 
     return render_template('appointment.html', hospitals=hospital_names)
