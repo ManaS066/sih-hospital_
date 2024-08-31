@@ -7,7 +7,7 @@ from functools import wraps
 #test pull
 app = Flask(__name__)
 #test push
-app.config['SECRET_KEY']=secrets.token()
+app.config['SECRET_KEY']=secrets.token_hex()
 
 import smtplib
 from datetime import datetime,timedelta
@@ -135,7 +135,8 @@ def user_register():
 
 
 @app.route('/appointment', methods=['POST', 'GET'])
-def appointment():
+@token_required
+def appointment(current_user):
     if request.method == 'POST':
         # Extract form data
         name = request.form['name']
