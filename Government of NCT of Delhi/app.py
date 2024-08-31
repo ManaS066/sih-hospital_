@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for,make_response
+from flask import Flask, render_template, request, redirect, url_for,make_response,session
 import os,secrets
 from pymongo import MongoClient
 import jwt
@@ -7,7 +7,8 @@ from functools import wraps
 #test pull
 app = Flask(__name__)
 #test push
-app.config['SECRET_KEY']=secrets.token_hex()
+# app.config['SECRET_KEY']=secrets.token_hex()\
+app.secret_key=secrets.token_hex()
 
 import smtplib
 from datetime import datetime,timedelta
@@ -39,35 +40,46 @@ hospital_data_collection=db['hospital_data']
 
 
 
-def token_required(expected_role):
+# def token_required(expected_role):
+#     def decorator(f):
+#         @wraps(f)
+#         def decorated(*args,**kwargs):
+#             if expected_role=='user':
+#                 token=request.cookies.get('access_token_user')
+#             else:
+#                 token=request.cookies.get('access_token_admin')
+#             if not token:
+#                 return redirect('/user_login')
+
+#             try:
+#                 data=jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
+#                 current_user=data['user_username']
+#                 role=data.get('role')
+#                 print(role)
+
+#                 if role!=expected_role:
+#                     return redirect(f'/{expected_role}_login')
+#             except jwt.ExpiredSignatureError:
+#                 return 'Token has expired',401
+            
+#             except jwt.InvalidTokenError:
+#                 return redirect(f'/{expected_role}_login')
+            
+#             return f(current_user,*args,**kwargs)
+#         return decorated
+#     return decorator
+def login_required(role):
     def decorator(f):
         @wraps(f)
-        def decorated(*args,**kwargs):
-            if expected_role=='user':
-                token=request.cookies.get('access_token_user')
-            else:
-                token=request.cookies.get('access_token_admin')
-            if not token:
-                return redirect('/user_login')
-
-            try:
-                data=jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
-                current_user=data['user_username']
-                role=data.get('role')
-                print(role)
-
-                if role!=expected_role:
-                    return redirect(f'/{expected_role}_login')
-            except jwt.ExpiredSignatureError:
-                return 'Token has expired',401
-            
-            except jwt.InvalidTokenError:
-                return redirect(f'/{expected_role}_login')
-            
-            return f(current_user,*args,**kwargs)
-        return decorated
+        def decorated_function(*args,**kwargs):
+            print(f"Session data: {session}")
+            print(f"Checking if username in session: {'username' in session}")
+            print(f"Checking if role matches: {session.get('role')} == {role}")
+            if 'username' not in session or session.get('role')!=role:
+                return redirect(f'/{role}_login')
+            return f(*args,**kwargs)
+        return decorated_function
     return decorator
-
 
 
 
@@ -100,17 +112,20 @@ def user_login():
         if user:
             # Compare the entered password with the stored hashed password
             if bcrypt.check_password_hash(user['password'], password):
-                token=jwt.encode({
-                    'user_username':username,
-                    'role':'user',
-                    'exp':datetime.utcnow()+timedelta(hours=1)
-                },app.config['SECRET_KEY'],algorithm="HS256")
-                response=make_response(redirect('/appointment'))
-                response.set_cookie('access_token_user',token,httponly=True)
-                response.set_cookie('user_username',username,httponly=True)
-                # return redirect('/appointment')
-                return response
-                # return redirect('/appointment')
+                # token=jwt.encode({
+                #     'user_username':username,
+                #     'role':'user',
+                #     'exp':datetime.utcnow()+timedelta(hours=1)
+                # },app.config['SECRET_KEY'],algorithm="HS256")
+                # response=make_response(redirect('/appointment'))
+                # response.set_cookie('access_token_user',token,httponly=True)
+                # response.set_cookie('user_username',username,httponly=True)
+ 
+                # return response
+                session['username']=username
+                session['role']='user'
+                print(f'user session details:{session}')
+                return redirect('/appointment')
             else:
                 return 'Wrong password'
         
@@ -150,8 +165,9 @@ def all_doc():
 
 
 @app.route('/appointment', methods=['POST', 'GET'])
-@token_required('user')
-def appointment(current_user):
+# @token_required('user')
+@login_required('user')
+def appointment():
     if request.method == 'POST':
         # Extract form data
         name = request.form['name']
@@ -183,7 +199,8 @@ def appointment(current_user):
     return render_template('appointment.html', hospitals=hospital_names)
 
 @app.route('/admin/add_patient',methods=['GET','POST'])
-@token_required('admin')
+# @token_required('admin')
+@login_required('admin')
 def add_patient():
     if request.method=='POST':
         name = request.form['Name']
@@ -230,25 +247,28 @@ def admin_login():
         username= request.form['username']
         pa = request.form['password']
         password=bcrypt.generate_password_hash(pa).decode('utf-8')
-        print('this is executed')
+        # print('this is executed')
         
         admin = admin_collection.find_one({'hospital_mail': username})
         if admin:
             # Compare the entered password with the stored hashed password
-            if bcrypt.check_password_hash(admin['hospital_password'], password):
+            if bcrypt.check_password_hash(admin['hospital_password'], pa):
                 # print('this is executed')
-                token=jwt.encode({
-                    'user_username':username,
-                    'role':'admin',
-                    'exp':datetime.utcnow()+timedelta(hours=1)
-                },app.config['SECRET_KEY'],algorithm="HS256")
+                # token=jwt.encode({
+                #     'user_username':username,
+                #     'role':'admin',
+                #     'exp':datetime.utcnow()+timedelta(hours=1)
+                # },app.config['SECRET_KEY'],algorithm="HS256")
 
                 
-                response=make_response(redirect('/admin'))
-                response.set_cookie('access_token',token,httponly=True)
-                response.set_cookie('user_username',username,httponly=True)
-                return response
-                # return redirect('/admin')
+                # response=make_response(redirect('/admin'))
+                # response.set_cookie('access_token',token,httponly=True)
+                # response.set_cookie('user_username',username,httponly=True)
+                session['username']=username
+                session['role']='admin'
+                print(f'session details:{session}')
+                # return response
+                return redirect('/admin')
             
             else:
                 return 'Wrong password'
@@ -257,10 +277,10 @@ def admin_login():
     return render_template("login_admin.html")
 
 @app.route('/admin/',methods=['GET','POST'])
-@token_required('admin')
+# @token_required('admin')
+@login_required('admin')
 def admin():
     total_appointment = appointment_collection.count_documents({})
-
     return render_template('admin_dashboard.html',count=total_appointment)
 
 
@@ -270,6 +290,7 @@ def admin_contact_us():
     return render_template("manage_appointment.html", contacts=contacts)
 
 @app.route('/admin/add_detail',methods=['GET','POST'])
+@login_required('admin')
 def add_details():
     if request.method=='POST':
         name= request.form['hospitalName']
@@ -331,7 +352,8 @@ def add_details():
 
 
 @app.route('/add_doc',methods=['POST','GET'])
-@token_required('admin')
+# @token_required('admin')
+@login_required('admin')
 def doctor_register():
     if request.method=='POST':
         name=request.form['doctor_name']
@@ -433,15 +455,13 @@ def check_hospital():
 #show
 @app.route('/user_logout')
 def user_logout():
-    response=make_response(redirect('/user_login'))
-    response.delete_cookie('access_token')
-    return response
+    session.clear()
+    return redirect('/')
 
-@app.route('/logout')
+@app.route('/admin_logout')
 def admin_logout():
-    response=make_response('/admin_login')
-    response.delete_cookie('access_token')
-    return response
+    session.clear()
+    return redirect('/')
 
 
 if __name__ == '__main__':
