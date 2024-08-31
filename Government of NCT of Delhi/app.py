@@ -150,7 +150,7 @@ def all_doc():
 
 
 @app.route('/appointment', methods=['POST', 'GET'])
-@token_required('user')
+@token_required(expected_role='user')
 def appointment(current_user):
     if request.method == 'POST':
         # Extract form data
