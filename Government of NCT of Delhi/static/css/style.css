@@ -1,6 +1,7 @@
 body {
   font-family: "Helvetica, Arial, sans-serif";
   margin: 0;
+  background-color: #A0DEFF;
 }
 
 html {
@@ -249,7 +250,7 @@ html {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	background: linear-gradient(#fff 0% );
+	background-color: #5AB2FF;
 	z-index: -1;
 }
 /* .white-border-button {
