@@ -127,21 +127,21 @@
                     <input type="text" id="hospitalpass" name="hospitalpass" required><br>
                     <button type="submit">Add Hospital</button>
                 </form>
-                
+
                 <p id="hospital-message"></p>
             </div>
 
             <!-- Check Hospital Status Section -->
             <div id="check-hospital-status-section" class="card" style="display: none;">
                 <h3>Check Hospital Status</h3><br>
-                <form method="POST" action="/superadmin/checkHospitalStatus" >
-                <label for="hname">Hospital Name:</label>
-                <input type="text" name="hname" id="hname">
-                <button type="submit" id="check-hospital-status">View Status</button>
-                <div id="hospital-status" class="status"></div>
-            </form>
+                <form method="POST" action="/superadmin/checkHospitalStatus">
+                    <label for="hname">Hospital Name:</label>
+                    <input type="text" name="hname" id="hname">
+                    <button type="submit" id="check-hospital-status">View Status</button>
+                    <div id="hospital-status" class="status"></div>
+                </form>
             </div>
-            
+
 
             <!-- Order Medicine Section -->
             <div id="order-medicine-section" class="card" style="display: none;">
