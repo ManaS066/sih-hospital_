@@ -397,5 +397,18 @@ def check_hospital():
     return render_template('superadmin_hospital_status.html')
 #where is the change
 #show
+@app.route('/user_logout')
+def user_logout():
+    response=make_response(redirect('/user_login'))
+    response.delete_cookie('access_token')
+    return response
+
+@app.route('/logout')
+def admin_logout():
+    response=make_response('/admin_login')
+    response.delete_cookie('access_token')
+    return response
+
+
 if __name__ == '__main__':
     app.run( port=8000,debug=True)
