@@ -126,7 +126,7 @@
             }
 
             p {
-                text-align: justify;
+                text-align: center;
                 margin-bottom: 20px;
             }
 
@@ -146,6 +146,74 @@
 
             .faq-answer {
                 margin-bottom: 20px;
+            }
+
+            .faq-section {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .faq-section h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #333;
+            }
+
+            .faq-box {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                padding: 15px;
+                text-align: center;
+            }
+
+            .faq-question {
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #007bff;
+            }
+
+            .faq-answer {
+                color: #555;
+            }
+
+            .contact-box {
+                background-color: #E0F7FF;
+                /* Light blue background color */
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                /* Light shadow for a lifted effect */
+                margin-top: 20px;
+                transition: box-shadow 0.3s ease, transform 0.3s ease;
+                /* Smooth transition for hover effect */
+            }
+
+            .contact-box:hover {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                /* Darker shadow on hover */
+                transform: translateY(-5px);
+                /* Slight lift effect */
+            }
+
+            .contact-box .form-control {
+                border-radius: 4px;
+            }
+
+            .contact-box .btn {
+                border-radius: 4px;
+            }
+
+            .contact-box #captcha-container {
+                color: #333;
+                /* Text color for CAPTCHA */
+            }
+
+            .contact-box #captcha-input {
+                border-radius: 4px;
             }
         </style>
     </head>
@@ -377,9 +445,6 @@
                         in MedTech,
                         BioTech, and
                         HealthTech domains.
-                    </p>
-
-                    <p>
                         One of our key initiatives is the development of software solutions designed to optimize
                         hospital operations.
                         This
@@ -393,9 +458,6 @@
                         receive timely
                         and
                         effective care.
-                    </p>
-
-                    <p>
                         In addition to patient management, our efforts extend to the study and improvement of inventory
                         management for
                         medicines
@@ -409,9 +471,6 @@
                         managing their
                         resources
                         effectively.
-                    </p>
-
-                    <p>
                         The National Informatics Centre (NIC) has already developed some of these modules, and our
                         department is focused
                         on
@@ -421,9 +480,6 @@
                         healthcare
                         ecosystem across
                         the region.
-                    </p>
-
-                    <p>
                         By harnessing the power of technology, the IT Department of GNCTD is dedicated to transforming
                         healthcare
                         services in
@@ -442,7 +498,7 @@
                             <img src="../static/images/Cardiology.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Cardiology:</h4>
-                                <p class="card-text">Specializing in heart-related issues.</p>
+                                <p class="card-text">Specializing in heart issues.</p>
                             </div>
                         </div>
                     </div>
@@ -452,7 +508,7 @@
                             <img src="../static/images/Orthopedics.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Orthopedics:</h4>
-                                <p class="card-text">Dealing with bone and joint problems.</p>
+                                <p class="card-text">Bone and joint problems.</p>
                             </div>
                         </div>
                     </div>
@@ -462,7 +518,7 @@
                             <img src="../static/images/Pediatrics.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Pediatrics</h4>
-                                <p class="card-text">Focusing on child healthcare</p>
+                                <p class="card-text">Focusing on child healthcare.</p>
                             </div>
                         </div>
                     </div>
@@ -473,7 +529,7 @@
                             <img src="../static/images/Neurosurgery.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Neurosurgery:</h4>
-                                <p class="card-text">Specializing in brain and nervous system surgeries.</p>
+                                <p class="card-text">Brain and nervous system surgeries.</p>
 
                             </div>
                         </div>
@@ -494,7 +550,7 @@
                             <img src="../static/images/Pharmacy.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Pharmacy</h4>
-                                <p class="card-text"> Dispensing medications..</p>
+                                <p class="card-text"> Dispensing medications.</p>
 
                             </div>
                         </div>
@@ -504,8 +560,7 @@
                             <img src="../static/images/Infectious Diseases.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Infectious Diseases</h4>
-                                <p class="card-text">Focuses on diseases caused by pathogens like bacteria, viruses, and
-                                    fungi.</p>
+                                <p class="card-text">Diseases caused by Pathogens.</p>
 
                             </div>
                         </div>
@@ -515,7 +570,7 @@
                             <img src="../static/images/ENT (Otolaryngology).jpeg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>ENT (Otolaryngology)</h4>
-                                <p class="card-text">Specializes in ear, nose, and throat issues.</p>
+                                <p class="card-text">Specializes in ear, nose, and throat issu</p>
 
                             </div>
                         </div>
@@ -525,7 +580,7 @@
                             <img src="../static/images/Plastic Surgery.jpeg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Plastic Surgery</h4>
-                                <p class="card-text">Focuses on reconstructive and cosmetic surgeries.</p>
+                                <p class="card-text">Reconstructive surgeries.</p>
 
                             </div>
                         </div>
@@ -535,7 +590,7 @@
                             <img src="../static/images/Radiology.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Radiology</h4>
-                                <p class="card-text">Specializes in imaging techniques like X-rays, CT scans, and MRIs.
+                                <p class="card-text">X-rays, CT scans, and MRIs.
                                 </p>
 
                             </div>
@@ -546,7 +601,7 @@
                             <img src="../static/images/Pulmonology.jpeg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Pulmonology</h4>
-                                <p class="card-text">Specializes in lung and respiratory issues.
+                                <p class="card-text">Specializes in respiratory issues.
                                 </p>
                             </div>
                         </div>
@@ -556,7 +611,7 @@
                             <img src="../static/images/Gastroenterology.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4>Gastroenterology</h4>
-                                <p class="card-text">Deals with digestive system disorders.
+                                <p class="card-text">Digestive system disorders.
                                 </p>
                             </div>
                         </div>
@@ -565,108 +620,102 @@
                 </div>
             </div>
         </section>
-
-
-
         <!-- Doctor Sections  -->
-        <!-- <section class="doctors" id="doctors">
-            <div class="container text-center">
-                <h1 class="font-weight-bold text-light">Our Doctors</h1>
-                <p>Our mission is to develop and deliver a comprehensive, user-friendly, and secure hospital management
-                    system that integrates seamlessly with the daily operations of healthcare institutions.</p>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-12">
-                        <div class="card text-center">
-                            <div class="card-header">Dr. anita panda- Pediatrician</div>
-                            <div class="card-body"
-                                style="height: 220px; display: flex; align-items: center; justify-content: center;">
-                                <img src="../static/images/Amina Khan.jpg" alt="Dr. Amina Khan"
-                                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-footer">
-                                <p>Specializes in children's health.</p>
-                            </div>
+        <!-- <section class="doctors" id="doctors"> -->
+        <div class="container text-center">
+            <h1 class="font-weight-bold text-dark">Our Doctors</h1>
+            <p>Our mission is to develop and deliver a comprehensive, user-friendly, and secure hospital management
+                system that integrates seamlessly with the daily operations of healthcare institutions.</p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-12">
+                    <div class="card text-center">
+                        <div class="card-header">Dr. Renu Manchanda - Pediatrician</div>
+                        <div class="card-body"
+                            style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                            <img src="../static/images/Amina Khan.jpg" alt="Dr. Amina Khan"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
-                    </div>
-                    <div class=" col-lg-4 col-12">
-                        <div class="card  text-center">
-                            <div class="card-header">Dr. Ankush Mishra - Cardiologist</div>
-                            <div class="card-body"
-                                style="height: 220px; display: flex; align-items: center; justify-content: center;">
-                                <img src="../static/images/cardiologist.png" alt="Dr. Amina Khan"
-                                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-footer">
-                                <p>Specializes focuses on heart health.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-12">
-                        <div class="card  text-center">
-                            <div class="card-header">Dr. Parshuram Sahoo - Orthopedic Surgeon</div>
-                            <div class="card-body"
-                                style="height: 220px; display: flex; align-items: center; justify-content: center;">
-                                <img src="../static/images/parshu.png" alt="Dr. Amina Khan"
-                                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-footer">
-                                <p> Specializes in bone and joint issues.</p>
-                            </div>
+                        <div class="card-footer">
+                            <p>Specializes in children's health.</p>
                         </div>
                     </div>
                 </div>
-                <div class=" row">
-                    <div class="col-lg-4 col-12">
-                        <div class="card  text-center">
-                            <div class="card-header">Dr Smriti mandana -</div>
-                            <div class="card-body"
-                                style="height: 220px; display: flex; align-items: center; justify-content: center;">
-                                <img src="../static/images/smriti.png" alt="Dr. Amina Khan"
-                                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-footer">
-                                <p> Specializes Malik helps with mental health.</p>
-                            </div>
+                <div class=" col-lg-4 col-12">
+                    <div class="card  text-center">
+                        <div class="card-header">Dr. Arun Banerjee - Cardiologist</div>
+                        <div class="card-body"
+                            style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                            <img src="../static/images/cardiologist.png" alt="Dr. Amina Khan"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="card-footer">
+                            <p>Specializes focuses on heart health.</p>
                         </div>
                     </div>
-                    <div class=" col-lg-4 col-12">
-                        <div class="card  text-center">
-                            <div class="card-header">Dr. Amaresh panda -
-                                Family Medicine Practitioner</div>
-                            <div class="card-body"
-                                style="height: 220px; display: flex; align-items: center; justify-content: center;">
-                                <img src="../static/images/amaresh.png" alt="Dr. Amina Khan"
-                                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-footer">
-                                <p>provides general healthcare for
-                                    families.</p>
-                            </div>
+                </div>
+                <div class=" col-lg-4 col-12">
+                    <div class="card  text-center">
+                        <div class="card-header">Dr. Vatsala Aggarwal - Orthopedic Surgeon</div>
+                        <div class="card-body"
+                            style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                            <img src="../static/images/parshu.png" alt="Dr. Amina Khan"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
-                    </div>
-                    <div class=" col-lg-4 col-12">
-                        <div class="card  text-center">
-                            <div class="card-header">Dr.
-                                Mohammed Hassan</div>
-                            <div class="card-body"
-                                style="height: 220px; display: flex; align-items: center; justify-content: center;">
-                                <img src="../static/images/Mohammed Hassan.avif" alt="Dr. Amina Khan"
-                                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-footer">
-                                <p>focuses on digestive
-                                    health</p>
-                            </div>
+                        <div class="card-footer">
+                            <p> Specializes in bone and joint issues.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section> -->
-
-
-
+            <div class=" row">
+                <div class="col-lg-4 col-12">
+                    <div class="card  text-center">
+                        <div class="card-header">Prof. (Dr.) Neeraj Gupta - Homeopathic</div>
+                        <div class="card-body"
+                            style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                            <img src="../static/images/Prof. (Dr.) Neeraj Gupta.jpeg" alt="Dr. Amina Khan"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="card-footer">
+                            <p> Specializes helps with Homeopathic Medicine.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-lg-4 col-12">
+                    <div class="card  text-center">
+                        <div class="card-header">Dr. Ashish Goyal -
+                            Family Medicine Practitioner</div>
+                        <div class="card-body"
+                            style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                            <img src="../static/images/amaresh.png" alt="Dr. Amina Khan"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="card-footer">
+                            <p>provides general healthcare for
+                                families.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-lg-4 col-12">
+                    <div class="card  text-center">
+                        <div class="card-header">Dr.
+                            Mohammed Hassan</div>
+                        <div class="card-body"
+                            style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                            <img src="../static/images/Mohammed Hassan.avif" alt="Dr. Amina Khan"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="card-footer">
+                            <p>focuses on digestive
+                                health</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
         <!-- Photo Gallery Section -->
         <section id="photo-gallery" class="photo-gallery">
             <h2>Photo Gallery</h2>
@@ -752,113 +801,200 @@
         <!-- <p>This is a placeholder for the footer carousel.</p> -->
         <!-- </div> -->
         <!-- </section> -->
+
         <!-- Contact_US Start -->
-        <section class="contacUs " id="contact">
-            <div class="container heading text-center">
-                <h1 class="text-center font-weight-bold">Contact US</h1>
-                <p class="text-center  pt-1 text-align-left">We are here to help and answer any questions you night have
-                    you
-                    we
-                    Look farword to hearing from You
-                </p>
-            </div>
+        <section class="contactUs" id="contact">
+            <!-- Contact Form Section in a Box -->
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-8 col-10 offset-lg-2 offset-md-2 offset-1">
-                        <form method="post">
-                            <div class="mb-3 mt-3">
-                                <input type="text" class="form-control" id="name" required autocomplete="off"
-                                    placeholder="Enter Your Name" name="name">
-                            </div>
+                <div class="contact-box">
+                    <div class="container heading text-center">
+                        <h1 class="text-center font-weight-bold">Contact Us</h1>
+                        <p class="text-center pt-1">We are here to help and answer any questions you might have. We look
+                            forward
+                            to
+                            hearing from you.</p>
+                    </div>
 
-                            <div class="mb-3">
-                                <input type="email" class="form-control" id="email" placeholder="Enter Your Email"
-                                    name="email">
-                            </div>
 
-                            <div class="mb-3">
-                                <input type="tel" class="form-control" id="number" placeholder="Enter Contact Number"
-                                    name="number">
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-10 offset-lg-2 offset-md-2 offset-1">
+                            <form method="post" onsubmit="return validateCaptcha()">
+                                <div class="mb-3 mt-3">
+                                    <input type="text" class="form-control" id="name" required autocomplete="off"
+                                        placeholder="Enter Your Name" name="name">
+                                </div>
 
-                            <button type="submit" class="btn btn-info form-control com btn-outline-info">Submit</button>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" id="email" placeholder="Enter Your Email"
+                                        name="email">
+                                </div>
 
-                        </form>
+                                <div class="mb-3">
+                                    <input type="tel" class="form-control" id="number"
+                                        placeholder="Enter Contact Number" name="number">
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                                </div>
+
+                                <!-- CAPTCHA Section -->
+                                <div class="mb-3">
+                                    <label for="captcha">Enter the text shown below:</label>
+                                    <div id="captcha-container"
+                                        style="font-size: 24px; font-weight: bold; margin-bottom: 10px;"></div>
+                                    <input type="text" class="form-control" id="captcha-input"
+                                        placeholder="Enter CAPTCHA" required>
+                                    <input type="hidden" id="captcha-value">
+                                </div>
+
+                                <button type="submit"
+                                    class="btn btn-info form-control com btn-outline-info">Submit</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
+        </section>
 
-            </div>
-            <div class="faq-section">
-                <h2>Frequently Asked Questions (FAQ)</h2>
+        <script>
+            // Function to generate a random CAPTCHA
+            function generateCaptcha() {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let captcha = '';
+                for (let i = 0; i < 6; i++) {
+                    captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                return captcha;
+            }
 
-                <div class="faq-question">1. What is the main goal of the IT Department's healthcare initiatives?</div>
+            // Function to update CAPTCHA on the page
+            function updateCaptcha() {
+                const captcha = generateCaptcha();
+                document.getElementById('captcha-container').textContent = captcha;
+                document.getElementById('captcha-value').value = captcha;
+            }
+
+            // Function to validate CAPTCHA input
+            function validateCaptcha() {
+                const captchaInput = document.getElementById('captcha-input').value;
+                const captchaValue = document.getElementById('captcha-value').value;
+                if (captchaInput !== captchaValue) {
+                    alert('CAPTCHA is incorrect. Please try again.');
+                    updateCaptcha(); // Regenerate CAPTCHA
+                    return false;
+                }
+                return true;
+            }
+
+            // Initialize CAPTCHA and set interval to update every 30 seconds
+            window.onload = function () {
+                updateCaptcha();
+                setInterval(updateCaptcha, 30000); // Update CAPTCHA every 30 seconds
+            };
+        </script>
+
+
+
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <div class="faq-box">
+                <div class="faq-question">1. What is the main goal of the IT Department's healthcare initiatives?
+                </div>
                 <div class="faq-answer">
-                    Our main goal is to leverage technology to improve patient care and hospital management, addressing
+                    Our main goal is to leverage technology to improve patient care and hospital management,
+                    addressing
                     critical challenges in the healthcare sector through innovative solutions.
                 </div>
+            </div>
 
-                <div class="faq-question">2. What specific technological solutions are being implemented in hospitals?
-                </div>
+            <div class="faq-box">
+                <div class="faq-question">2. What specific technological solutions are being implemented in
+                    hospitals?</div>
                 <div class="faq-answer">
                     We are focusing on implementing queuing models in OPDs to reduce patient wait times, optimizing
                     hospital bed management, and streamlining patient admission processes to improve healthcare
                     efficiency.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">3. How does the IT Department plan to handle inventory management in
                     hospitals?</div>
                 <div class="faq-answer">
                     Our efforts include developing and integrating inventory management modules for medicines and
-                    consumables at the hospital level, ensuring essential supplies are available, reducing wastage, and
+                    consumables at the hospital level, ensuring essential supplies are available, reducing wastage,
+                    and
                     lowering costs.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">4. What role does the National Informatics Centre (NIC) play in these
-                    initiatives?</div>
+                    initiatives?
+                </div>
                 <div class="faq-answer">
                     The NIC has developed some of the modules we plan to implement. Our department is focusing on
                     ensuring these modules are successfully integrated into Delhi's healthcare system.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">5. Can these healthcare solutions be integrated with city-wide healthcare
-                    modules?</div>
+                    modules?
+                </div>
                 <div class="faq-answer">
                     Yes, our vision is to create hospital-based solutions that can be seamlessly integrated with
                     city-wide healthcare modules, creating a cohesive and connected healthcare ecosystem.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">6. How will these initiatives benefit patients directly?</div>
                 <div class="faq-answer">
-                    By reducing wait times, improving bed availability, and streamlining admission processes, patients
+                    By reducing wait times, improving bed availability, and streamlining admission processes,
+                    patients
                     will receive more timely and effective care, enhancing overall healthcare experiences.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">7. What is the significance of queuing models in outpatient departments
                     (OPDs)?</div>
                 <div class="faq-answer">
-                    Queuing models help manage patient flow more efficiently in OPDs, minimizing wait times and ensuring
+                    Queuing models help manage patient flow more efficiently in OPDs, minimizing wait times and
+                    ensuring
                     that patients are seen in an orderly and timely manner.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">8. Are there any plans to expand these initiatives beyond Delhi?</div>
                 <div class="faq-answer">
                     Currently, our focus is on implementing these solutions within Delhi. However, successful
                     implementation could serve as a model for other regions to follow in the future.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">9. How will these technological solutions improve hospital resource
                     management?</div>
                 <div class="faq-answer">
-                    These solutions will enhance hospital resource management by optimizing bed allocation, improving
-                    inventory tracking, and streamlining patient admissions, leading to better utilization of resources.
+                    These solutions will enhance hospital resource management by optimizing bed allocation,
+                    improving
+                    inventory tracking, and streamlining patient admissions, leading to better utilization of
+                    resources.
                 </div>
+            </div>
 
+            <div class="faq-box">
                 <div class="faq-question">10. What is the ultimate mission of the IT Department's healthcare
                     initiatives?</div>
                 <div class="faq-answer">
@@ -867,71 +1003,68 @@
                     management.
                 </div>
             </div>
+        </div>
 
-            <footer style="background-color: #f8f9fa; padding: 20px; border-top: 1px solid #ddd;">
-                <div
-                    style="max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
-                    <div style="flex: 1; margin-right: 20px;">
-                        <h3>Contact Us</h3>
-                        <p>
-                            Contact Us
-                            SmartCare Ninjas
-                            Delhi, 110001<br>
-
-                            Board Number: +91-11-12345678 / 12345679
-                            Fax: +91-11-12345680 / 12345681<br>
-                            <br>
-                            <strong>E-mail Addresses- nicdelhi2024@gmail.com</strong>
-                        </p>
-                    </div>
-                    <div style="flex: 1; margin-right: 20px;">
-                        <h3>Important Links</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li><a href="https://goicharters.nic.in/public/website/home">Citizen Charter</a></li>
-                            <li><a href="https://www.pmindia.gov.in/en/">Govt Online Donation</a></li>
-                            <li><a href="https://pmnrf.gov.in/en/faqs/donation">Govt Offline Donation</a></li>
-                            <li><a href="https://www.indiacode.nic.in/handle/123456789/2065">Right To Information Act
-                                    2005</a></li>
-                            <li><a href="https://dopt.gov.in/rti/proactive-disclosures/proactive-disclosure">Proactive
-                                    Disclosure</a></li>
-                            <li><a href="https://mohfw.gov.in/">MoHFW</a></li>
-                            <li><a href="https://ngodarpan.gov.in/index.php/home">NGOs Associated with Govt</a></li>
-                            <li><a href="https://www.missiondelhi.in/">Mission Delhi</a></li>
-                            <li><a href="https://www.india.gov.in/">Mera Aspataal</a></li>
-                            <li><a href="https://www.mygov.in/">M Government</a></li>
-                        </ul>
-                    </div>
-                    <div style="flex: 1; margin-right: 20px;">
-                        <h3>Team Member</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li><a href="#">Abhisek Panda</a></li>
-                            <li><a href="#">Manas Ranjan Paradhan</a></li>
-                            <li><a href="#">Debarata Mishra</a></li>
-                            <li><a href="#">Dipetesh Narendra</a></li>
-                            <li><a href="#">Khana Biswal</a></li>
-                            <li><a href="#">Alpha</a></li>
-
-                        </ul>
-                    </div>
-                </div>
-                <div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd; margin-top: 20px;">
+        <footer style="background-color: #A0DEFF; padding: 20px; border-top: 1px solid #ddd;">
+            <div
+                style="max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <div style="flex: 1; margin-right: 20px;">
+                    <h3>Contact Us</h3>
                     <p>
-                        Copyright © SmartCare Ninjas, All rights reserved.
-                        <a href="#">Disclaimer</a> |
-                        <a href="#">Website Policy</a> |
-                        <a href="#">Privacy Policy</a>
-                    </p>
-                    <p>Webmaster & Webinformation Manager: Abhisek Panda, Dy. Director, Team SmartCare Ninjas,
+                        Contact Us
+                        SmartCare Ninjas
+                        Delhi, 110001<br>
+                        Number: +91-9876543210<br>
+                        Fax: +91-112345680
+                        <br>
+                        <strong>E-mail - nicdelhi2024@gmail.com</strong>
                     </p>
                 </div>
-            </footer>
+                <div style="flex: 1; margin-right: 20px;">
+                    <h3>Important Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="https://goicharters.nic.in/public/website/home">Citizen Charter</a></li>
+                        <li><a href="https://www.pmindia.gov.in/en/">Govt Online Donation</a></li>
+                        <li><a href="https://pmnrf.gov.in/en/faqs/donation">Govt Offline Donation</a></li>
+                        <li><a href="https://www.indiacode.nic.in/handle/123456789/2065">Right To Information Act
+                                2005</a></li>
+                        <li><a href="https://dopt.gov.in/rti/proactive-disclosures/proactive-disclosure">Proactive
+                                Disclosure</a></li>
+                        <li><a href="https://mohfw.gov.in/">MoHFW</a></li>
+                        <li><a href="https://ngodarpan.gov.in/index.php/home">NGOs Associated with Govt</a></li>
+                        <li><a href="https://www.missiondelhi.in/">Mission Delhi</a></li>
+                        <li><a href="https://www.india.gov.in/">Mera Aspataal</a></li>
+                        <li><a href="https://www.mygov.in/">M Government</a></li>
+                    </ul>
+                </div>
+                <div style="flex: 1; margin-right: 20px;">
+                    <h3>Team Member</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="https://www.linkedin.com/in/abhisekpanda2004/">Abhisek Panda</a></li>
+                        <li><a href="https://www.linkedin.com/in/manas-ranjan-pradhan/">Manas Ranjan Paradhan</a>
+                        </li>
+                        <li><a href="https://www.linkedin.com/in/debabrata-mishra-148121289/">Debarata Mishra</a>
+                        </li>
+                        <li><a href="https://www.linkedin.com/in/diptesh-narendra-9a5049270/">Dipetesh Narendra</a>
+                        </li>
+                        <li><a href="https://www.linkedin.com/in/kanha-biswal17/">Khana Biswal</a></li>
+                        <li><a href="#">Alpha</a></li>
 
-
-
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd; margin-top: 20px;">
+                <p>
+                    Copyright © SmartCare Ninjas, All rights reserved.
+                    <a href="#">Disclaimer</a> |
+                    <a href="#">Website Policy</a> |
+                    <a href="#">Privacy Policy</a>
+                </p>
+                <p>Webmaster & Webinformation Manager: Abhisek Panda, Dy. Director, Team SmartCare Ninjas,
+                </p>
+            </div>
+        </footer>
         </section>
-
-
-
         <script>
             const submit1 = document.querySelector("#submit1");
             const submit2 = document.querySelector("#submit2");
