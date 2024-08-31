@@ -43,8 +43,10 @@ def token_required(expected_role):
     def decorator(f):
         @wraps(f)
         def decorated(*args,**kwargs):
-            token=request.cookies.get('access_token')
-
+            if expected_role=='user':
+                token=request.cookies.get('access_token_user')
+            else:
+                token=request.cookies.get('access_token_admin')
             if not token:
                 return redirect('/user_login')
 
@@ -52,6 +54,7 @@ def token_required(expected_role):
                 data=jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
                 current_user=data['user_username']
                 role=data.get('role')
+                print(role)
 
                 if role!=expected_role:
                     return redirect(f'/{expected_role}_login')
@@ -103,7 +106,7 @@ def user_login():
                     'exp':datetime.utcnow()+timedelta(hours=1)
                 },app.config['SECRET_KEY'],algorithm="HS256")
                 response=make_response(redirect('/appointment'))
-                response.set_cookie('access_token',token,httponly=True)
+                response.set_cookie('access_token_user',token,httponly=True)
                 response.set_cookie('user_username',username,httponly=True)
                 # return redirect('/appointment')
                 return response
@@ -180,6 +183,7 @@ def appointment(current_user):
     return render_template('appointment.html', hospitals=hospital_names)
 
 @app.route('/admin/add_patient',methods=['GET','POST'])
+@token_required('admin')
 def add_patient():
     if request.method=='POST':
         name = request.form['Name']
@@ -226,20 +230,25 @@ def admin_login():
         username= request.form['username']
         pa = request.form['password']
         password=bcrypt.generate_password_hash(pa).decode('utf-8')
+        print('this is executed')
+        
         admin = admin_collection.find_one({'hospital_mail': username})
         if admin:
             # Compare the entered password with the stored hashed password
             if bcrypt.check_password_hash(admin['hospital_password'], password):
+                # print('this is executed')
                 token=jwt.encode({
-                    'admin_username':username,
+                    'user_username':username,
                     'role':'admin',
                     'exp':datetime.utcnow()+timedelta(hours=1)
                 },app.config['SECRET_KEY'],algorithm="HS256")
 
-                response=make_response(redirect('/admin'))
-                # response.set_cookie('access_token',token,httponly=True)response.set_cookie('admin_username',username,httponly=True)
                 
-                return redirect('/admin')
+                response=make_response(redirect('/admin'))
+                response.set_cookie('access_token',token,httponly=True)
+                response.set_cookie('user_username',username,httponly=True)
+                return response
+                # return redirect('/admin')
             
             else:
                 return 'Wrong password'
@@ -248,6 +257,7 @@ def admin_login():
     return render_template("login_admin.html")
 
 @app.route('/admin/',methods=['GET','POST'])
+@token_required('admin')
 def admin():
     total_appointment = appointment_collection.count_documents({})
 
@@ -321,6 +331,7 @@ def add_details():
 
 
 @app.route('/add_doc',methods=['POST','GET'])
+@token_required('admin')
 def doctor_register():
     if request.method=='POST':
         name=request.form['doctor_name']
@@ -368,6 +379,7 @@ def superadmin_login():
 
 
 @app.route('/superadmin/addHospital', methods=['GET', 'POST'])
+
 def add_hospital():
     if request.method == 'POST':
         hospital_name = request.form['hospitalName']
