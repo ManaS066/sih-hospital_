@@ -142,7 +142,7 @@ def user_register():
 
 
 @app.route('/appointment', methods=['POST', 'GET'])
-@token_required
+@token_required('user')
 def appointment(current_user):
     if request.method == 'POST':
         # Extract form data
