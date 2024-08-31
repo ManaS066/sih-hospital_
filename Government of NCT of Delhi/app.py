@@ -452,7 +452,7 @@ def doctor_app():
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
-    return render_template('super admin dash.html')
+    return render_template('super_admin_dash.html')
 
 
 @app.route("/superadmin_login", methods=['GET', 'POST'])
