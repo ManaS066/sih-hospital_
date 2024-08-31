@@ -395,6 +395,6 @@ def check_hospital():
             return "No hospital found"
     
     return render_template('superadmin_hospital_status.html')
-
+#where is the change
 if __name__ == '__main__':
     app.run( port=8000,debug=True)
