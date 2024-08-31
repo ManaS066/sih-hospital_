@@ -37,6 +37,7 @@ appointment_collection = db['appointment']
 contact_collection = db['contact']
 superadmin_collection=db['Superadmin']
 hospital_data_collection=db['hospital_data']
+hospital_discharge_collection=db['discharged']
 
 
 
@@ -401,7 +402,10 @@ def doctor_register():
             'aadhar':aadhar,
             "hospital_name":hospital_name_doctor
         }
-        doctors_collection.insert_one(doctor_data)
+        if doctors_collection.find_one({'username':username}):
+            return redirect('/add_doc')
+        else:
+            doctors_collection.insert_one(doctor_data)
         return render_template('add doc.html')
     return render_template('add doc.html')
 
@@ -414,19 +418,18 @@ def doc_login():
         # Fetch the doctor's details from the database by username
         doctor = doctors_collection.find_one({'username': username})
         print(username,password)
-        print()
         if doctor:
-            stored_hash = doctor['password']  # The stored hashed password
+            # stored_hash = doctor['password']  # The stored hashed password
             
-            # Check if the provided password matches the hashed password
-            if bcrypt.check_password_hash(stored_hash,password):
+            # Check if the provided password matches the hashed passwor
+            if bcrypt.check_password_hash(doctor['password'],password):
                 # Password matches, grant access
                 # Store doctor ID in session
                 return "True" # Redirect to the doctor app
 
             else:
                 # Password does not match
-                flash('Invalid username or password', 'error')
+                # flash('Invalid username or password', 'error')
                 return "wrong password"
         else:
             # Username not found
@@ -516,7 +519,44 @@ def check_hospital():
             return "No hospital found"
     
     return render_template('superadmin_hospital_status.html')
+
+@app.route('/admin/discharge',methods=['POST','GET'])
+@login_required('admin')
+def submit_discharge():
+    if request.method=='POST':
+    # Extracting form data
+        patient_id = request.form.get('patient_id')
+        patient_name = request.form.get('patient_name')
+        admission_date = request.form.get('admission_date')
+        discharge_date = request.form.get('discharge_date')
+        diagnosis = request.form.get('diagnosis')
+        treatment = request.form.get('treatment')
+        doctor_name = request.form.get('doctor_name')
+        discharge_summary = request.form.get('discharge_summary')
+        follow_up_instructions = request.form.get('follow_up_instructions')
+        medications = request.form.get('medications')
+        contact_info = request.form.get('contact_info')
+
+        data_discharge={
+            'patient_id': patient_id,
+            'patient_name': patient_name,
+            'admission_date': admission_date,
+            'discharge_date': discharge_date,
+            'diagnosis': diagnosis,
+            'treatment': treatment,
+            'doctor_name': doctor_name,
+            'discharge_summary': discharge_summary,
+            'follow_up_instructions': follow_up_instructions,
+            'medications': medications,
+            'contact_info': contact_info
+        }
+
+        hospital_discharge_collection.insert_one(data_discharge)
+        return redirect('/admin') 
+    return render_template('Patient_discharge.html')
 #where is the change
+
+
 #show
 @app.route('/user_logout')
 def user_logout():
