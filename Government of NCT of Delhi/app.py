@@ -39,25 +39,31 @@ hospital_data_collection=db['hospital_data']
 
 
 
-def token_required(f):
-    @wraps(f)
-    def decorated(*args,**kwargs):
-        token=request.cookies.get('access_token')
+def token_required(expected_role):
+    def decorator(f):
+        @wraps(f)
+        def decorated(*args,**kwargs):
+            token=request.cookies.get('access_token')
 
-        if not token:
-            return redirect('/user_login')
+            if not token:
+                return redirect('/user_login')
 
-        try:
-            data=jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
-            current_user=data['user_username']
-        except jwt.ExpiredSignatureError:
-            return 'Token has expired',401
-        
-        except jwt.InvalidTokenError:
-            return redirect('/user_login')
-        
-        return f(current_user,*args,**kwargs)
-    return decorated
+            try:
+                data=jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
+                current_user=data['user_username']
+                role=data.get('role')
+
+                if role!=expected_role:
+                    return redirect(f'/{expected_role}_login')
+            except jwt.ExpiredSignatureError:
+                return 'Token has expired',401
+            
+            except jwt.InvalidTokenError:
+                return redirect(f'/{expected_role}_login')
+            
+            return f(current_user,*args,**kwargs)
+        return decorated
+    return decorator
 
 
 
@@ -93,6 +99,7 @@ def user_login():
             if bcrypt.check_password_hash(user['password'], password):
                 token=jwt.encode({
                     'user_username':username,
+                    'role':'user',
                     'exp':datetime.utcnow()+timedelta(hours=1)
                 },app.config['SECRET_KEY'],algorithm="HS256")
                 response=make_response(redirect('/appointment'))
@@ -223,6 +230,15 @@ def admin_login():
         if admin:
             # Compare the entered password with the stored hashed password
             if bcrypt.check_password_hash(admin['hospital_password'], password):
+                token=jwt.encode({
+                    'admin_username':username,
+                    'role':'admin',
+                    'exp':datetime.utcnow()+timedelta(hours=1)
+                },app.config['SECRET_KEY'],algorithm="HS256")
+
+                response=make_response(redirect('/admin'))
+                # response.set_cookie('access_token',token,httponly=True)response.set_cookie('admin_username',username,httponly=True)
+                
                 return redirect('/admin')
             
             else:
