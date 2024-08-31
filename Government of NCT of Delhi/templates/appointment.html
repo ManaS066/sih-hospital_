@@ -112,7 +112,15 @@
                                         <option value="gastroenterology">Gastroenterology</option>
                                     </select>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="hospital" class="form-label">Select Hospital</label>
+                                    <select id="hospital" name="hospital" class="form-control" required>
+                                        <option value="" disabled selected>Select Hospital</option>
+                                        {% for hospital in hospitals %}
+                                        <option value="{{ hospital }}">{{ hospital }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                                 <!-- Time Slot Selection -->
                                 <div class="mb-3">
                                     <label for="diseaseDescription">Description Disease:</label>
