@@ -249,7 +249,7 @@ html {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	background: linear-gradient(320deg, #2c3e50 52%, #fff 0% );
+	background: linear-gradient(#fff 0% );
 	z-index: -1;
 }
 /* .white-border-button {

@@ -109,25 +109,58 @@
 
             }
 
+            .mehran {
+                color: black;
+                font-weight: bold;
+                /* Optional: Makes the text bold */
+                font-size: 24px;
+                /* Optional: Adjust the size as needed */
+            }
+
             /* carousel  css end*/
         </style>
     </head>
 
     <body>
         <section class="header">
+            <!-- Add the images just above the navbar -->
+            <div class="container mt-3 text-center">
+                <div class="row align-items-center justify-content-between">
+                    <!-- Left Side: Logo and Text -->
+                    <div class="col d-flex align-items-center">
+                        <a class="navbar-brand" href="#">
+                            <img src="../static/images/delhi.png" alt="Delhi Logo" width="90" height="100">
+                        </a>
+                        <div class="ms-2">
+                            <h3 class="mehran">Government of NCT of Delhi</h3>
+                            <h3 class="mehran">राष्ट्रीय राजधानी क्षेत्र दिल्ली सरकार</h3>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Images -->
+                    <div class="col d-flex align-items-center justify-content-end">
+                        <img src="../static/images/amrit-mahotsav_nn.jpg" width="100" height="100"
+                            alt="Azadi ka Amrit Mahotsav" class="ms-3" loading="lazy">
+                        <img src="../static/images/india-flag.jpg" width="100" height="100" alt="Indian Flag"
+                            class="ms-3" loading="lazy">
+                        <img src="../static/images/amblem_1.png" width="100" height="100" alt="Indian Emblem"
+                            class="ms-3" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+
+
             <nav class="navbar navbar-expand-lg bg-primary sticky-navbar" data-bs-theme="dark">
                 <div class="container-fluid">
                     <!-- Add the logo here -->
-                    <a class="navbar-brand" href="#">
-                        <img src="../static/images/delhi.png" alt="Delhi Logo" class="rounded-circle" width="40"
-                            height="40">
-                    </a>
+
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false"
                         aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <h3 class="mehran">Government of NCT of Delhi</h3>
+
                     <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav ms-auto justify-content-end navbar1 text-light">
                             <li class="nav-item mr-3">
