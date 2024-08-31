@@ -1,11 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,make_response
 import os,secrets
 from pymongo import MongoClient
+import jwt
+from functools import wraps
+
 #test pull
 app = Flask(__name__)
 #test push
+app.config['SECRET_KEY']=secrets.token()
+
 import smtplib
-from datetime import datetime
+from datetime import datetime,timedelta
 my_email = "nicdelhi2024@gmail.com"
 code = "zuff vkvx pamt kdor"
 from flask_bcrypt import Bcrypt 
@@ -34,6 +39,25 @@ hospital_data_collection=db['hospital_data']
 
 
 
+def token_required(f):
+    @wraps(f)
+    def decorated(*args,**kwargs):
+        token=request.cookies.get('access_token')
+
+        if not token:
+            return redirect('/user_login')
+
+        try:
+            data=jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
+            current_user=data['user_username']
+        except jwt.ExpiredSignatureError:
+            return 'Token has expired',401
+        
+        except jwt.InvalidTokenError:
+            return redirect('/user_login')
+        
+        return f(current_user,*args,**kwargs)
+    return decorated
 
 
 
@@ -67,7 +91,16 @@ def user_login():
         if user:
             # Compare the entered password with the stored hashed password
             if bcrypt.check_password_hash(user['password'], password):
-                return redirect('/appointment')
+                token=jwt.encode({
+                    'user_username':username,
+                    'exp':datetime.utcnow()+timedelta(hours=1)
+                },app.config['SECRET_KEY'],algorithm="HS256")
+                response=make_response(redirect('/appointment'))
+                response.set_cookie('access_token',token,httponly=True)
+                response.set_cookie('user_username',username,httponly=True)
+                # return redirect('/appointment')
+                return response
+                # return redirect('/appointment')
             else:
                 return 'Wrong password'
         
