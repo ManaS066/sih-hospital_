@@ -68,6 +68,39 @@
                 bottom: 0;
                 width: 100%;
             }
+        
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+    
+            h1 {
+                text-align: center;
+                margin-top: 20px;
+            }
+    
+            table {
+                width: 80%;
+                margin: 20px auto;
+                border-collapse: collapse;
+            }
+    
+            th,
+            td {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+    
+            th {
+                background-color: #f2f2f2;
+            }
+    
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+        
         </style>
     </head>
 
@@ -93,9 +126,28 @@
                 <!-- Upcoming Appointments -->
                 <div class="card" id="upcoming-appointments">
                     <h3>Upcoming Appointments</h3>
-                    <ul id="upcoming-appointments-content">
-                        <!-- Dynamic content will be inserted here -->
-                    </ul>
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Number</th>
+                            <th>Appointment Date</th>
+                            <th>Time-slot</th>
+                            <th>Depeartment</th>
+                            <th>Description</th>
+                        </tr>
+                        {% for contact in appointments %}
+                        <tr>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.number }}</td>
+                            <td>{{ contact.appointment_date }}</td>
+                            <td>{{ contact.time_slot }}</td>
+                            <td>{{ contact.speciality }}</td>
+                            <td>{{ contact.disease_description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
             </section>
 
