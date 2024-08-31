@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for,make_response,session
+from flask import Flask, flash, render_template, request, redirect, url_for,make_response,session
 import os,secrets
 from pymongo import MongoClient
 import jwt
@@ -381,6 +381,46 @@ def doctor_register():
         doctors_collection.insert_one(doctor_data)
         return render_template('add doc.html')
     return render_template('add doc.html')
+
+@app.route('/doctor_login', methods=['POST', 'GET'])
+def doc_login():
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Fetch the doctor's details from the database by username
+        doctor = doctors_collection.find_one({'username': username})
+        print(username,password)
+        print()
+        if doctor:
+            stored_hash = doctor['password']  # The stored hashed password
+            
+            # Check if the provided password matches the hashed password
+            if bcrypt.check_password_hash(stored_hash,password):
+                # Password matches, grant access
+                # Store doctor ID in session
+                return "True" # Redirect to the doctor app
+
+            else:
+                # Password does not match
+                flash('Invalid username or password', 'error')
+                return "wrong password"
+        else:
+            # Username not found
+            flash('Invalid username or password', 'error')
+            return "Wrong id"
+
+    # Render the login page if GET request
+    return render_template('doctor login.html')  # Replace with your login template
+
+
+
+
+
+
+@app.route('/doctor_app',methods=["POST","GET"])
+def doctor_app():
+    pass
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
