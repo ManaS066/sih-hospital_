@@ -44,20 +44,26 @@
 
 <body>
     <div class="container">
-        <h1>Admin Contact Us Data</h1>
+        <h1>Admin Appointment Data</h1>
         <table>
             <tr>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Number</th>
-                <th>Comment</th>
+                <th>Appointment Date</th>
+                <th>Time-slot</th>
+                <th>Depeartment</th>
+                <th>Description</th>
             </tr>
-            {% for contact in contacts %}
+            {% for contact in appointments %}
             <tr>
                 <td>{{ contact.name }}</td>
                 <td>{{ contact.email }}</td>
                 <td>{{ contact.number }}</td>
-                <td>{{ contact.comment }}</td>
+                <td>{{ contact.appointment_date }}</td>
+                <td>{{ contact.time_slot }}</td>
+                <td>{{ contact.speciality }}</td>
+                <td>{{ contact.disease_description }}</td>
             </tr>
             {% endfor %}
         </table>
