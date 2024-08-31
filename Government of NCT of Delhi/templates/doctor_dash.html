@@ -89,12 +89,7 @@
             <!-- Patient Information Section -->
             <section id="patient-info">
                 <h2>Patient Information</h2>
-                <!-- Patient Medical History -->
-                <div class="card" id="patient-medical-history">
-                    <h3>Patient Medical History</h3>
-                    <p id="patient-medical-history-content">Click on a patient to view detailed medical history, past
-                        diagnoses, surgeries, allergies, and chronic conditions.</p>
-                </div>
+            
                 <!-- Upcoming Appointments -->
                 <div class="card" id="upcoming-appointments">
                     <h3>Upcoming Appointments</h3>
@@ -104,25 +99,7 @@
                 </div>
             </section>
 
-            <!-- Communication Tools Section -->
-            <section id="communication-tools">
-                <h2>Communication Tools</h2>
-
-                <!-- Messaging -->
-                <div class="card">
-                    <h3>Secure Messaging</h3>
-                    <p>Send secure messages to other healthcare providers, nurses, or administrative staff.</p>
-                    <!-- Messaging UI would go here -->
-                </div>
-
-                <!-- Telehealth Integration -->
-                <div class="card">
-                    <h3>Telehealth Integration</h3>
-                    <p>Start a video call for remote consultations with patients.</p>
-                    <!-- Video call interface would go here -->
-                </div>
-            </section>
-
+      
             <!-- Hospital Resources Section -->
             <section id="hospital-resources">
                 <h2>Hospital Resources and Availability</h2>
@@ -135,7 +112,7 @@
                 </div>
             </section>
         </main>
-        <script>
+        <!-- <script>
             // Fetch patient data from the backend API
             fetch('http://localhost:3000/api/patients')
                 .then(response => response.json())
@@ -168,7 +145,7 @@
                     });
                 })
                 .catch(error => console.error('Error fetching patient data:', error));
-        </script>
+        </script> -->
 
     </body>
 
