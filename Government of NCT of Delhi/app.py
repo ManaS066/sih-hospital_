@@ -299,8 +299,10 @@ def admin():
     hospital_name=session.get('hospital_name')
     print(hospital_name)
     total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
-    print(total_appointment)
-    return render_template('admin_dashboard.html',count=total_appointment)
+    data = hospital_data_collection.find_one({'hospital_name': hospital_name})
+
+    beds = data['number_of_beds']
+    return render_template('admin_dashboard.html',count=total_appointment,beds=beds)
 
 
 @app.route("/admin/contact-us")
@@ -446,7 +448,7 @@ def doc_login():
 
 @app.route('/doctor_app',methods=["POST","GET"])
 def doctor_app():
-    pass
+    return render_template('doctor_dash.html')
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
