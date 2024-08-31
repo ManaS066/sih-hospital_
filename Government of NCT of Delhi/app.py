@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for,make_response,session
+from flask import Flask, flash, render_template, request, redirect, url_for,make_response,session
 import os,secrets
 from pymongo import MongoClient
 import jwt
@@ -37,6 +37,7 @@ appointment_collection = db['appointment']
 contact_collection = db['contact']
 superadmin_collection=db['Superadmin']
 hospital_data_collection=db['hospital_data']
+hospital_discharge_collection=db['discharged']
 
 
 
@@ -178,6 +179,8 @@ def appointment():
         speciality = request.form['diseaseInput']
         disease_description = request.form['diseaseDescription']
         hospital_name = request.form['hospital']
+        total_no_of_appointments=hospital_data_collection.count_documents({"hospital_name":hospital_name})
+        print(total_no_of_appointments)
         appointment_data = {
             'name': name,
             'number': number,
@@ -213,6 +216,10 @@ def add_patient():
         aadhaar= request.form['aadhaar']
         bed_type = request.form['bedtype']
         bed_no = request.form['bedno']
+
+        session['patient_name']=name
+        hospital_name_patient=session.get('hospital_name')
+        print(hospital_name_patient)
         data = {
             'name':name,
             'dob':dob,
@@ -222,7 +229,8 @@ def add_patient():
             'email':email,
             "aadhaar":aadhaar,
             "bed_type":bed_type,
-            "bed no":bed_no
+            "bed no":bed_no,
+            "hospital_name":hospital_name_patient
         }
         patients_collection.insert_one(data)
         return redirect(url_for('confirmation'))
@@ -234,8 +242,10 @@ def confirmation():
 
 
 @app.route('/admin/manage_appointment',methods=['GET','POST'])
+@login_required('admin')
 def manage():
-    appointments= appointment_collection.find()
+    hospital_name=session.get('hospital_name')
+    appointments= appointment_collection.find({"hospital_name":hospital_name})
     return render_template('manage_appointment.html',appointments = appointments)
 
 
@@ -268,6 +278,10 @@ def admin_login():
                 # response.set_cookie('user_username',username,httponly=True)
                 session['username']=username
                 session['role']='admin'
+                admin_email=session['username']
+                hospital_data=admin_collection.find_one({"hospital_mail":admin_email})
+                hospital_name_doctor=hospital_data.get("hospital_name")
+                session['hospital_name']=hospital_name_doctor
                 print(f'session details:{session}')
                 # return response
                 return redirect('/admin')
@@ -282,8 +296,13 @@ def admin_login():
 # @token_required('admin')
 @login_required('admin')
 def admin():
-    total_appointment = appointment_collection.count_documents({})
-    return render_template('admin_dashboard.html',count=total_appointment)
+    hospital_name=session.get('hospital_name')
+    print(hospital_name)
+    total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
+    data = hospital_data_collection.find_one({'hospital_name': hospital_name})
+
+    beds = data['number_of_beds']
+    return render_template('admin_dashboard.html',count=total_appointment,beds=beds)
 
 
 @app.route("/admin/contact-us")
@@ -367,7 +386,13 @@ def doctor_register():
         hash_password=bcrypt.generate_password_hash(password).decode('utf-8')
         phone=request.form['phone']
         aadhar=request.form['aadhaar']
-
+        #Doctor and hospital relation
+        session['doctor_name']=name
+        admin_email=session['username']
+        hospital_data=admin_collection.find_one({"hospital_mail":admin_email})
+        hospital_name_doctor=hospital_data.get("hospital_name")
+        session['hospital_name']=hospital_name_doctor
+        # print(hospital_name_patient)
         doctor_data={
             'name':name,
             'specialization':specialization,
@@ -376,11 +401,54 @@ def doctor_register():
             'username':username,
             'password':hash_password,
             'phone':phone,
-            'aadhar':aadhar
+            'aadhar':aadhar,
+            "hospital_name":hospital_name_doctor
         }
-        doctors_collection.insert_one(doctor_data)
+        if doctors_collection.find_one({'username':username}):
+            return redirect('/add_doc')
+        else:
+            doctors_collection.insert_one(doctor_data)
         return render_template('add doc.html')
     return render_template('add doc.html')
+
+@app.route('/doctor_login', methods=['POST', 'GET'])
+def doc_login():
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Fetch the doctor's details from the database by username
+        doctor = doctors_collection.find_one({'username': username})
+        print(username,password)
+        if doctor:
+            # stored_hash = doctor['password']  # The stored hashed password
+            
+            # Check if the provided password matches the hashed passwor
+            if bcrypt.check_password_hash(doctor['password'],password):
+                # Password matches, grant access
+                # Store doctor ID in session
+                return "True" # Redirect to the doctor app
+
+            else:
+                # Password does not match
+                # flash('Invalid username or password', 'error')
+                return "wrong password"
+        else:
+            # Username not found
+            flash('Invalid username or password', 'error')
+            return "Wrong id"
+
+    # Render the login page if GET request
+    return render_template('doctor login.html')  # Replace with your login template
+
+
+
+
+
+
+@app.route('/doctor_app',methods=["POST","GET"])
+def doctor_app():
+    return render_template('doctor_dash.html')
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
@@ -453,7 +521,44 @@ def check_hospital():
             return "No hospital found"
     
     return render_template('superadmin_hospital_status.html')
+
+@app.route('/admin/discharge',methods=['POST','GET'])
+@login_required('admin')
+def submit_discharge():
+    if request.method=='POST':
+    # Extracting form data
+        patient_id = request.form.get('patient_id')
+        patient_name = request.form.get('patient_name')
+        admission_date = request.form.get('admission_date')
+        discharge_date = request.form.get('discharge_date')
+        diagnosis = request.form.get('diagnosis')
+        treatment = request.form.get('treatment')
+        doctor_name = request.form.get('doctor_name')
+        discharge_summary = request.form.get('discharge_summary')
+        follow_up_instructions = request.form.get('follow_up_instructions')
+        medications = request.form.get('medications')
+        contact_info = request.form.get('contact_info')
+
+        data_discharge={
+            'patient_id': patient_id,
+            'patient_name': patient_name,
+            'admission_date': admission_date,
+            'discharge_date': discharge_date,
+            'diagnosis': diagnosis,
+            'treatment': treatment,
+            'doctor_name': doctor_name,
+            'discharge_summary': discharge_summary,
+            'follow_up_instructions': follow_up_instructions,
+            'medications': medications,
+            'contact_info': contact_info
+        }
+
+        hospital_discharge_collection.insert_one(data_discharge)
+        return redirect('/admin') 
+    return render_template('Patient_discharge.html')
 #where is the change
+
+
 #show
 @app.route('/user_logout')
 def user_logout():
