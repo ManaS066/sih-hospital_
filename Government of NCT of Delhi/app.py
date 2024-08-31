@@ -427,7 +427,13 @@ def doc_login():
             if bcrypt.check_password_hash(doctor['password'],password):
                 # Password matches, grant access
                 # Store doctor ID in session
-                return "True" # Redirect to the doctor app
+                doctor_data=doctors_collection.find_one({'username':username})
+
+                session['username']=username
+                session['hospital_name']=doctor_data.get('hospital_name')
+                session['specialization']=doctor_data.get('specialization')
+                session['role']='doc'
+                return redirect('/doctor_app') # Redirect to the doctor app
 
             else:
                 # Password does not match
@@ -447,8 +453,11 @@ def doc_login():
 
 
 @app.route('/doctor_app',methods=["POST","GET"])
+@login_required('doc')
 def doctor_app():
-    return render_template('doctor_dash.html')
+    appointments=appointment_collection.find({'hospital_name':session.get('hospital_name'),'speciality':session.get('specialization')})
+    print(appointments)
+    return render_template('doctor_dash.html',appointments=appointments)
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
