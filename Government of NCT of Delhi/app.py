@@ -178,6 +178,8 @@ def appointment():
         speciality = request.form['diseaseInput']
         disease_description = request.form['diseaseDescription']
         hospital_name = request.form['hospital']
+        total_no_of_appointments=hospital_data_collection.count_documents({"hospital_name":hospital_name})
+        print(total_no_of_appointments)
         appointment_data = {
             'name': name,
             'number': number,
@@ -213,6 +215,10 @@ def add_patient():
         aadhaar= request.form['aadhaar']
         bed_type = request.form['bedtype']
         bed_no = request.form['bedno']
+
+        session['patient_name']=name
+        hospital_name_patient=session.get('hospital_name')
+        print(hospital_name_patient)
         data = {
             'name':name,
             'dob':dob,
@@ -222,7 +228,8 @@ def add_patient():
             'email':email,
             "aadhaar":aadhaar,
             "bed_type":bed_type,
-            "bed no":bed_no
+            "bed no":bed_no,
+            "hospital_name":hospital_name_patient
         }
         patients_collection.insert_one(data)
         return redirect(url_for('confirmation'))
@@ -234,8 +241,10 @@ def confirmation():
 
 
 @app.route('/admin/manage_appointment',methods=['GET','POST'])
+@login_required('admin')
 def manage():
-    appointments= appointment_collection.find()
+    hospital_name=session.get('hospital_name')
+    appointments= appointment_collection.find({"hospital_name":hospital_name})
     return render_template('manage_appointment.html',appointments = appointments)
 
 
@@ -268,6 +277,10 @@ def admin_login():
                 # response.set_cookie('user_username',username,httponly=True)
                 session['username']=username
                 session['role']='admin'
+                admin_email=session['username']
+                hospital_data=admin_collection.find_one({"hospital_mail":admin_email})
+                hospital_name_doctor=hospital_data.get("hospital_name")
+                session['hospital_name']=hospital_name_doctor
                 print(f'session details:{session}')
                 # return response
                 return redirect('/admin')
@@ -282,7 +295,10 @@ def admin_login():
 # @token_required('admin')
 @login_required('admin')
 def admin():
-    total_appointment = appointment_collection.count_documents({})
+    hospital_name=session.get('hospital_name')
+    print(hospital_name)
+    total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
+    print(total_appointment)
     return render_template('admin_dashboard.html',count=total_appointment)
 
 
@@ -367,7 +383,13 @@ def doctor_register():
         hash_password=bcrypt.generate_password_hash(password).decode('utf-8')
         phone=request.form['phone']
         aadhar=request.form['aadhaar']
-
+        #Doctor and hospital relation
+        session['doctor_name']=name
+        admin_email=session['username']
+        hospital_data=admin_collection.find_one({"hospital_mail":admin_email})
+        hospital_name_doctor=hospital_data.get("hospital_name")
+        session['hospital_name']=hospital_name_doctor
+        # print(hospital_name_patient)
         doctor_data={
             'name':name,
             'specialization':specialization,
@@ -376,7 +398,8 @@ def doctor_register():
             'username':username,
             'password':hash_password,
             'phone':phone,
-            'aadhar':aadhar
+            'aadhar':aadhar,
+            "hospital_name":hospital_name_doctor
         }
         doctors_collection.insert_one(doctor_data)
         return render_template('add doc.html')
