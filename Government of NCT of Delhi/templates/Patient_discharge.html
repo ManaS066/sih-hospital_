@@ -72,7 +72,12 @@
   </head>
 
   <body>
-    <form action="/admin/discharge" method="POST">
+    <form
+      action="/admin/discharge"
+      method="POST"
+      id="discharge"
+      onsubmit="submitFormAndRedirect()"
+    >
       <h2>Hospital Discharge Details Form</h2>
 
       <label for="patient_id">Patient ID:</label>
@@ -105,9 +110,8 @@
 
       <label for="treatment">Treatment Provided:</label>
       <div class="form-group">
-        
         <textarea id="treatment" name="treatment" rows="4" required></textarea>
-        
+
         <label for="category">Select type of bed:</label>
 
         <select id="bedtype" name="bedtype" required>
@@ -150,5 +154,16 @@
 
       <input type="submit" value="Submit" />
     </form>
+    <script>
+      function submitFormAndRedirect() {
+        var form = document.getElementById("discharge");
+        form.submit();
+        console.log("hellof");
+        // Redirect after a delay to ensure the file download starts
+        setTimeout(function () {
+          window.location.href = "/admin";
+        },2000); // 2-second delay
+      }
+    </script>
   </body>
 </html>

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from pymongo.server_api import ServerApi
 from pymongo.mongo_client import MongoClient
 import smtplib
-from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session,send_file
+from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session,send_file,after_this_request
 import os
 import secrets
 from pymongo import MongoClient
@@ -690,8 +690,12 @@ def submit_discharge():
         elements.append(Image(qr_buffer, width=100, height=100))
 
         doc.build(elements)
+        
 
         pdf_buffer.seek(0)
+        # @after_this_request
+        # def redirect_to_admin(reponse=302):
+        #     return redirect('/admin')
         return send_file(pdf_buffer, as_attachment=True, download_name='patient_id_card.pdf', mimetype='application/pdf')
         # return redirect('/admin') 
     return render_template('Patient_discharge.html')
