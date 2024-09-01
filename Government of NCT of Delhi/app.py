@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect, url_for,make_response,session
+from flask import Flask, flash, render_template, request, redirect, url_for,make_response,session,send_file
 import os,secrets
 from pymongo import MongoClient
 import jwt
@@ -317,10 +317,11 @@ def admin():
     print(hospital_name)
     total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
     data = hospital_data_collection.find_one({'hospital_name': hospital_name})
-
-    beds = data['number_of_beds']
-    return render_template('admin_dashboard.html',count=total_appointment,beds=beds)
-
+    if data:
+        beds = data['number_of_beds']
+        return render_template('admin_dashboard.html',count=total_appointment,beds=beds)
+    else:
+        return redirect('/admin/add_detail')
 
 @app.route("/admin/contact-us")
 def admin_contact_us():
@@ -477,6 +478,7 @@ def doctor_app():
     return render_template('doctor_dash.html',appointments=appointments,doctor=doc_detail)
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
+@login_required('superadmin')
 def superadmin():
     return render_template('super_admin_dash.html')
 
@@ -486,9 +488,10 @@ def superadmin_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
+        print('hello')
         # Check if the username and password match an entry in the admin_collection
         if superadmin_collection.find_one({"username": username, "password": password}):
+            print('hello')
             session['username']=username
             session['role']='superadmin'
             return redirect('/superadmin')
@@ -567,7 +570,7 @@ def submit_discharge():
         medications = request.form.get('medications')
         contact_info = request.form.get('contact_info')
         gender=request.form.get('gender')
-
+        address=request.form.get('address')
         data_discharge={
             'patient_id': patient_id,
             'patient_name': patient_name,
@@ -581,6 +584,7 @@ def submit_discharge():
             'medications': medications,
             'contact_info': contact_info
         }
+        hospital_discharge_collection.insert_one(data_discharge)
         # Generate PDF with the provided details
         pdf_buffer = io.BytesIO()
         doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
@@ -594,10 +598,33 @@ def submit_discharge():
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
         elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
-        elements.append(Paragraph(f"Email: {email}", styles['Normal']))
+        elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
         elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
-        hospital_discharge_collection.insert_one(data_discharge)
-        return redirect('/admin') 
+
+        # Generate QR code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(
+            f"Name: {patient_name}\Admission Date: {admission_date}\nPhone: {contact_info}\nDischarge Summary: {diagnosis}")
+        qr.make(fit=True)
+        img = qr.make_image(fill='black', back_color='white')
+        qr_buffer = io.BytesIO()
+        img.save(qr_buffer, 'PNG')
+        qr_buffer.seek(0)
+
+        # Add QR code to PDF
+        elements.append(Spacer(1, 12))
+        elements.append(Image(qr_buffer, width=100, height=100))
+
+        doc.build(elements)
+
+        pdf_buffer.seek(0)
+        return send_file(pdf_buffer, as_attachment=True, download_name='patient_id_card.pdf', mimetype='application/pdf')
+        # return redirect('/admin') 
     return render_template('Patient_discharge.html')
 #where is the change
 
@@ -614,6 +641,10 @@ def admin_logout():
     return redirect('/')
 @app.route('/superadmin_logout')
 def sueperadmin_logout():
+    session.clear()
+    return redirect('/')
+@app.route('/doc_logout')
+def doc_logout():
     session.clear()
     return redirect('/')
 
