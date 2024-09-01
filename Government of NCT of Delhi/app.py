@@ -97,7 +97,7 @@ def login_required(role):
 @app.route('/', methods=['GET', 'POST'])
 def landing():
     if request.method == 'POST':
-        name = request.form['name']
+        name= request.form['name']
         email = request.form['email']
         number = request.form['number']
         comment = request.form['comment']
@@ -235,10 +235,7 @@ def appointment():
 def conform():
     return render_template('conformation.html')
 
-@app.route('/bed_status')
-@login_required('user')
-def status():
-    return render_template('')
+
 
 @app.route('/admin/add_patient', methods=['GET', 'POST'])
 # @token_required('admin')
@@ -563,6 +560,53 @@ def superadmin():
                            total_beds=total_beds, 
                            total_icu_beds=total_icu_beds, 
                            total_ventilators=total_ventilators)
+
+
+@app.route('/bed_status')
+@login_required('user')
+def status():
+    no_of_hospital = hospital_data_collection.count_documents({})
+    total_doctor = doctors_collection.count_documents({})
+    active_patient = patients_collection.count_documents({})
+
+    # Aggregate the total number of beds, ICU beds, and ventilators
+    total_beds = hospital_data_collection.aggregate([
+        {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_general_beds"}}}
+    ]).next().get('total_beds', 0)
+
+    total_icu_beds = hospital_data_collection.aggregate([
+        {"$group": {"_id": None, "total_icu_beds": {"$sum": "$number_of_icu_beds"}}}
+    ]).next().get('total_icu_beds', 0)
+
+    total_ventilators = hospital_data_collection.aggregate([
+        {"$group": {"_id": None, "total_ventilators": {"$sum": "$number_of_ventilators"}}}
+    ]).next().get('total_ventilators', 0)
+    return render_template('bed_status.html',
+                           no_hospital=no_of_hospital, 
+                           doctor=total_doctor, 
+                           patient=active_patient, 
+                           total_beds=total_beds, 
+                           total_icu_beds=total_icu_beds, 
+                           total_ventilators=total_ventilators)
+
+@app.route('/select_hs')
+def select():
+    if request.method == 'POST':
+        hospital_name = request.form['hname']
+        print(hospital_name)
+        if not hospital_name:
+            return "Hospital name is missing", 400  # Bad Request
+
+        data = hospital_data_collection.find_one(
+            {'hospital_name': hospital_name})
+
+        if data:
+            return render_template('bed_status.html', data=data)
+        else:
+            return "No hospital found"
+    hospitals = hospital_data_collection.find()
+    hospital_names = [hospital['hospital_name'] for hospital in hospitals]
+    return render_template('select_hs_for_beds.html',hospitals= hospital_names)
 
 
 @app.route("/superadmin_login", methods=['GET', 'POST'])

@@ -47,7 +47,9 @@
             }
 
             .card:hover {
-                transform: scale(1.05);
+                transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 0 15px 3px rgba(42, 75, 75, 0.7), 0 0 15px 3px rgba(0, 255, 255, 0.7); /* Neon glow effect */
+    border: 2px solid rgba(49, 145, 145, 0.8); 
                 /* Slight zoom effect on hover */
             }
 
@@ -99,7 +101,7 @@
                 <!-- General Beds Card -->
                 <div class="card">
                     <h3>General Beds</h3>
-                    <p id="general-beds">Loading...</p>
+                    <p id="general-beds">{{}}</p>
                 </div>
                 <!-- ICU Beds Card -->
                 <div class="card">
@@ -115,7 +117,7 @@
         </div>
 
         <!-- JavaScript to Fetch and Display Bed Availability -->
-        <script>
+        <!-- <script>
             // Function to load bed availability data
             async function loadBedAvailability() {
                 try {
@@ -139,7 +141,7 @@
 
             // Load bed availability data on page load
             loadBedAvailability();
-        </script>
+        </script> -->
     </body>
 
 </html>
