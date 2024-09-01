@@ -161,10 +161,17 @@ def user_register():
         name = request.form['name']
         number = request.form['phone']
         email = request.form['email']
-        user_name = request.form['username']
-        # existing_user = users_collection.find_one({'$or': [{'username': user_name}, {'email': email}]})
-        # if existing_user:
-        #     return 'Username or email already exists'
+        user_name = request.form['username'].strip()
+
+        existing_user = users_collection.find_one({'username': user_name})
+        existing_email = users_collection.find_one({'email': email})
+
+
+        if existing_user:
+            return 'Username already exists. Please choose a different username.'
+
+        if existing_email:
+            return 'Email already exists. Please use a different email address.'
         pa = request.form['password']
         password = bcrypt.generate_password_hash(pa).decode('utf-8')
         user_data = {
@@ -272,6 +279,13 @@ def add_patient():
         )
         return redirect(url_for('confirmation'))
     return render_template('add patient.html')
+
+@app.route('/admin/patient_details',methods=['GET','POST'])
+@login_required('admin')
+def patient_details():
+    patients=patients_collection.find({'hospital_name':session.get('hospital_name')})
+    return render_template('manage_patient.html',patients=patients)
+    
 
 
 @app.route('/admin/confirmation')
@@ -445,6 +459,8 @@ def doctor_register():
             {"hospital_mail": admin_email})
         hospital_name_doctor = hospital_data.get("hospital_name")
         session['hospital_name'] = hospital_name_doctor
+
+
         # print(hospital_name_patient)
         doctor_data = {
             'name': name,
@@ -457,11 +473,12 @@ def doctor_register():
             'aadhar': aadhar,
             "hospital_name": hospital_name_doctor
         }
-        if doctors_collection.find_one({'username': username}):
+        if doctors_collection.find_one({'username': username}) or doctors_collection.find_one({'email':email}):
             return redirect('/add_doc')
         else:
             doctors_collection.insert_one(doctor_data)
-        return render_template('add doc.html')
+            return redirect('/admin')
+        # return render_template('add doc.html')
     return render_template('add doc.html')
 
 
@@ -570,9 +587,18 @@ def superadmin_login():
 def add_hospital():
     if request.method == 'POST':
         hospital_name = request.form['hospitalName']
-        hospital_mail = request.form['hospitalmail']
+        hospital_mail = request.form['hospitalmail'].strip()
         pa = request.form['hospitalpass']
         password = bcrypt.generate_password_hash(pa).decode('utf-8')
+
+        existing_hospital= admin_collection.find_one({'hospital_name': hospital_name})
+        existing_hospital_email = admin_collection.find_one({'hospital_mail': hospital_mail})
+
+        if existing_hospital:
+            return 'Username already exists. Please choose a different username.'
+
+        if existing_hospital_email:
+            return 'Email already exists. Please use a different email address.'
         # Store the hospital data in the hospital collection
         hospitalData = {
             "hospital_name": hospital_name,
