@@ -6,11 +6,12 @@ from functools import wraps
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.units import inch
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
 from reportlab.graphics.barcode.qr import QrCodeWidget
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics import renderPDF
+from reportlab.lib.enums import TA_CENTER,TA_LEFT
 import qrcode
 import io
 
@@ -250,10 +251,16 @@ def add_patient():
             "hospital_name":hospital_name_patient
         }
         patients_collection.insert_one(data)
+
+        hospital_data_collection.update_one(
+            {'hospital_name': hospital_name_patient},
+            {'$inc': {f'occupied_{bed_type}': 1}}  # Increment the occupied beds count by 1
+        )
         return redirect(url_for('confirmation'))
     return render_template('add patient.html')
 
 @app.route('/admin/confirmation')
+@login_required('admin')
 def confirmation():
     return render_template('conformation.html', message="Patient successfully added!")
 
@@ -324,6 +331,7 @@ def admin():
         return redirect('/admin/add_detail')
 
 @app.route("/admin/contact-us")
+@login_required('admin')
 def admin_contact_us():
     contacts = contact_collection.find()
     return render_template("manage_appointment.html", contacts=contacts)
@@ -616,7 +624,9 @@ def submit_discharge():
             'discharge_summary': discharge_summary,
             'follow_up_instructions': follow_up_instructions,
             'medications': medications,
-            'contact_info': contact_info
+            'contact_info': contact_info,
+            'gender':gender,
+            'address':address
         }
         hospital_discharge_collection.insert_one(data_discharge)
         # Generate PDF with the provided details
@@ -624,16 +634,90 @@ def submit_discharge():
         doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
         styles = getSampleStyleSheet()
         #Patient details inside the pdf
+        # Customize Styles
+        title_style = styles['Title']
+        title_style.fontSize = 24
+        title_style.textColor = colors.darkblue
+        title_style.alignment = TA_CENTER
+
+        header_style = ParagraphStyle(
+            name="Header",
+            fontSize=16,
+            textColor=colors.darkred,
+            spaceAfter=14,
+            alignment=TA_LEFT,
+            fontName="Helvetica-Bold"
+        )
+
+        normal_style = styles['Normal']
+        normal_style.fontSize = 12
+        normal_style.leading = 14
+        normal_style.textColor = colors.black
+
+
         elements = []
         elements.append(Paragraph("Patient ID Card", styles['Title']))
         elements.append(Spacer(1, 12))
         elements.append(Paragraph(f"Full Name: {patient_name}", styles['Normal']))
         elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Date: {discharge_date}",styles['Normal']))
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
         elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Doctor: {doctor_name}",styles['Normal']))
         elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
         elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
+        elements.append(Paragraph(f"Follow up instructions:{follow_up_instructions}",styles['Normal']))
+        elements.append(Paragraph(f"Medications: {medications}",styles['Normal']))
+        elements.append(Paragraph("Patient Discharge Summary", title_style))
+        elements.append(Spacer(1, 12))
+
+        # # Table for Patient Details
+        # patient_info_table = [
+        #     ['Patient ID:', patient_id],
+        #     ['Full Name:', patient_name],
+        #     ['Gender:', gender],
+        #     ['Address:', address],
+        #     ['Phone Number:', contact_info],
+        #     ['Admission Date:', admission_date],
+        #     ['Discharge Date:', discharge_date],
+        #     ['Doctor:', doctor_name]
+        # ]
+        # table = Table(patient_info_table, colWidths=[2*inch, 4*inch])
+        # table.setStyle(TableStyle([
+        #     ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        #     ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        #     ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        #     ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        #     ('FONTSIZE', (0, 0), (-1, 0), 14),
+        #     ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        #     ('BACKGROUND', (0, 1), (-1, -1), colors.whitesmoke),
+        #     ('GRID', (0, 0), (-1, -1), 0.5, colors.grey)
+        # ]))
+        # elements.append(table)
+        # elements.append(Spacer(1, 12))
+
+        # Add detailed sections
+        # elements.append(Paragraph("Diagnosis:", header_style))
+        # elements.append(Paragraph(diagnosis, normal_style))
+        # elements.append(Spacer(1, 12))
+
+        # elements.append(Paragraph("Treatment:", header_style))
+        # elements.append(Paragraph(treatment, normal_style))
+        # elements.append(Spacer(1, 12))
+
+        # elements.append(Paragraph("Discharge Summary:", header_style))
+        # elements.append(Paragraph(discharge_summary, normal_style))
+        # elements.append(Spacer(1, 12))
+
+        # elements.append(Paragraph("Follow-Up Instructions:", header_style))
+        # elements.append(Paragraph(follow_up_instructions, normal_style))
+        # elements.append(Spacer(1, 12))
+
+        # elements.append(Paragraph("Medications:", header_style))
+        # elements.append(Paragraph(medications, normal_style))
+        # elements.append(Spacer(1, 12))
+
 
         # Generate QR code
         qr = qrcode.QRCode(
