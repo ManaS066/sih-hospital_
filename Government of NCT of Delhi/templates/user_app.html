@@ -126,12 +126,13 @@
         </nav>
         <!-- Main Content -->
         <div class="main-content">
-            <h1>Welcome, <span class="highlight">[User Name]</span>!</h1>
+            <h1>Welcome, <span class="highlight">{{ user.name }}</span>!</h1>
 
             <div class="card">
                 <h3>My Appointments</h3>
                 <p>View and manage your upcoming and past appointments.</p>
-                <a href="#">View Appointments</a>
+                { % for appointment in appointments %}
+
             </div>
 
             <div class="card">
