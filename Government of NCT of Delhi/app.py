@@ -239,6 +239,7 @@ def add_patient():
         bed_type = request.form['bedtype']
         bed_no = request.form['bedno']
 
+        session['bed_type']=bed_type
         session['patient_name'] = name
         hospital_name_patient = session.get('hospital_name')
         print(hospital_name_patient)
@@ -626,6 +627,8 @@ def submit_discharge():
         contact_info = request.form.get('contact_info')
         gender = request.form.get('gender')
         address=request.form.get('address')
+
+        hospital_name_patient=session.get('hospital_name')
         data_discharge = {
             'patient_id': patient_id,
             'patient_name': patient_name,
@@ -702,6 +705,11 @@ def submit_discharge():
             'gender':gender,
             'address':address
         }
+        hospital_discharge_collection.insert_one(data_discharge)
+        hospital_data_collection.update_one(
+            {'hospital_name': hospital_name_patient},
+            {'$inc': {f'occupied_{session.get('bed_type`')}': 1}}  # Increment the occupied beds count by 1
+        )
         # Generate PDF with the provided details
         pdf_buffer = io.BytesIO()
         doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
