@@ -318,8 +318,12 @@ def admin():
     total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
     data = hospital_data_collection.find_one({'hospital_name': hospital_name})
     if data:
-        beds = data['number_of_general_beds']
-        return render_template('admin_dashboard.html',count=total_appointment,beds=beds)
+        g_beds = data['number_of_general_beds']
+        icu_beds= data['number_of_icu_beds']
+        v_beds = data['number_of_ventilators']
+        total_patient = patients_collection.count_documents({'hospital_name': hospital_name})
+        total_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
+        return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc)
     else:
         return redirect('/admin/add_detail')
 
