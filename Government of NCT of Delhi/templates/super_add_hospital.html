@@ -50,6 +50,11 @@
             .main-content {
                 margin-left: 250px;
                 padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: calc(100vh - 70px);
+                /* Adjusting for navbar height */
             }
 
             .card {
@@ -59,6 +64,10 @@
                 margin-bottom: 20px;
                 padding: 20px;
                 text-align: center;
+                width: 70%;
+                /* Set card width to 70% of the available space */
+                max-width: 1000px;
+                /* Optional: Set a maximum width for larger screens */
             }
 
             .card h3 {
@@ -91,6 +100,9 @@
                 padding: 10px 15px;
                 border-radius: 4px;
                 cursor: pointer;
+                margin-top: 10px;
+                margin-right: 5px;
+                /* Optional: Add some space between buttons */
             }
 
             .card button:hover {
@@ -134,36 +146,11 @@
             </a>
             <h3 class="text-light">Government of NCT of Delhi</h3>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <div class="ml-auto">
-                        <a class="nav-link btn btn-primary text-light" href="#"></a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="ml-auto">
-                        <a class="nav-link btn btn-primary text-light" href="#"></a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="ml-auto">
-                        <a class="nav-link btn btn-primary text-light" href="#"></a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="ml-auto">
-                        <a class="nav-link btn btn-primary text-light" href="#"></a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="ml-auto">
-                        <a class="nav-link btn btn-primary text-light" href="dashboard.html">Return to Dashboard</a>
-                    </div>
-                </li>
+                <!-- Keeping the navbar items if any -->
             </ul>
         </div>
 
         <div class="main-content">
-            <h2>Add Hospital</h2>
             <div class="card">
                 <h3>Add New Hospital</h3>
                 <form method="POST" action="/superadmin/addHospital">
@@ -173,14 +160,19 @@
                     <input type="email" id="hospitalmail" name="hospitalmail" required><br>
                     <label for="hospitalpass">Password:</label>
                     <input type="password" id="hospitalpass" name="hospitalpass" required><br>
-                    <button type="submit">Add Hospital</button>
+                    <!-- Button container -->
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button type="submit"
+                            style="background-color: #00637f; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Add
+                            Hospital</button>
+                        <button type="button" onclick="window.location.href='dashboard.html';"
+                            style="background-color: #00637f; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-left: 10px;">Return
+                            to Dashboard</button>
+                    </div>
+
                 </form>
                 <p id="hospital-message"></p>
             </div>
-        </div>
-
-        <div class="footer">
-            <p>&copy; 2024 Government of NCT of Delhi</p>
         </div>
     </body>
 

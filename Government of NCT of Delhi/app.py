@@ -342,15 +342,17 @@ def add_details():
         emergency=request.form['emergencyContactNumber']
         email = request.form['emailAddress']
         website = request.form['websiteURL']
-        no_beds = request.form['numberOfBeds']
-        no_icu = request.form['numberOfICUBeds']
-        no_ventilator = request.form['numberOfVentilators']
+        no_beds = int(request.form['numberOfBeds'])
+        occupied_beds=int(request.form['Beds_occupied'])
+        no_icu = int(request.form['numberOfICUBeds'])
+        occupied_icu = int(request.form['icu_occupied'])
+        no_ventilator = int(request.form['numberOfVentilators'])
+        occupied_ventilator=int(request.form['ventilator_occupied'])
         emergency_dept = request.form['emergencyDepartment']
         spetialisation = request.form['specialization']
         operating_hour = request.form['hospitalOperatingHours']
         visiting_hour = request.form['visitingHours']
         pharmacy_onsite = request.form['pharmacyOnSite']
-        no_doctor = request.form['totalNumberOfDoctors']
         no_nurse = request.form['totalNumberOfNurses']
         no_admin_staff = request.form['administrativeStaffCount']
         ambulance = request.form['ambulanceServices']
@@ -368,15 +370,17 @@ def add_details():
         "emergency_contact_number": emergency,
         "email_address": email,
         "website_url": website,
-        "number_of_beds": no_beds,
+        "number_of_general_beds": no_beds,
+        "occupied_general":occupied_beds,
         "number_of_icu_beds": no_icu,
+        "occupied_icu":occupied_icu,
         "number_of_ventilators": no_ventilator,
+        "occupied_ventilator":occupied_ventilator,
         "emergency_department": emergency_dept,
         "specialization": spetialisation,
         "hospital_operating_hours": operating_hour,
         "visiting_hours": visiting_hour,
         "pharmacy_on_site": pharmacy_onsite,
-        "total_number_of_doctors": no_doctor,
         "total_number_of_nurses": no_nurse,
         "administrative_staff_count": no_admin_staff,
         "ambulance_services": ambulance,
@@ -480,6 +484,10 @@ def doctor_app():
 @app.route('/superadmin/', methods=['GET', 'POST'])
 @login_required('superadmin')
 def superadmin():
+    no_of_hospital = hospital_data_collection.count_documents()
+    total_doctor = doctors_collection.count_documents()
+    active_patient  = patients_collection.count_documents()
+    
     return render_template('super_admin_dash.html')
 
 
