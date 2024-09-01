@@ -510,21 +510,18 @@ def superadmin():
     # Aggregate the total number of beds, ICU beds, and ventilators
     total_beds = hospital_data_collection.aggregate([
         {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_general_beds"}}}
-    ]).next()['total_beds']
+    ]).next().get('total_beds', 0)
 
     total_icu_beds = hospital_data_collection.aggregate([
         {"$group": {"_id": None, "total_icu_beds": {"$sum": "$number_of_icu_beds"}}}
-    ]).next()['total_icu_beds']
+    ]).next().get('total_icu_beds', 0)
 
     total_ventilators = hospital_data_collection.aggregate([
         {"$group": {"_id": None, "total_ventilators": {"$sum": "$number_of_ventilators"}}}
-    ]).next()['total_ventilators']
+    ]).next().get('total_ventilators', 0)
 
     # Debugging prints (can be removed in production)
     print(total_ventilators, total_beds, total_icu_beds)
-    no_of_hospital = hospital_data_collection.count_documents()
-    total_doctor = doctors_collection.count_documents()
-    active_patient = patients_collection.count_documents()
 
     # Render the template with the computed values
     return render_template('super_admin_dash.html', 
@@ -534,7 +531,6 @@ def superadmin():
                            total_beds=total_beds, 
                            total_icu_beds=total_icu_beds, 
                            total_ventilators=total_ventilators)
-   
 
 
 @app.route("/superadmin_login", methods=['GET', 'POST'])
