@@ -223,13 +223,22 @@ def appointment():
         appointment_collection.insert_one(appointment_data)
 
         # After saving or processing, redirect or render a success page
-        return redirect('/admin/confirmation')
+        return redirect('/confirmation')
     # If GET request, just render the appointment form
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
 
     return render_template('appointment.html', hospitals=hospital_names)
 
+
+@app.route('/confirmation',methods=['POST','GET'])
+def conform():
+    return render_template('conformation.html')
+
+@app.route('/bed_status')
+@login_required('user')
+def status():
+    return render_template('')
 
 @app.route('/admin/add_patient', methods=['GET', 'POST'])
 # @token_required('admin')
@@ -282,7 +291,7 @@ def patient_details():
 @app.route('/admin/confirmation')
 @login_required('admin')
 def confirmation():
-    return render_template('conformation.html', message="Patient successfully added!")
+    return render_template('success_admin.html')
 
 
 @app.route('/admin/manage_appointment', methods=['GET', 'POST'])
@@ -631,9 +640,9 @@ def check_hospital():
             return render_template('superadmin_hospital_status.html', data=data)
         else:
             return "No hospital found"
-
-    return render_template('superadmin_hospital_status.html')
-
+    hospitals = hospital_data_collection.find()
+    hospital_names = [hospital['hospital_name'] for hospital in hospitals]
+    return render_template('superadmin_hospital_status.html',hospital_name = hospital_data_collection)
 
 @app.route('/admin/discharge', methods=['POST', 'GET'])
 @login_required('admin')
