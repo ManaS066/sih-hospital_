@@ -492,7 +492,6 @@ def add_hospital():
     if request.method == 'POST':
         hospital_name = request.form['hospitalName']
         hospital_mail = request.form['hospitalmail']
-        
         pa = request.form['hospitalpass']
         password=bcrypt.generate_password_hash(pa).decode('utf-8')
         # Store the hospital data in the hospital collection
@@ -518,7 +517,7 @@ Your Hospital Account (Email ID {hospital_mail}) Password is:{pa}.
 
 ********************************
 This is an auto-generated email. Do not reply to this email.""")
-        return redirect('/superadmin')
+    return render_template('super_add_hospital.html')
     
     
 @app.route('/superadmin/checkHospitalStatus', methods=['GET', 'POST'])
