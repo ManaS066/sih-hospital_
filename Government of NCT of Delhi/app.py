@@ -193,7 +193,7 @@ def appointment():
             'hospital_name':hospital_name
         }
         appointment_collection.insert_one(appointment_data)
-
+        
         # After saving or processing, redirect or render a success page
         return redirect('/admin/confirmation')
     # If GET request, just render the appointment form
@@ -419,7 +419,7 @@ def doc_login():
         
         # Fetch the doctor's details from the database by username
         doctor = doctors_collection.find_one({'username': username})
-        print(username,password)
+        # print(username,password)
         if doctor:
             # stored_hash = doctor['password']  # The stored hashed password
             
@@ -456,8 +456,8 @@ def doc_login():
 @login_required('doc')
 def doctor_app():
     appointments=appointment_collection.find({'hospital_name':session.get('hospital_name'),'speciality':session.get('specialization')})
-    print(appointments)
-    return render_template('doctor_dash.html',appointments=appointments)
+    doc_detail = doctors_collection.find_one({'username':session.get('username')})
+    return render_template('doctor_dash.html',appointments=appointments,doctor=doc_detail)
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
