@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from pymongo.server_api import ServerApi
 from pymongo.mongo_client import MongoClient
 import smtplib
-from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session
+from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session,send_file
 import os
 import secrets
 from pymongo import MongoClient
@@ -12,11 +12,12 @@ from functools import wraps
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.units import inch
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
 from reportlab.graphics.barcode.qr import QrCodeWidget
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics import renderPDF
+from reportlab.lib.enums import TA_CENTER,TA_LEFT
 import qrcode
 import io
 
@@ -254,11 +255,17 @@ def add_patient():
             "hospital_name": hospital_name_patient
         }
         patients_collection.insert_one(data)
+
+        hospital_data_collection.update_one(
+            {'hospital_name': hospital_name_patient},
+            {'$inc': {f'occupied_{bed_type}': 1}}  # Increment the occupied beds count by 1
+        )
         return redirect(url_for('confirmation'))
     return render_template('add patient.html')
 
 
 @app.route('/admin/confirmation')
+@login_required('admin')
 def confirmation():
     return render_template('conformation.html', message="Patient successfully added!")
 
@@ -321,12 +328,18 @@ def admin():
     total_appointment = appointment_collection.count_documents(
         {"hospital_name": hospital_name})
     data = hospital_data_collection.find_one({'hospital_name': hospital_name})
-
-    beds = data['number_of_beds']
-    return render_template('admin_dashboard.html', count=total_appointment, beds=beds)
-
+    if data:
+        g_beds = data['number_of_general_beds']
+        icu_beds= data['number_of_icu_beds']
+        v_beds = data['number_of_ventilators']
+        total_patient = patients_collection.count_documents({'hospital_name': hospital_name})
+        total_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
+        return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc)
+    else:
+        return redirect('/admin/add_detail')
 
 @app.route("/admin/contact-us")
+@login_required('admin')
 def admin_contact_us():
     contacts = contact_collection.find()
     return render_template("manage_appointment.html", contacts=contacts)
@@ -487,11 +500,40 @@ def doctor_app():
 
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
+@login_required('superadmin')
 def superadmin():
+    # Count the total number of hospitals, doctors, and active patients
+    no_of_hospital = hospital_data_collection.count_documents({})
+    total_doctor = doctors_collection.count_documents({})
+    active_patient = patients_collection.count_documents({})
+
+    # Aggregate the total number of beds, ICU beds, and ventilators
+    total_beds = hospital_data_collection.aggregate([
+        {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_general_beds"}}}
+    ]).next()['total_beds']
+
+    total_icu_beds = hospital_data_collection.aggregate([
+        {"$group": {"_id": None, "total_icu_beds": {"$sum": "$number_of_icu_beds"}}}
+    ]).next()['total_icu_beds']
+
+    total_ventilators = hospital_data_collection.aggregate([
+        {"$group": {"_id": None, "total_ventilators": {"$sum": "$number_of_ventilators"}}}
+    ]).next()['total_ventilators']
+
+    # Debugging prints (can be removed in production)
+    print(total_ventilators, total_beds, total_icu_beds)
     no_of_hospital = hospital_data_collection.count_documents()
     total_doctor = doctors_collection.count_documents()
     active_patient = patients_collection.count_documents()
 
+    # Render the template with the computed values
+    return render_template('super_admin_dash.html', 
+                           no_hospital=no_of_hospital, 
+                           doctor=total_doctor, 
+                           patient=active_patient, 
+                           total_beds=total_beds, 
+                           total_icu_beds=total_icu_beds, 
+                           total_ventilators=total_ventilators)
     return render_template('super_admin_dash.html')
 
 
@@ -582,7 +624,7 @@ def submit_discharge():
         medications = request.form.get('medications')
         contact_info = request.form.get('contact_info')
         gender = request.form.get('gender')
-
+        address=request.form.get('address')
         data_discharge = {
             'patient_id': patient_id,
             'patient_name': patient_name,
@@ -655,29 +697,50 @@ def submit_discharge():
             'discharge_summary': discharge_summary,
             'follow_up_instructions': follow_up_instructions,
             'medications': medications,
-            'contact_info': contact_info
+            'contact_info': contact_info,
+            'gender':gender,
+            'address':address
         }
         # Generate PDF with the provided details
         pdf_buffer = io.BytesIO()
         doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
         styles = getSampleStyleSheet()
-        # Patient details inside the pdf
+        #Patient details inside the pdf
         elements = []
         elements.append(Paragraph("Patient ID Card", styles['Title']))
         elements.append(Spacer(1, 12))
-        elements.append(
-            Paragraph(f"Full Name: {patient_name}", styles['Normal']))
-        elements.append(Paragraph(f"Admission Date: {
-                        admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Full Name: {patient_name}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
-        elements.append(Paragraph(f"Phone Number: {
-                        contact_info}", styles['Normal']))
-        elements.append(Paragraph(f"Email: {email}", styles['Normal']))
-        elements.append(Paragraph(f"Discharge Summary: {
-                        discharge_summary}", styles['Normal']))
-        hospital_discharge_collection.insert_one(data_discharge)
-        return redirect('/admin')
+        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
+
+        # Generate QR code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(
+            f"Name: {patient_name}\Admission Date: {admission_date}\nPhone: {contact_info}\nDischarge Summary: {diagnosis}")
+        qr.make(fit=True)
+        img = qr.make_image(fill='black', back_color='white')
+        qr_buffer = io.BytesIO()
+        img.save(qr_buffer, 'PNG')
+        qr_buffer.seek(0)
+
+        # Add QR code to PDF
+        elements.append(Spacer(1, 12))
+        elements.append(Image(qr_buffer, width=100, height=100))
+
+        doc.build(elements)
+
+        pdf_buffer.seek(0)
+        return send_file(pdf_buffer, as_attachment=True, download_name='patient_id_card.pdf', mimetype='application/pdf')
+        # return redirect('/admin') 
     return render_template('Patient_discharge.html')
 # where is the change
 
