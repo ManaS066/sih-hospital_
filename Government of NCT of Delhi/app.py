@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from pymongo.server_api import ServerApi
 from pymongo.mongo_client import MongoClient
 import smtplib
-from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session
+from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session,send_file
 import os
 import secrets
 from pymongo import MongoClient
@@ -595,7 +595,7 @@ def submit_discharge():
         medications = request.form.get('medications')
         contact_info = request.form.get('contact_info')
         gender = request.form.get('gender')
-
+        address=request.form.get('address')
         data_discharge = {
             'patient_id': patient_id,
             'patient_name': patient_name,
