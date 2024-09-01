@@ -59,8 +59,8 @@
                 margin-bottom: 20px;
                 padding: 20px;
                 text-align: center;
-                width: 70%;
-                margin-left: auto;
+                width: 80%;
+                margin-left: 0;
                 margin-right: auto;
             }
 
@@ -160,10 +160,17 @@
                 <h3>Hospital Status</h3>
                 <form method="POST" action="/superadmin/checkHospitalStatus">
                     <label for="hname">Hospital Name:</label>
-                    <input type="text" name="hname" id="hname">
+                    <div class="form-group">
+                        <select id="hospital" name="hname" class="hname" required>
+                            <option value="" disabled selected>Select Hospital</option>
+                            {% for hospital in hospitals %}
+                            <option value="{{ hospital }}">{{ hospital }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <div class="button-container">
                         <button type="submit" id="check-hospital-status">View Status</button>
-                        <button type="button" onclick="location.href='/dashboard';">Return to Dashboard</button>
+                        <!-- <button type="button" onclick="location.href='/dashboard';">Return to Dashboard</button> -->
                     </div>
                     <div id="hospital-status" class="status"></div>
                 </form>

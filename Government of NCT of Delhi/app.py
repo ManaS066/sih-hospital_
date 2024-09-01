@@ -616,7 +616,7 @@ def check_hospital():
             return "No hospital found"
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-    return render_template('superadmin_hospital_status.html',hospital_name = hospital_data_collection)
+    return render_template('super_admin_check_hospital.html',hospitals= hospital_names)
 
 @app.route('/admin/discharge', methods=['POST', 'GET'])
 @login_required('admin')
