@@ -534,7 +534,7 @@ def superadmin():
                            total_beds=total_beds, 
                            total_icu_beds=total_icu_beds, 
                            total_ventilators=total_ventilators)
-    return render_template('super_admin_dash.html')
+   
 
 
 @app.route("/superadmin_login", methods=['GET', 'POST'])
