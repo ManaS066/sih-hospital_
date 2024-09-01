@@ -617,7 +617,9 @@ def check_hospital():
 
     return render_template('superadmin_hospital_status.html')
 
-
+@app.route('/input_hospital')
+@login_required('admin')
+def input_()
 @app.route('/admin/discharge', methods=['POST', 'GET'])
 @login_required('admin')
 def submit_discharge():
