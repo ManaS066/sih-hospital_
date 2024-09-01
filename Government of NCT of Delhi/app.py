@@ -3,6 +3,16 @@ import os,secrets
 from pymongo import MongoClient
 import jwt
 from functools import wraps
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+from reportlab.graphics.barcode.qr import QrCodeWidget
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics import renderPDF
+import qrcode
+import io
 
 #test pull
 app = Flask(__name__)
@@ -331,15 +341,17 @@ def add_details():
         emergency=request.form['emergencyContactNumber']
         email = request.form['emailAddress']
         website = request.form['websiteURL']
-        no_beds = request.form['numberOfBeds']
-        no_icu = request.form['numberOfICUBeds']
-        no_ventilator = request.form['numberOfVentilators']
+        no_beds = int(request.form['numberOfBeds'])
+        occupied_beds=int(request.form['Beds_occupied'])
+        no_icu = int(request.form['numberOfICUBeds'])
+        occupied_icu = int(request.form['icu_occupied'])
+        no_ventilator = int(request.form['numberOfVentilators'])
+        occupied_ventilator=int(request.form['ventilator_occupied'])
         emergency_dept = request.form['emergencyDepartment']
         spetialisation = request.form['specialization']
         operating_hour = request.form['hospitalOperatingHours']
         visiting_hour = request.form['visitingHours']
         pharmacy_onsite = request.form['pharmacyOnSite']
-        no_doctor = request.form['totalNumberOfDoctors']
         no_nurse = request.form['totalNumberOfNurses']
         no_admin_staff = request.form['administrativeStaffCount']
         ambulance = request.form['ambulanceServices']
@@ -357,15 +369,17 @@ def add_details():
         "emergency_contact_number": emergency,
         "email_address": email,
         "website_url": website,
-        "number_of_beds": no_beds,
+        "number_of_general_beds": no_beds,
+        "occupied_general":occupied_beds,
         "number_of_icu_beds": no_icu,
+        "occupied_icu":occupied_icu,
         "number_of_ventilators": no_ventilator,
+        "occupied_ventilator":occupied_ventilator,
         "emergency_department": emergency_dept,
         "specialization": spetialisation,
         "hospital_operating_hours": operating_hour,
         "visiting_hours": visiting_hour,
         "pharmacy_on_site": pharmacy_onsite,
-        "total_number_of_doctors": no_doctor,
         "total_number_of_nurses": no_nurse,
         "administrative_staff_count": no_admin_staff,
         "ambulance_services": ambulance,
@@ -468,6 +482,10 @@ def doctor_app():
 
 @app.route('/superadmin/', methods=['GET', 'POST'])
 def superadmin():
+    no_of_hospital = hospital_data_collection.count_documents()
+    total_doctor = doctors_collection.count_documents()
+    active_patient  = patients_collection.count_documents()
+    
     return render_template('super_admin_dash.html')
 
 
@@ -479,6 +497,8 @@ def superadmin_login():
         
         # Check if the username and password match an entry in the admin_collection
         if superadmin_collection.find_one({"username": username, "password": password}):
+            session['username']=username
+            session['role']='superadmin'
             return redirect('/superadmin')
         else:
             return redirect('/superadmin_login')
@@ -487,7 +507,7 @@ def superadmin_login():
 
 
 @app.route('/superadmin/addHospital', methods=['GET', 'POST'])
-
+@login_required('superadmin')
 def add_hospital():
     if request.method == 'POST':
         hospital_name = request.form['hospitalName']
@@ -521,6 +541,7 @@ This is an auto-generated email. Do not reply to this email.""")
     
     
 @app.route('/superadmin/checkHospitalStatus', methods=['GET', 'POST'])
+@login_required('superadmin')
 def check_hospital():
     if request.method == 'POST':
         hospital_name = request.form.get('hname')
@@ -553,6 +574,7 @@ def submit_discharge():
         follow_up_instructions = request.form.get('follow_up_instructions')
         medications = request.form.get('medications')
         contact_info = request.form.get('contact_info')
+        gender=request.form.get('gender')
 
         data_discharge={
             'patient_id': patient_id,
@@ -567,7 +589,21 @@ def submit_discharge():
             'medications': medications,
             'contact_info': contact_info
         }
-
+        # Generate PDF with the provided details
+        pdf_buffer = io.BytesIO()
+        doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
+        styles = getSampleStyleSheet()
+        #Patient details inside the pdf
+        elements = []
+        elements.append(Paragraph("Patient ID Card", styles['Title']))
+        elements.append(Spacer(1, 12))
+        elements.append(Paragraph(f"Full Name: {patient_name}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
+        elements.append(Paragraph(f"Address: {address}", styles['Normal']))
+        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Email: {email}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
         hospital_discharge_collection.insert_one(data_discharge)
         return redirect('/admin') 
     return render_template('Patient_discharge.html')
@@ -582,6 +618,10 @@ def user_logout():
 
 @app.route('/admin_logout')
 def admin_logout():
+    session.clear()
+    return redirect('/')
+@app.route('/superadmin_logout')
+def sueperadmin_logout():
     session.clear()
     return redirect('/')
 
