@@ -59,6 +59,9 @@
                 margin-bottom: 20px;
                 padding: 20px;
                 text-align: center;
+                width: 70%;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .card h3 {
@@ -67,7 +70,9 @@
             }
 
             .card form {
-                text-align: left;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 margin-top: 20px;
             }
 
@@ -84,16 +89,24 @@
                 border-radius: 4px;
             }
 
-            .card button {
+            .button-container {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .button-container button {
                 background-color: #00637f;
                 color: white;
                 border: none;
                 padding: 10px 15px;
                 border-radius: 4px;
                 cursor: pointer;
+                margin: 0;
             }
 
-            .card button:hover {
+            .button-container button:hover {
                 background-color: #004d66;
             }
 
@@ -141,32 +154,20 @@
             </a>
             <h3 class="text-light">Government of NCT of Delhi</h3>
         </div>
-
-        <div class="sidebar">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="add-hospital.html">Add Hospital</a>
-            <a href="check-hospital-status.html">Check Hospital Status</a>
-            <a href="order-medicine.html">Order Medicine</a>
-            <a href="feedback.html">Feedback</a>
-            <a href="blood-bank-status.html">Blood Bank Status</a>
-            <a href="/">Logout</a>
-        </div>
-
         <div class="main-content">
-            <h2>Check Hospital Status</h2>
+            <!-- <h2>Check Hospital Status</h2> -->
             <div class="card">
                 <h3>Hospital Status</h3>
                 <form method="POST" action="/superadmin/checkHospitalStatus">
                     <label for="hname">Hospital Name:</label>
                     <input type="text" name="hname" id="hname">
-                    <button type="submit" id="check-hospital-status">View Status</button>
+                    <div class="button-container">
+                        <button type="submit" id="check-hospital-status">View Status</button>
+                        <button type="button" onclick="location.href='/dashboard';">Return to Dashboard</button>
+                    </div>
                     <div id="hospital-status" class="status"></div>
                 </form>
             </div>
-        </div>
-
-        <div class="footer">
-            <p>&copy; 2024 Government of NCT of Delhi</p>
         </div>
     </body>
 
