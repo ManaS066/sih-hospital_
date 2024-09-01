@@ -89,6 +89,26 @@
                 color: #007bff;
                 font-weight: bold;
             }
+            table {
+                width: 95%;
+                margin: 20px auto;
+                border-collapse: collapse;
+            }
+    
+            th,
+            td {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 10px;
+            }
+    
+            th {
+                background-color: #f2f2f2;
+            }
+    
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
         </style>
     </head>
 
@@ -103,22 +123,22 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav ms-auto justify-content-end navbar1">
                         <li class="nav-item mr-3">
-                            <a class="nav-link text-light" href="/templates/index.html">Home</a>
+                            <a class="nav-link text-light" href="/">Home</a>
                         </li>
                         <li class="nav-item mr-3">
                             <a class="nav-link text-light" href="/appointment">Appointment</a>
                         </li>
                         <li class="nav-item mr-3">
-                            <a class="nav-link text-light" href="/templates/doctor.html">Doctors</a>
+                            <a class="nav-link text-light" href="/#doctor">Doctors</a>
                         </li>
                         <li class="nav-item mr-3">
-                            <a class="nav-link text-light" href="/templates/department.html">Departments</a>
+                            <a class="nav-link text-light" href="/#OurDepartments">Departments</a>
                         </li>
                         <li class="nav-item mr-3">
-                            <a class="nav-link text-light" href="/templates/contact us.html">Contact Us</a>
+                            <a class="nav-link text-light" href='/'>Contact Us</a>
                         </li>
                         <li class="nav-item mr-3">
-                            <a class="nav-link text-light" href="/">Login</a>
+                            <a class="nav-link text-light" href="/">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -130,16 +150,37 @@
 
             <div class="card">
                 <h3>My Appointments</h3>
-                <p>View and manage your upcoming and past appointments.</p>
-                { % for appointment in appointments %}
+                <p>View your upcoming and past appointments.</p>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Number</th>
+                        <th>Appointment Date</th>
+                        <th>Time-slot</th>
+                        <th>Depeartment</th>
+                        <th>Description</th>
+                    </tr>
+                    {% for contact in appointments %}
+                    <tr>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.number }}</td>
+                        <td>{{ contact.appointment_date }}</td>
+                        <td>{{ contact.time_slot }}</td>
+                        <td>{{ contact.speciality }}</td>
+                        <td>{{ contact.disease_description }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
 
             </div>
 
-            <div class="card">
+            <!-- <div class="card">
                 <h3>My Profile</h3>
                 <p>Manage your personal information and update your profile details.</p>
                 <a href="#">View Profile</a>
-            </div>
+            </div> -->
         </div>
 
     </body>

@@ -126,7 +126,7 @@ def user_login():
                 session['username']=username
                 session['role']='user'
                 print(f'user session details:{session}')
-                return redirect('/appointment')
+                return redirect('/user_app')
             else:
                 return 'Wrong password'
         
@@ -134,7 +134,12 @@ def user_login():
 
     return render_template('user_login.html')
 
-
+@app.route('/user_app',methods=['GET','POST'])
+@login_required('user')
+def user_app():
+    user_info = users_collection.find_one({'username':session.get('username')})
+    appointment = appointment_collection.find({'username':session.get('username')})
+    return render_template('user_app.html',user = user_info,appointments =appointment)
 
 @app.route('/user_register',methods=['GET','POST'])
 def user_register():
@@ -171,6 +176,7 @@ def appointment():
     if request.method == 'POST':
         # Extract form data
         name = request.form['name']
+        user_name=session.get('username')
         number = request.form['number']
         email = request.form['email']
         address = request.form['Address']
@@ -179,10 +185,11 @@ def appointment():
         speciality = request.form['diseaseInput']
         disease_description = request.form['diseaseDescription']
         hospital_name = request.form['hospital']
-        total_no_of_appointments=hospital_data_collection.count_documents({"hospital_name":hospital_name})
-        print(total_no_of_appointments)
+        # total_no_of_appointments=hospital_data_collection.count_documents({"hospital_name":hospital_name})
+        # print(total_no_of_appointments)
         appointment_data = {
             'name': name,
+            'username':user_name,
             'number': number,
             'email': email,
             'address': address,
