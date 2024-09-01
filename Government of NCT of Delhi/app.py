@@ -331,11 +331,16 @@ def admin():
     data = hospital_data_collection.find_one({'hospital_name': hospital_name})
     if data:
         g_beds = data['number_of_general_beds']
+        vacent_general = g_beds-data['occupied_general']
         icu_beds= data['number_of_icu_beds']
+        vacent_icu = icu_beds-data['occupied_icu']
         v_beds = data['number_of_ventilators']
+        vacent_ventilator = v_beds-data['occupied_ventilator']
         total_patient = patients_collection.count_documents({'hospital_name': hospital_name})
         total_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
-        return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc)
+
+        return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc,
+                               vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator)
     else:
         return redirect('/admin/add_detail')
 
