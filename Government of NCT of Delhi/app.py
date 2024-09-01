@@ -83,9 +83,9 @@ def login_required(role):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args,**kwargs):
-            print(f"Session data: {session}")
-            print(f"Checking if username in session: {'username' in session}")
-            print(f"Checking if role matches: {session.get('role')} == {role}")
+            # print(f"Session data: {session}")
+            # print(f"Checking if username in session: {'username' in session}")
+            # print(f"Checking if role matches: {session.get('role')} == {role}")
             if 'username' not in session or session.get('role')!=role:
                 return redirect(f'/{role}_login')
             return f(*args,**kwargs)
@@ -135,7 +135,7 @@ def user_login():
                 # return response
                 session['username']=username
                 session['role']='user'
-                print(f'user session details:{session}')
+                
                 return redirect('/user_app')
             else:
                 return 'Wrong password'
@@ -236,7 +236,7 @@ def add_patient():
 
         session['patient_name']=name
         hospital_name_patient=session.get('hospital_name')
-        print(hospital_name_patient)
+        
         data = {
             'name':name,
             'dob':dob,
@@ -299,7 +299,7 @@ def admin_login():
                 hospital_data=admin_collection.find_one({"hospital_mail":admin_email})
                 hospital_name_doctor=hospital_data.get("hospital_name")
                 session['hospital_name']=hospital_name_doctor
-                print(f'session details:{session}')
+                
                 # return response
                 return redirect('/admin')
             
@@ -314,7 +314,7 @@ def admin_login():
 @login_required('admin')
 def admin():
     hospital_name=session.get('hospital_name')
-    print(hospital_name)
+    
     total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
     data = hospital_data_collection.find_one({'hospital_name': hospital_name})
     if data:
@@ -493,7 +493,7 @@ def superadmin():
 
     # Aggregate the total number of beds, ICU beds, and ventilators
     total_beds = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_beds"}}}
+        {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_general_beds"}}}
     ]).next()['total_beds']
 
     total_icu_beds = hospital_data_collection.aggregate([
