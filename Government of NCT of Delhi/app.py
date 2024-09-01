@@ -614,12 +614,10 @@ def check_hospital():
             return render_template('superadmin_hospital_status.html', data=data)
         else:
             return "No hospital found"
+    hospitals = hospital_data_collection.find()
+    hospital_names = [hospital['hospital_name'] for hospital in hospitals]
+    return render_template('superadmin_hospital_status.html',hospital_name = hospital_data_collection)
 
-    return render_template('superadmin_hospital_status.html')
-
-@app.route('/input_hospital')
-@login_required('admin')
-def input_()
 @app.route('/admin/discharge', methods=['POST', 'GET'])
 @login_required('admin')
 def submit_discharge():
