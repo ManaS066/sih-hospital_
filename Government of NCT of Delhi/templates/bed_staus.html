@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bed Availability</title>
+        <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../static/css/style.css" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                /* background-color: #fff3c7; */
+                background-image: url(../static/images/);
+                margin: 0;
+                padding: 0;
+            }
+
+            .navbar {
+                background-color: #00637f !important;
+                padding: 10px;
+                color: white;
+            }
+
+            .main-content {
+                padding: 20px;
+                text-align: center;
+            }
+
+            .card {
+                background-color: rgba(255, 255, 255, 0.8);
+                /* Light background with transparency */
+                border-radius: 10px;
+                /* Slightly rounded corners */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                /* Larger shadow for depth */
+                margin: 20px auto;
+                padding: 100px;
+                /* Increased padding for larger content area */
+                text-align: center;
+                width: 350px;
+                /* Increased width */
+                transition: transform 0.3s;
+                /* Smooth hover effect */
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+                /* Slight zoom effect on hover */
+            }
+
+            .card h3 {
+                margin-top: 0;
+                color: #2c3e50;
+            }
+
+            .card p {
+                font-size: 20px;
+                /* Slightly larger font for visibility */
+                color: #333;
+            }
+
+            .grid-container {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 30px;
+                /* Increased gap for spacing */
+            }
+
+            /* 
+            .footer {
+                background-color: #00637f;
+                color: #fff;
+                text-align: center;
+                padding: 10px;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            } */
+        </style>
+    </head>
+
+    <body>
+        <!-- Navigation Bar -->
+        <div class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="#">
+                <img src="../static/images/delhi.png" alt="Delhi Logo" class="rounded-circle" width="40" height="40" />
+            </a>
+            <h3 class="text-light">Government of NCT of Delhi</h3>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <h2>Bed Availability Dashboard</h2>
+            <div class="grid-container">
+                <!-- General Beds Card -->
+                <div class="card">
+                    <h3>General Beds</h3>
+                    <p id="general-beds">Loading...</p>
+                </div>
+                <!-- ICU Beds Card -->
+                <div class="card">
+                    <h3>ICU Beds</h3>
+                    <p id="icu-beds">Loading...</p>
+                </div>
+                <!-- Ventilator Beds Card -->
+                <div class="card">
+                    <h3>Ventilator Beds</h3>
+                    <p id="ventilator-beds">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript to Fetch and Display Bed Availability -->
+        <script>
+            // Function to load bed availability data
+            async function loadBedAvailability() {
+                try {
+                    const response = await fetch("/bed-availability");
+                    const data = await response.json();
+
+                    // Update the bed availability metrics
+                    document.getElementById("general-beds").textContent =
+                        data.availableGeneralBeds + " / " + data.totalGeneralBeds;
+                    document.getElementById("icu-beds").textContent =
+                        data.availableIcuBeds + " / " + data.totalIcuBeds;
+                    document.getElementById("ventilator-beds").textContent =
+                        data.availableVentilatorBeds + " / " + data.totalVentilatorBeds;
+                } catch (error) {
+                    console.error("Error loading bed availability:", error);
+                    document.getElementById("general-beds").textContent = "Error";
+                    document.getElementById("icu-beds").textContent = "Error";
+                    document.getElementById("ventilator-beds").textContent = "Error";
+                }
+            }
+
+            // Load bed availability data on page load
+            loadBedAvailability();
+        </script>
+    </body>
+
+</html>
