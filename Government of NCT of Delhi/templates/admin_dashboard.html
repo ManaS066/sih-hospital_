@@ -158,15 +158,15 @@
         <div class="sidebar">
             <a href="#">Dashboard</a>
             <a href="./add_patient">Add Patient</a>
-            <a href="/appointment">Book Appointment</a>
+            <!-- <a href="/appointment">Book Appointment</a> -->
             <a href="/add_doc">Add Doctor</a>
             <a href="/admin/manage_appointment">Manage Appointments</a>
             <a href="/">Inventory Management</a>
             <a href="/">Blood Bank</a>
-            <a href="../templates/admin/opd/index.html">Opd</a>
+            <!-- <a href="../templates/admin/opd/index.html">Opd</a> -->
             <!-- <a href="../templates/admin/opd/Emergency.html">Bed Availability</a> -->
             <a href="/admin/contact-us">Feed Back</a>
-            <a href="/admin_detail">Add Details</a>
+            <a href="/admin/discharge">Discharge</a>
             <a href="/admin_logout">Logout</a>
         </div>
 
@@ -174,35 +174,35 @@
             <h2>Admin Dashboard</h2>
             <div class="grid-container">
                 <div class="card">
-                    <h3>Active Patient</h3>
+                    <h3>Total appointment</h3>
                     <p>{{count}}</p>
                 </div>
                 <div class="card">
                     <h3>Doctors</h3>
-                    <p>{{beds}}</p>
+                    <p>{{doc}}</p>
                 </div>
                 <div class="card">
-                    <h3>Total Patient</h3>
-                    <p>45</p>
+                    <h3>Total patient</h3>
+                    <p>{{patient}}</p>
                 </div>
                 <div class="card">
                     <h3>General bed</h3>
-                    <p>45</p>
+                    <p>{{vacent_general}}/{{general_total}}</p>
                 </div>
                 <div class="card">
                     <h3>ICU Bed </h3>
-                    <p>45</p>
+                    <p>{{vacent_icu}}/{{icu_total}}</p>
                 </div>
                 <div class="card">
                     <h3>Ventilator</h3>
-                    <p>45</p>
+                    <p>{{vacent_ventilator}}/{{vantilator_total}}</p>
                 </div>
             </div>
 
-            <div class="card">
+            <!-- <div class="card">
                 <h3>Patient Admission Overview</h3>
                 <p>Graph or table of recent admissions will be displayed here.</p>
-            </div>
+            </div> -->
 
             <div class="card">
                 <h3>Inventory Status</h3>

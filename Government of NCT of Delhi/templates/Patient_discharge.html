@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -105,29 +104,46 @@
       <textarea id="diagnosis" name="diagnosis" rows="4" required></textarea>
 
       <label for="treatment">Treatment Provided:</label>
-<!-- <<<<<<< HEAD
-      <textarea
-        id="treatment"
-        name="treatment"
-        rows="4"
-        cols="50"
-        required
-      ></textarea>
-=======
-      <textarea id="treatment" name="treatment" rows="4" required></textarea>
+      <div class="form-group">
+        
+        <textarea id="treatment" name="treatment" rows="4" required></textarea>
+        
+        <label for="category">Select type of bed:</label>
 
->>>>>>> 7486dcecdfbd47ef0b8006d549e33176c1a0b934 -->
+        <select id="bedtype" name="bedtype" required>
+          <option value="" disabled selected>Select Type of Bed</option>
+          <option value="general">General ward</option>
+          <option value="icu">ICU</option>
+          <option value="ventilator">Ventilator</option>
+        </select>
+      </div>
+
       <label for="doctor_name">Doctor's Name:</label>
       <input type="text" id="doctor_name" name="doctor_name" required />
 
       <label for="discharge_summary">Discharge Summary:</label>
-      <textarea id="discharge_summary" name="discharge_summary" rows="4" required></textarea>
+      <textarea
+        id="discharge_summary"
+        name="discharge_summary"
+        rows="4"
+        required
+      ></textarea>
 
       <label for="follow_up_instructions">Follow-up Instructions:</label>
-      <textarea id="follow_up_instructions" name="follow_up_instructions" rows="4" required></textarea>
+      <textarea
+        id="follow_up_instructions"
+        name="follow_up_instructions"
+        rows="4"
+        required
+      ></textarea>
 
       <label for="medications">Medications Prescribed:</label>
-      <textarea id="medications" name="medications" rows="4" required></textarea>
+      <textarea
+        id="medications"
+        name="medications"
+        rows="4"
+        required
+      ></textarea>
 
       <label for="contact_info">Contact Information:</label>
       <input type="text" id="contact_info" name="contact_info" required />
@@ -135,5 +151,4 @@
       <input type="submit" value="Submit" />
     </form>
   </body>
-
 </html>
