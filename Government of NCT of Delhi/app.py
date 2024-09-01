@@ -325,8 +325,8 @@ def admin():
 
 @app.route("/admin/contact-us")
 def admin_contact_us():
-    contacts = contact_collection.find()
-    return render_template("manage_appointment.html", contacts=contacts)
+    contacts = contact_collection.find({})
+    return render_template("manage_contactus.html", contacts=contacts)
 
 @app.route('/admin/add_detail',methods=['GET','POST'])
 @login_required('admin')
