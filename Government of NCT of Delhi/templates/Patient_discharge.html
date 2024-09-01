@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +9,6 @@
       body {
         font-family: Arial, sans-serif;
         background-image: url("../static/images/Patient_Discharge.avif");
-        /* Replace with your image URL */
         background-size: cover;
         background-position: center;
         margin: 0;
@@ -31,7 +31,6 @@
         margin: 30px auto;
         padding: 20px;
         background-color: rgba(255, 255, 255, 0.9);
-        /* Semi-transparent white background */
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
@@ -45,7 +44,8 @@
 
       input[type="text"],
       input[type="date"],
-      textarea {
+      textarea,
+      select {
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
@@ -75,11 +75,25 @@
   <body>
     <form action="/admin/discharge" method="POST">
       <h2>Hospital Discharge Details Form</h2>
+
       <label for="patient_id">Patient ID:</label>
       <input type="text" id="patient_id" name="patient_id" required />
 
       <label for="patient_name">Patient Name:</label>
       <input type="text" id="patient_name" name="patient_name" required />
+
+      <!-- Gender Selection -->
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" required>
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+
+      <!-- Address Field -->
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" rows="3" required></textarea>
 
       <label for="admission_date">Date of Admission:</label>
       <input type="date" id="admission_date" name="admission_date" required />
@@ -88,15 +102,10 @@
       <input type="date" id="discharge_date" name="discharge_date" required />
 
       <label for="diagnosis">Diagnosis:</label>
-      <textarea
-        id="diagnosis"
-        name="diagnosis"
-        rows="4"
-        cols="50"
-        required
-      ></textarea>
+      <textarea id="diagnosis" name="diagnosis" rows="4" required></textarea>
 
       <label for="treatment">Treatment Provided:</label>
+<<<<<<< HEAD
       <textarea
         id="treatment"
         name="treatment"
@@ -104,36 +113,21 @@
         cols="50"
         required
       ></textarea>
+=======
+      <textarea id="treatment" name="treatment" rows="4" required></textarea>
 
+>>>>>>> 7486dcecdfbd47ef0b8006d549e33176c1a0b934
       <label for="doctor_name">Doctor's Name:</label>
       <input type="text" id="doctor_name" name="doctor_name" required />
 
       <label for="discharge_summary">Discharge Summary:</label>
-      <textarea
-        id="discharge_summary"
-        name="discharge_summary"
-        rows="4"
-        cols="50"
-        required
-      ></textarea>
+      <textarea id="discharge_summary" name="discharge_summary" rows="4" required></textarea>
 
       <label for="follow_up_instructions">Follow-up Instructions:</label>
-      <textarea
-        id="follow_up_instructions"
-        name="follow_up_instructions"
-        rows="4"
-        cols="50"
-        required
-      ></textarea>
+      <textarea id="follow_up_instructions" name="follow_up_instructions" rows="4" required></textarea>
 
       <label for="medications">Medications Prescribed:</label>
-      <textarea
-        id="medications"
-        name="medications"
-        rows="4"
-        cols="50"
-        required
-      ></textarea>
+      <textarea id="medications" name="medications" rows="4" required></textarea>
 
       <label for="contact_info">Contact Information:</label>
       <input type="text" id="contact_info" name="contact_info" required />
@@ -141,4 +135,5 @@
       <input type="submit" value="Submit" />
     </form>
   </body>
+
 </html>

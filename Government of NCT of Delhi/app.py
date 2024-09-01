@@ -3,6 +3,16 @@ import os,secrets
 from pymongo import MongoClient
 import jwt
 from functools import wraps
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+from reportlab.graphics.barcode.qr import QrCodeWidget
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics import renderPDF
+import qrcode
+import io
 
 #test pull
 app = Flask(__name__)
@@ -487,6 +497,8 @@ def superadmin_login():
         
         # Check if the username and password match an entry in the admin_collection
         if superadmin_collection.find_one({"username": username, "password": password}):
+            session['username']=username
+            session['role']='superadmin'
             return redirect('/superadmin')
         else:
             return redirect('/superadmin_login')
@@ -495,7 +507,7 @@ def superadmin_login():
 
 
 @app.route('/superadmin/addHospital', methods=['GET', 'POST'])
-
+@login_required('superadmin')
 def add_hospital():
     if request.method == 'POST':
         hospital_name = request.form['hospitalName']
@@ -529,6 +541,7 @@ This is an auto-generated email. Do not reply to this email.""")
     
     
 @app.route('/superadmin/checkHospitalStatus', methods=['GET', 'POST'])
+@login_required('superadmin')
 def check_hospital():
     if request.method == 'POST':
         hospital_name = request.form.get('hname')
@@ -561,6 +574,7 @@ def submit_discharge():
         follow_up_instructions = request.form.get('follow_up_instructions')
         medications = request.form.get('medications')
         contact_info = request.form.get('contact_info')
+        gender=request.form.get('gender')
 
         data_discharge={
             'patient_id': patient_id,
@@ -575,7 +589,21 @@ def submit_discharge():
             'medications': medications,
             'contact_info': contact_info
         }
-
+        # Generate PDF with the provided details
+        pdf_buffer = io.BytesIO()
+        doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
+        styles = getSampleStyleSheet()
+        #Patient details inside the pdf
+        elements = []
+        elements.append(Paragraph("Patient ID Card", styles['Title']))
+        elements.append(Spacer(1, 12))
+        elements.append(Paragraph(f"Full Name: {patient_name}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
+        elements.append(Paragraph(f"Address: {address}", styles['Normal']))
+        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Email: {email}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
         hospital_discharge_collection.insert_one(data_discharge)
         return redirect('/admin') 
     return render_template('Patient_discharge.html')
@@ -590,6 +618,10 @@ def user_logout():
 
 @app.route('/admin_logout')
 def admin_logout():
+    session.clear()
+    return redirect('/')
+@app.route('/superadmin_logout')
+def sueperadmin_logout():
     session.clear()
     return redirect('/')
 
