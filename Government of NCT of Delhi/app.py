@@ -318,7 +318,7 @@ def admin():
     total_appointment = appointment_collection.count_documents({"hospital_name":hospital_name})
     data = hospital_data_collection.find_one({'hospital_name': hospital_name})
     if data:
-        beds = data['number_of_beds']
+        beds = data['number_of_general_beds']
         return render_template('admin_dashboard.html',count=total_appointment,beds=beds)
     else:
         return redirect('/admin/add_detail')
@@ -363,7 +363,7 @@ def add_details():
         "hospital_name": name,
         "hospital_id": ID,
         "address_line1": address1,
-        "city": city,
+        "city": city,   
         "state": state,
         "postal_code": postal_code,
         "contact_number": contact_number,
@@ -389,6 +389,8 @@ def add_details():
     
     # Insert the data into the hospital collection
         hospital_data_collection.insert_one(data)
+
+        return redirect('/admin')
     return render_template('hospital_details.html',)
 
 
