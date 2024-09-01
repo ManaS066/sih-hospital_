@@ -633,67 +633,6 @@ def submit_discharge():
             'patient_id': patient_id,
             'patient_name': patient_name,
             'admission_date': admission_date,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
             'discharge_date': discharge_date,
             'diagnosis': diagnosis,
             'treatment': treatment,
