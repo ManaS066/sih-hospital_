@@ -589,9 +589,27 @@ def superadmin():
             }
         }
     ]).next()
+    total_nurse_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_nurse": {"$sum": "$total_number_of_nurses"},
+            }
+        }
+    ]).next()
+    total_admin_staff = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_adminstaff": {"$sum": "$administrative_staff_count"},
+            }
+        }
+    ]).next()
 
     total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
     occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+    total_nurse = total_nurse_data.get('total_nurse')
+    total_adminstaff  =total_admin_staff.get('total_adminstaff')
     available_icu_beds = total_icu_beds - occupied_icu_beds
 
     total_ventilators_data = hospital_data_collection.aggregate([
@@ -637,9 +655,7 @@ def superadmin():
                            available_icu_beds=available_icu_beds, 
                            total_ventilators=total_ventilators,
                            available_ventilators=available_ventilators,
-                           nurses=total_nurses,
-                           staff=total_staff
-                           )
+                           total_adminstaff = total_adminstaff,total_nurse = total_nurse)
 
 
 @app.route('/bed_status')
