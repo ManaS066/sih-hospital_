@@ -52,7 +52,7 @@
       }
 
       .card {
-        background-color: #fff8e3;
+        background-color: #fff8e3ac;
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
@@ -111,11 +111,7 @@
     <div class="sidebar">
       <a href="#">Dashboard</a>
       <a href="/superadmin/addHospital" id="add-hospital-link">Add Hospital</a>
-      <a
-        href="/superadmin/checkHospitalStatus"
-        id="/superadmin/checkHospitalStatus"
-        >Check Hospital Status</a
-      >
+      <a href="/superadmin/checkHospitalStatus" id="/superadmin/checkHospitalStatus">Check Hospital Status</a>
       <a href="#" id="order-medicine-link">Order Medicine</a>
       <a href="/admin/manage_appointment" id="appointment-link">Appointments</a>
       <a href="/admin/contact-us" id="feedback-link">Feedback</a>
@@ -123,53 +119,53 @@
       <a href="/superadmin_logout">Logout</a>
     </div>
 
-        <div class="main-content">
-            <h2>Super Admin Dashboard</h2>
-            <div class="grid-container">
-                <div class="card">
-                    <h3>Total Hospitals</h3>
-                    <p id="total-hospitals">{{no_hospital}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Doctors</h3>
-                    <p id="total-doctors">{{doctor}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Active Patients</h3>
-                    <p id="total-active-patients">{{patient}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Inventory Distributors</h3>
-                    <p id="total-inventory-distributors">Loading...</p>
-                </div>
-                <div class="card">
-                  <h3>Blood Status</h3>
-                  <p id="total-general-wards">Loading...</p>
-              </div>
-                <div class="card">
-                    <h3>Total Nurses</h3>
-                    <p id="total-nurses">{{total_nurse}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Admin Staff</h3>
-                    <p id="total-admin-staff">{{total_adminstaff}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Ventilator Beds</h3>
-                    <p id="total-opd-beds">{{available_ventilators}}/{{total_ventilators}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total ICU Beds</h3>
-                    <p id="total-icu-beds">{{available_icu_beds}}/{{total_icu_beds}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total General Wards</h3>
-                    <p id="total-general-wards">{{available_beds}}/{{total_beds}}</p>
-                </div>
-                
-            </div>
+    <div class="main-content">
+      <h2>Super Admin Dashboard</h2>
+      <div class="grid-container">
+        <div class="card">
+          <h3>Total Hospitals</h3>
+          <p id="total-hospitals">{{no_hospital}}</p>
         </div>
-      
+        <div class="card">
+          <h3>Total Doctors</h3>
+          <p id="total-doctors">{{doctor}}</p>
+        </div>
+        <div class="card">
+          <h3>Total Active Patients</h3>
+          <p id="total-active-patients">{{patient}}</p>
+        </div>
+        <div class="card">
+          <h3>Total Inventory Distributors</h3>
+          <p id="total-inventory-distributors">Loading...</p>
+        </div>
+        <div class="card">
+          <h3>Blood Status</h3>
+          <p id="total-general-wards">Loading...</p>
+        </div>
+        <div class="card">
+          <h3>Total Nurses</h3>
+          <p id="total-nurses">{{total_nurse}}</p>
+        </div>
+        <div class="card">
+          <h3>Total Admin Staff</h3>
+          <p id="total-admin-staff">{{total_adminstaff}}</p>
+        </div>
+        <div class="card">
+          <h3>Total Ventilator Beds</h3>
+          <p id="total-opd-beds">{{available_ventilators}}/{{total_ventilators}}</p>
+        </div>
+        <div class="card">
+          <h3>Total ICU Beds</h3>
+          <p id="total-icu-beds">{{available_icu_beds}}/{{total_icu_beds}}</p>
+        </div>
+        <div class="card">
+          <h3>Total General Wards</h3>
+          <p id="total-general-wards">{{available_beds}}/{{total_beds}}</p>
+        </div>
+
+      </div>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
