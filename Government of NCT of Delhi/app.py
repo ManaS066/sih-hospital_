@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 from pymongo.server_api import ServerApi
@@ -453,7 +454,7 @@ def admin():
                                vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator,hospital_name=hospital_name,nurses=nurses,staff=staff)
     else:
         return redirect('/admin/add_detail')
-
+    
 @app.route("/admin/contact-us")
 @login_required('admin')
 def admin_contact_us():
@@ -608,6 +609,9 @@ def doc_login():
     # Replace with your login template
     return render_template('doctor login.html')
 
+@app.route('/stock_detail')
+def detail():
+    return render_template('inv_stock_product.html')
 
 @app.route('/doctor_app', methods=["POST", "GET"])
 @login_required('doc')
@@ -719,7 +723,7 @@ def superadmin():
 
 
 @app.route('/bed_status')
-@login_required('user')
+
 def status():
     no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
     total_doctor = len(doctors_collection.distinct("username"))
