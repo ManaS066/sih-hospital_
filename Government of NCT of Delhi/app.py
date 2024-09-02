@@ -254,8 +254,8 @@ def add_patient():
         session['bed_type']=bed_type
         session['patient_name'] = name
         hospital_name_patient = session.get('hospital_name')
-        print(hospital_name_patient)
-        data = {
+        if bed_type=='general':
+            data = {
             'name': name,
             'dob': dob,
             'gender': gender,
@@ -264,9 +264,39 @@ def add_patient():
             'email': email,
             "aadhaar": aadhaar,
             "bed_type": bed_type,
-            "bed no": bed_no,
+            "bed no": "G"+bed_no,
             "hospital_name": hospital_name_patient
         }
+        elif bed_type=='icu':
+            data = {
+            'name': name,
+            'dob': dob,
+            'gender': gender,
+            'address': address,
+            'phone': phone,
+            'email': email,
+            "aadhaar": aadhaar,
+            "bed_type": bed_type,
+            "bed no": "I"+bed_no,
+            "hospital_name": hospital_name_patient
+        }
+        
+        else:
+            data = {
+            'name': name,
+            'dob': dob,
+            'gender': gender,
+            'address': address,
+            'phone': phone,
+            'email': email,
+            "aadhaar": aadhaar,
+            "bed_type": bed_type,
+            "bed no": "V"+bed_no,
+            "hospital_name": hospital_name_patient
+        }
+
+        print(hospital_name_patient)
+
         patients_collection.insert_one(data)
 
         hospital_data_collection.update_one(
@@ -357,9 +387,11 @@ def admin():
         vacent_ventilator = v_beds-data['occupied_ventilator']
         total_patient = patients_collection.count_documents({'hospital_name': hospital_name})
         total_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
+        nurses=data['total_number_of_nurses']
+        staff=data['administrative_staff_count']
 
         return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc,
-                               vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator)
+                               vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator,hospital_name=hospital_name,nurses=nurses,staff=staff)
     else:
         return redirect('/admin/add_detail')
 
@@ -395,8 +427,8 @@ def add_details():
         operating_hour = request.form['hospitalOperatingHours']
         visiting_hour = request.form['visitingHours']
         pharmacy_onsite = request.form['pharmacyOnSite']
-        no_nurse = request.form['totalNumberOfNurses']
-        no_admin_staff = request.form['administrativeStaffCount']
+        no_nurse = int(request.form['totalNumberOfNurses'])
+        no_admin_staff = int(request.form['administrativeStaffCount'])
         ambulance = request.form['ambulanceServices']
         bload_bank = request.form['bloodBank']
         diagonis_services = request.form['diagnosticServices']
@@ -530,65 +562,164 @@ def doctor_app():
 @app.route('/superadmin/', methods=['GET', 'POST'])
 @login_required('superadmin')
 def superadmin():
-    # Count the total number of hospitals, doctors, and active patients
-    no_of_hospital = hospital_data_collection.count_documents({})
-    total_doctor = doctors_collection.count_documents({})
-    active_patient = patients_collection.count_documents({})
+    no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
+    total_doctor = len(doctors_collection.distinct("username"))
+    active_patient =len(patients_collection.distinct("name"))
 
-    # Aggregate the total number of beds, ICU beds, and ventilators
-    total_beds = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_general_beds"}}}
-    ]).next().get('total_beds', 0)
+    total_beds_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_beds": {"$sum": "$number_of_general_beds"},
+                "total_occupied_beds": {"$sum": "$occupied_general"}
+            }
+        }
+    ]).next()
 
-    total_icu_beds = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_icu_beds": {"$sum": "$number_of_icu_beds"}}}
-    ]).next().get('total_icu_beds', 0)
+    total_beds = total_beds_data.get('total_beds', 0)
+    occupied_beds = total_beds_data.get('total_occupied_beds', 0)
+    available_beds = total_beds - occupied_beds
 
-    total_ventilators = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_ventilators": {"$sum": "$number_of_ventilators"}}}
-    ]).next().get('total_ventilators', 0)
+    total_icu_beds_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_icu_beds": {"$sum": "$number_of_icu_beds"},
+                "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
+            }
+        }
+    ]).next()
+    total_nurse_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_nurse": {"$sum": "$total_number_of_nurses"},
+            }
+        }
+    ]).next()
+    total_admin_staff = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_adminstaff": {"$sum": "$administrative_staff_count"},
+            }
+        }
+    ]).next()
 
-    # Debugging prints (can be removed in production)
-    print(total_ventilators, total_beds, total_icu_beds)
+    total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
+    occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+    total_nurse = total_nurse_data.get('total_nurse')
+    total_adminstaff  =total_admin_staff.get('total_adminstaff')
+    available_icu_beds = total_icu_beds - occupied_icu_beds
 
-    # Render the template with the computed values
-    return render_template('super_admin_dash.html', 
+    total_ventilators_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_ventilators": {"$sum": "$number_of_ventilators"},
+                "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
+            }
+        }
+    ]).next()
+
+    total_ventilators = total_ventilators_data.get('total_ventilators', 0)
+    occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+    available_ventilators = total_ventilators - occupied_ventilators
+
+    total_nurses = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_nurses": {"$sum": "$total_number_of_nurses"}
+            }
+        }
+    ]).next()
+    total_nurses=total_nurses.get('total_nurses')
+
+    total_staff = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_staff": {"$sum": "$administrative_staff_count"}
+            }
+        }
+    ]).next()
+    total_staff=total_staff.get('total_staff')
+    return render_template('super_admin_dash.html',
                            no_hospital=no_of_hospital, 
                            doctor=total_doctor, 
                            patient=active_patient, 
                            total_beds=total_beds, 
+                           available_beds=available_beds, 
                            total_icu_beds=total_icu_beds, 
-                           total_ventilators=total_ventilators)
+                           available_icu_beds=available_icu_beds, 
+                           total_ventilators=total_ventilators,
+                           available_ventilators=available_ventilators,
+                           total_adminstaff = total_adminstaff,total_nurse = total_nurse)
 
 
 @app.route('/bed_status')
 @login_required('user')
 def status():
-    no_of_hospital = hospital_data_collection.count_documents({})
-    total_doctor = doctors_collection.count_documents({})
-    active_patient = patients_collection.count_documents({})
+    no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
+    total_doctor = len(doctors_collection.distinct("username"))
+    active_patient =len(patients_collection.distinct("name"))
 
-    # Aggregate the total number of beds, ICU beds, and ventilators
-    total_beds = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_beds": {"$sum": "$number_of_general_beds"}}}
-    ]).next().get('total_beds', 0)
+    total_beds_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_beds": {"$sum": "$number_of_general_beds"},
+                "total_occupied_beds": {"$sum": "$occupied_general"}
+            }
+        }
+    ]).next()
 
-    total_icu_beds = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_icu_beds": {"$sum": "$number_of_icu_beds"}}}
-    ]).next().get('total_icu_beds', 0)
+    total_beds = total_beds_data.get('total_beds', 0)
+    occupied_beds = total_beds_data.get('total_occupied_beds', 0)
+    available_beds = total_beds - occupied_beds
 
-    total_ventilators = hospital_data_collection.aggregate([
-        {"$group": {"_id": None, "total_ventilators": {"$sum": "$number_of_ventilators"}}}
-    ]).next().get('total_ventilators', 0)
+    total_icu_beds_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_icu_beds": {"$sum": "$number_of_icu_beds"},
+                "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
+            }
+        }
+    ]).next()
+
+    total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
+    occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+    available_icu_beds = total_icu_beds - occupied_icu_beds
+
+    total_ventilators_data = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_ventilators": {"$sum": "$number_of_ventilators"},
+                "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
+            }
+        }
+    ]).next()
+
+    total_ventilators = total_ventilators_data.get('total_ventilators', 0)
+    occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+    available_ventilators = total_ventilators - occupied_ventilators
+
     return render_template('bed_status.html',
                            no_hospital=no_of_hospital, 
                            doctor=total_doctor, 
                            patient=active_patient, 
                            total_beds=total_beds, 
+                           available_beds=available_beds, 
                            total_icu_beds=total_icu_beds, 
-                           total_ventilators=total_ventilators)
+                           available_icu_beds=available_icu_beds, 
+                           total_ventilators=total_ventilators,
+                           available_ventilators=available_ventilators)
 
-@app.route('/select_hs')
+@app.route('/select_hs',methods=['GET','POST'])
+@login_required('user')
 def select():
     if request.method == 'POST':
         hospital_name = request.form['hname']
@@ -598,9 +729,22 @@ def select():
 
         data = hospital_data_collection.find_one(
             {'hospital_name': hospital_name})
+        
 
+        print(data)
         if data:
-            return render_template('bed_status.html', data=data)
+            total_general_beds = data.get('number_of_general_beds', 0)
+            occupied_general_beds = data.get('occupied_general', 0)
+            total_icu_beds = data.get('number_of_icu_beds', 0)
+            occupied_icu_beds = data.get('occupied_icu', 0)
+            total_ventilators = data.get('number_of_ventilators', 0)
+            occupied_ventilators = data.get('occupied_ventilator', 0)
+
+            # Calculate available beds
+            available_beds = total_general_beds - occupied_general_beds
+            available_icu_beds = total_icu_beds - occupied_icu_beds
+            available_ventilator = total_ventilators - occupied_ventilators
+            return render_template('bed_status.html',available_beds=available_beds, available_icu_beds=available_icu_beds,available_ventilators=available_ventilator,total_general_beds=total_general_beds,total_icu_beds=total_icu_beds,total_ventilators=total_ventilators)
         else:
             return "No hospital found"
     hospitals = hospital_data_collection.find()
