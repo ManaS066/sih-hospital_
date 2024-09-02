@@ -23,7 +23,7 @@ import io
 
 # test pull
 app = Flask(__name__)
-# test push+
+# test push
 # app.config['SECRET_KEY']=secrets.token_hex()\
 app.secret_key = secrets.token_hex()
 
@@ -118,7 +118,7 @@ def user_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        print(username,password)
+
         # Find the user by username
         user = users_collection.find_one({'username': username})
 
@@ -140,9 +140,12 @@ def user_login():
                 print(f'user session details:{session}')
                 return redirect('/user_app')
             else:
-                return 'Wrong password'
+                flash('Incorrect Password','error')
+                return redirect('/user_login')
 
-        return 'User not found'
+        else:
+            flash('User not found','error')
+            return redirect('/user_login')
 
     return render_template('user_login.html')
 
@@ -220,6 +223,10 @@ def appointment():
         #     # If the slot is full, find the next available slot
         #     appointment_date, time_slot = find_next_available_slot(
         #         appointment_date, hospital_name)
+        doctor_count=doctors_collection.count_documents({'hospital_name':hospital_name,'specialization':speciality})
+        if not doctor_count:
+            flash(f'The docotor for the selected field is not available in {hospital_name}.Sorry for the inconvenience', 'error')
+            return redirect('/appointment')
         if is_slot_full:
             flash('The selected time slot is full. Please choose another time or date.', 'error')
             return redirect('/appointment')
@@ -253,8 +260,9 @@ def appointment():
 def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name,speciality):
     # Check the number of appointments in the given time slot
     print('check_and_allocate_time_slot is called')
-    appointment_date_str =str(appointment_date)
-    doctor_count=len(doctors_collection.find({'hospital_name':hospital_name,'specialization':speciality}))
+    doctor_count=doctors_collection.count_documents({'hospital_name':hospital_name,'specialization':speciality})
+    print(doctor_count)
+    
 # Convert to datetime object
     print(appointment_date)
     print(f"Checking for date: {appointment_date}, time slot: {time_slot}, hospital: {hospital_name}")
@@ -411,9 +419,12 @@ def admin_login():
                 return redirect('/admin')
 
             else:
-                return 'Wrong password'
+                flash('Wrong Password','error')
+                return redirect('/admin_login')
 
-        return 'User not found'
+        else:
+            flash('User not found','error')
+            return redirect('/admin_login')
     return render_template("login_admin.html")
 
 
@@ -586,11 +597,12 @@ def doc_login():
             else:
                 # Password does not match
                 # flash('Invalid username or password', 'error')
-                return "wrong password"
+                flash('Wrong Password','error')
+                return redirect('/doctor_login')
         else:
             # Username not found
-            flash('Invalid username or password', 'error')
-            return "Wrong id"
+            flash('Username Not Found', 'error')
+            return redirect('/user_login')
 
     # Render the login page if GET request
     # Replace with your login template
@@ -812,8 +824,9 @@ def superadmin_login():
             session['role'] = 'superadmin'
             return redirect('/superadmin')
         else:
+            flash('Access Denied','error')
             return redirect('/superadmin_login')
-
+        
     return render_template("Super_Admin_login.html")
 
 
