@@ -141,29 +141,30 @@
                     <p id="total-inventory-distributors">Loading...</p>
                 </div>
                 <div class="card">
+                  <h3>Blood Status</h3>
+                  <p id="total-general-wards">Loading...</p>
+              </div>
+                <div class="card">
                     <h3>Total Nurses</h3>
-                    <p id="total-nurses">Loading...</p>
+                    <p id="total-nurses">{{total_nurse}}</p>
                 </div>
                 <div class="card">
                     <h3>Total Admin Staff</h3>
-                    <p id="total-admin-staff">Loading...</p>
+                    <p id="total-admin-staff">{{total_adminstaff}}</p>
                 </div>
                 <div class="card">
                     <h3>Total Ventilator Beds</h3>
-                    <p id="total-opd-beds">{{total_ventilators}}</p>
+                    <p id="total-opd-beds">{{available_ventilators}}/{{total_ventilators}}</p>
                 </div>
                 <div class="card">
                     <h3>Total ICU Beds</h3>
-                    <p id="total-icu-beds">{{total_icu_beds}}</p>
+                    <p id="total-icu-beds">{{available_icu_beds}}/{{total_icu_beds}}</p>
                 </div>
                 <div class="card">
                     <h3>Total General Wards</h3>
-                    <p id="total-general-wards">{{total_beds}}</p>
+                    <p id="total-general-wards">{{available_beds}}/{{total_beds}}</p>
                 </div>
-                <div class="card">
-                    <h3>Blood Status</h3>
-                    <p id="total-general-wards">Loading...</p>
-                </div>
+                
             </div>
         </div>
 
