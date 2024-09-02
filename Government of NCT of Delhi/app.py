@@ -116,7 +116,7 @@ def user_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
+        print(username,password)
         # Find the user by username
         user = users_collection.find_one({'username': username})
 

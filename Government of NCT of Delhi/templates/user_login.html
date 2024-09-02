@@ -68,17 +68,30 @@
             .login-container {
                 max-width: 400px;
                 padding: 20px;
-                background-color: #fff;
+                background-color: #ffffff59;
                 /* White background color */
                 border-radius: 5px;
-                box-shadow: 0 0 15px rgb(0, 0, 0);
-                /* Shadow effect */
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                /* Initial shadow effect */
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 text-align: left;
-                /* Center text */
+                /* Left-aligned text */
+                transition: box-shadow 0.3s ease, transform 0.3s ease;
+                /* Smooth transition for hover effect */
             }
+
+            .login-container:hover {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.4),
+                    /* Darker shadow */
+                    0 0 10px 5px rgb(0, 191, 255);
+                /* Blue border glow effect */
+                transform: scale(1.05);
+                /* Slightly enlarge the element on hover */
+            }
+
+
 
             .login-container h2 {
                 margin-bottom: 20px;
@@ -150,18 +163,18 @@
                                 <a class="nav-link text-light" href="/#contact">Contact Us</a>
                             </li>
                             <!-- Dropdown Menu -->
-                            <li class="nav-item dropdown mr-3">
+                            <!-- <li class="nav-item dropdown mr-3">
                                 <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Hospital
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            
+
                                     <li><a class="dropdown-item" href="/templates/user login.html">Blood Bank</a></li>
                                     <li><a class="dropdown-item" href="/templates/user login.html">Bed Available</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
 
@@ -174,7 +187,7 @@
         <div class="container d-flex align-items-center justify-content-center min-vh-100">
             <div class="login-container">
                 <h2>Login</h2>
-                <form method="POST" id="loginForm">
+                <form method="POST" id="loginForm" >
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input type="text" class="form-control" id="username" name="username" required>
@@ -185,10 +198,23 @@
                     </div>
                     <button type="submit" id="submit" class="btn btn-primary">Login</button>
                 </form>
-                <p class="text-align-center">Don't have an account? <a href="/user_register">Create
-                        one</a></p>
+                <p class="text-align-center">Don't have an account? <a href="/user_register">Create one</a></p>
             </div>
         </div>
+
+        <!-- <script>
+            // Add an event listener to the form to handle the submit event
+            document.getElementById('loginForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting in the traditional way
+
+                // Perform form submission via AJAX, fetch, or any other method here
+                // For demonstration, let's assume the form submission is successful
+
+                // After the form is successfully submitted, clear the form fields
+                this.reset();
+            });
+        </script> -->
+
 
         <!-- <script>
             const loginForm = document.getElementById("loginForm");
