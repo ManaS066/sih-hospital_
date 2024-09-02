@@ -254,8 +254,8 @@ def add_patient():
         session['bed_type']=bed_type
         session['patient_name'] = name
         hospital_name_patient = session.get('hospital_name')
-        print(hospital_name_patient)
-        data = {
+        if bed_type=='general':
+            data = {
             'name': name,
             'dob': dob,
             'gender': gender,
@@ -264,9 +264,39 @@ def add_patient():
             'email': email,
             "aadhaar": aadhaar,
             "bed_type": bed_type,
-            "bed no": bed_no,
+            "bed no": "G"+bed_no,
             "hospital_name": hospital_name_patient
         }
+        elif bed_type=='icu':
+            data = {
+            'name': name,
+            'dob': dob,
+            'gender': gender,
+            'address': address,
+            'phone': phone,
+            'email': email,
+            "aadhaar": aadhaar,
+            "bed_type": bed_type,
+            "bed no": "I"+bed_no,
+            "hospital_name": hospital_name_patient
+        }
+        
+        else:
+            data = {
+            'name': name,
+            'dob': dob,
+            'gender': gender,
+            'address': address,
+            'phone': phone,
+            'email': email,
+            "aadhaar": aadhaar,
+            "bed_type": bed_type,
+            "bed no": "V"+bed_no,
+            "hospital_name": hospital_name_patient
+        }
+
+        print(hospital_name_patient)
+
         patients_collection.insert_one(data)
 
         hospital_data_collection.update_one(
@@ -357,9 +387,11 @@ def admin():
         vacent_ventilator = v_beds-data['occupied_ventilator']
         total_patient = patients_collection.count_documents({'hospital_name': hospital_name})
         total_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
+        nurses=data['total_number_of_nurses']
+        staff=data['administrative_staff_count']
 
         return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc,
-                               vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator,hospital_name=hospital_name)
+                               vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator,hospital_name=hospital_name,nurses=nurses,staff=staff)
     else:
         return redirect('/admin/add_detail')
 
@@ -576,6 +608,25 @@ def superadmin():
     occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
     available_ventilators = total_ventilators - occupied_ventilators
 
+    total_nurses = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_nurses": {"$sum": "$total_number_of_nurses"}
+            }
+        }
+    ]).next()
+    total_nurses=total_nurses.get('total_nurses')
+
+    total_staff = hospital_data_collection.aggregate([
+        {
+            "$group": {
+                "_id": None, 
+                "total_staff": {"$sum": "$administrative_staff_count"}
+            }
+        }
+    ]).next()
+    total_staff=total_staff.get('total_staff')
     return render_template('super_admin_dash.html',
                            no_hospital=no_of_hospital, 
                            doctor=total_doctor, 
@@ -585,7 +636,10 @@ def superadmin():
                            total_icu_beds=total_icu_beds, 
                            available_icu_beds=available_icu_beds, 
                            total_ventilators=total_ventilators,
-                           available_ventilators=available_ventilators)
+                           available_ventilators=available_ventilators,
+                           nurses=total_nurses,
+                           staff=total_staff
+                           )
 
 
 @app.route('/bed_status')
