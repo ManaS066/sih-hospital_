@@ -711,7 +711,7 @@ def superadmin():
 
 
 @app.route('/bed_status')
-@login_required('user')
+
 def status():
     no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
     total_doctor = len(doctors_collection.distinct("username"))
