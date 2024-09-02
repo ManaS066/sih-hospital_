@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,9 +10,12 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        background-color: #fff3c7;
+        /* background-color: #fff3c7; */
+        background-image: url(../static/images/registration.jpg);
         margin: 0;
         padding: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
       }
 
       .navbar {
@@ -99,13 +103,7 @@
   <body>
     <div class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="#">
-        <img
-          src="../static/images/delhi.png"
-          alt="Delhi Logo"
-          class="rounded-circle"
-          width="40"
-          height="40"
-        />
+        <img src="../static/images/delhi.png" alt="Delhi Logo" class="rounded-circle" width="40" height="40" />
       </a>
       <h3 class="text-light">Government of NCT of Delhi</h3>
     </div>
@@ -121,51 +119,51 @@
       <a href="/superadmin_logout">Logout</a>
     </div>
 
-        <div class="main-content">
-            <h2>Super Admin Dashboard</h2>
-            <div class="grid-container">
-                <div class="card">
-                    <h3>Total Hospitals</h3>
-                    <p id="total-hospitals">{{no_hospital}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Doctors</h3>
-                    <p id="total-doctors">{{doctor}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Active Patients</h3>
-                    <p id="total-active-patients">{{patient}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total Inventory Distributors</h3>
-                    <p id="total-inventory-distributors">Loading...</p>
-                </div>
-                <div class="card">
-                    <h3>Total Nurses</h3>
-                    <p id="total-nurses">Loading...</p>
-                </div>
-                <div class="card">
-                    <h3>Total Admin Staff</h3>
-                    <p id="total-admin-staff">Loading...</p>
-                </div>
-                <div class="card">
-                    <h3>Total Ventilator Beds</h3>
-                    <p id="total-opd-beds">{{total_ventilators}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total ICU Beds</h3>
-                    <p id="total-icu-beds">{{total_icu_beds}}</p>
-                </div>
-                <div class="card">
-                    <h3>Total General Wards</h3>
-                    <p id="total-general-wards">{{total_beds}}</p>
-                </div>
-                <div class="card">
-                    <h3>Blood Status</h3>
-                    <p id="total-general-wards">Loading...</p>
-                </div>
-            </div>
+    <div class="main-content">
+      <h2>Super Admin Dashboard</h2>
+      <div class="grid-container">
+        <div class="card">
+          <h3>Total Hospitals</h3>
+          <p id="total-hospitals">{{no_hospital}}</p>
         </div>
+        <div class="card">
+          <h3>Total Doctors</h3>
+          <p id="total-doctors">{{doctor}}</p>
+        </div>
+        <div class="card">
+          <h3>Total Active Patients</h3>
+          <p id="total-active-patients">{{patient}}</p>
+        </div>
+        <div class="card">
+          <h3>Total Inventory Distributors</h3>
+          <p id="total-inventory-distributors">Loading...</p>
+        </div>
+        <div class="card">
+          <h3>Total Nurses</h3>
+          <p id="total-nurses">Loading...</p>
+        </div>
+        <div class="card">
+          <h3>Total Admin Staff</h3>
+          <p id="total-admin-staff">Loading...</p>
+        </div>
+        <div class="card">
+          <h3>Total Ventilator Beds</h3>
+          <p id="total-opd-beds">{{total_ventilators}}</p>
+        </div>
+        <div class="card">
+          <h3>Total ICU Beds</h3>
+          <p id="total-icu-beds">{{total_icu_beds}}</p>
+        </div>
+        <div class="card">
+          <h3>Total General Wards</h3>
+          <p id="total-general-wards">{{total_beds}}</p>
+        </div>
+        <div class="card">
+          <h3>Blood Status</h3>
+          <p id="total-general-wards">Loading...</p>
+        </div>
+      </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -205,4 +203,5 @@
       loadDashboardSummary();
     </script>
   </body>
+
 </html>
