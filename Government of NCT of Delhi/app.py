@@ -236,11 +236,6 @@ def appointment():
 def conform():
     return render_template('conformation.html')
 
-@app.route('/bed_status')
-@login_required('user')
-def status():
-    return render_template('bed_status.html')
-
 @app.route('/admin/add_patient', methods=['GET', 'POST'])
 # @token_required('admin')
 @login_required('admin')
