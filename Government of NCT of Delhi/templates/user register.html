@@ -10,6 +10,15 @@
         <link rel="stylesheet" href="../static/css/user_login.css">
         <style>
             body {
+                /* display: flex; */
+                /* align-items: center; */
+                /* justify-content: center; */
+                /* height: 100vh; */
+                /* Adjusted to cover the full viewport height */
+                /* margin: 0; */
+                /* Remove default margin */
+                /* background-color: #f8f9fa; */
+                /* Light gray background color */
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -25,6 +34,7 @@
             /* Navigation Bar */
             .navbar {
                 background-color: #343a40;
+                /* Dark background color */
             }
 
             .navbar-brand .logo {
@@ -35,38 +45,46 @@
             .navbar-brand .logo h4 {
                 margin-bottom: 0;
                 color: #fff;
+                /* White color for logo text */
             }
 
             .navbar-brand .mehran {
                 color: #fff;
+                /* White color for brand name */
                 margin-left: 20px;
             }
 
             .navbar-nav .nav-link {
                 color: #fff !important;
+                /* White color for nav links */
             }
 
             .navbar-nav .nav-link:hover {
                 color: #ccc !important;
+                /* Light gray color on hover */
             }
 
             /* Registration Form */
             .registration-container {
-                max-height: 700cm;
-                padding: 10px;
-                background-color: #ffffff75;
-                border-radius: 15px;
+                max-width: 400px;
+                padding: 20px;
+                background-color: #fff;
+                /* White background color */
+                border-radius: 5px;
                 box-shadow: 0 0 15px rgb(0, 0, 0);
+                /* Shadow effect */
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                /* Center items horizontally */
                 text-align: left;
+                /* Center text */
             }
 
             .registration-container h2 {
                 margin-bottom: 20px;
                 color: #343a40;
-                width: 60%;
+                /* Dark color for headings */
             }
 
             .form-group {
@@ -75,23 +93,23 @@
 
             .form-control {
                 border: 1px solid #ced4da;
+                /* Gray border */
             }
 
             .btn-primary {
                 background-color: #00637f !important;
+                /* Primary button color */
                 border: none;
             }
 
             .btn-primary:hover {
                 background-color: #0056b3;
+                /* Darker shade on hover */
             }
-            .custom-width-container {
-    width: 80%; /* Adjust the percentage or set a fixed width, e.g., 800px */
-}
-
 
             .navbar {
                 background-color: #388b00;
+                /* Dark blue color */
             }
 
             .bg-primary {
@@ -159,8 +177,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="adminDropdown">
                                     <li><a class="dropdown-item" href="/admin/dashboard.html">Login</a></li>
                                     <li><a class="dropdown-item" href="/admin/manage-users.html">Add Patient or
-                                            Register</a>
-                                    </li>
+                                            Register</a></li>
                                     <li><a class="dropdown-item" href="/admin/reports.html">Add Hospital</a></li>
                                     <li><a class="dropdown-item" href="/admin/settings.html">Settings</a></li>
                                 </ul>
@@ -170,73 +187,82 @@
                             </li>
                         </ul>
                     </div>
+
+
                 </div>
             </nav>
         </section>
 
         <!-- Registration Form -->
-        <div class="container d-flex align-items-center justify-content-center min-vh-100 custom-width-container">
+        <div class="container d-flex align-items-center justify-content-center min-vh-100">
             <div class="registration-container">
                 <h2>Create Account</h2>
-                <form method="POST" id="registrationForm">
+                <form method="POST"  id="registrationForm">
                     <div class="form-group">
                         <label for="name">Full Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z\s]{1,50}" 
-                               title="Name should only contain letters and spaces, and be 50 characters max." required>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number:</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" 
-                               pattern="(\+91)?[6-9][0-9]{9}" 
-                               title="Phone number should be exactly 10 digits long, optionally starting with +91" 
-                               placeholder="+91 9876543210 or 9876543210" required>
+                        <input type="tel" class="form-control" id="phone" name="phone" maxlength="12"  pattern="(\+91[-\s]?)?[6-9]{1}[0-9]{9}"  required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" 
-                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-                               title="Please enter a valid email address" required>
+                        <label for="phone">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username" 
-                               pattern=".{5,20}" 
-                               title="Username should be 5 to 20 characters long" required>
+                        <input type="text" class="form-control" id="username" name="username" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" name="password" 
-                               pattern=".{8,}" 
-                               title="Password should be at least 8 characters long" required>
+                        <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     <div class="d-flex justify-content-center">
                         <button type="submit" id="submit" class="btn btn-primary">Register</button>
                     </div>
+
                 </form>
-                <p class="text-align-center">Already have an account? <a href="/user_login">Login here</a></p>
+                <p class="text-align-center">Already have an account? <a href="/user_login">Login
+                        here</a></p>
             </div>
         </div>
-        
-        <script>
+
+        <!-- <script>
             const registrationForm = document.getElementById("registrationForm");
+            const name = document.getElementById("name");
+            const phone = document.getElementById("phone");
+            const username = document.getElementById("username");
+            const password = document.getElementById("password");
 
             registrationForm.addEventListener("submit", (event) => {
                 // Prevent default form submission behavior
-                event.preventDefault();
 
-                // Here you can add your form submission logic to save the data (e.g., using AJAX)
+                const nameValue = name.value.trim();
+                const phoneValue = phone.value.trim();
+                const usernameValue = username.value.trim();
+                const passwordValue = password.value.trim();
 
-                // Show an alert indicating successful registration
-                alert("Registration is successful! Thank you for registering.");
+                if (nameValue === "" || phoneValue === "" || usernameValue === "" || passwordValue === "") {
+                    alert("All fields are required.");
+                    return;
+                }
 
-                // Reset the form fields
-                registrationForm.reset();
+                // You might want to send the data to a server or handle it appropriately here
+                // For demonstration purposes, let's store them in localStorage
+                localStorage.setItem("name", nameValue);
+                localStorage.setItem("phone", phoneValue);
+                localStorage.setItem("username", usernameValue);
+                localStorage.setItem("password", passwordValue);
 
-                // Optionally, you can redirect the user to the login page after showing the alert
-                window.location.href = "/user_login";
+                // Optionally, you can redirect the user to another page after successful submission
+                // window.location.href = "success.html";
             });
-        </script>
+        </script> -->
 
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

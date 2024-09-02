@@ -158,6 +158,7 @@ def user_app():
 @app.route('/user_register', methods=['GET', 'POST'])
 def user_register():
     if request.method == 'POST':
+        print("HEllo from user regiostration .........................")
         name = request.form['name']
         number = request.form['phone']
         email = request.form['email']
