@@ -24,7 +24,7 @@ import io
 
 # test pull
 app = Flask(__name__)
-# test push
+# test push+
 # app.config['SECRET_KEY']=secrets.token_hex()\
 app.secret_key = secrets.token_hex()
 
@@ -119,7 +119,7 @@ def user_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
+        print(username,password)
         # Find the user by username
         user = users_collection.find_one({'username': username})
 
@@ -212,6 +212,20 @@ def appointment():
         hospital_name = request.form['hospital']
         # total_no_of_appointments=hospital_data_collection.count_documents({"hospital_name":hospital_name})
         # print(total_no_of_appointments)
+
+        # Check if the selected time slot is available
+        is_slot_full = check_and_allocate_time_slot(
+            appointment_date, time_slot, hospital_name,speciality)
+        print(is_slot_full)
+        # if is_slot_full:
+        #     # If the slot is full, find the next available slot
+        #     appointment_date, time_slot = find_next_available_slot(
+        #         appointment_date, hospital_name)
+        if is_slot_full:
+            flash('The selected time slot is full. Please choose another time or date.', 'error')
+            return redirect('/appointment')
+        queue_number = calculate_queue_number(appointment_date, time_slot, hospital_name, speciality)
+        print(queue_number)
         appointment_data = {
             'name': name,
             'username': user_name,
@@ -222,7 +236,8 @@ def appointment():
             'time_slot': time_slot,
             'speciality': speciality,
             'disease_description': disease_description,
-            'hospital_name': hospital_name
+            'hospital_name': hospital_name,
+            'queue_number':queue_number
         }
         appointment_collection.insert_one(appointment_data)
 
@@ -234,6 +249,37 @@ def appointment():
 
     return render_template('appointment.html', hospitals=hospital_names)
 
+#This is the queueing system for the appiontments:
+
+def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name,speciality):
+    # Check the number of appointments in the given time slot
+    print('check_and_allocate_time_slot is called')
+    appointment_date_str =str(appointment_date)
+    doctor_count=len(doctors_collection.find({'hospital_name':hospital_name,'specialization':speciality}))
+# Convert to datetime object
+    print(appointment_date)
+    print(f"Checking for date: {appointment_date}, time slot: {time_slot}, hospital: {hospital_name}")
+    count = appointment_collection.count_documents({
+        'appointment_date': appointment_date,
+        'time_slot': time_slot,
+        'hospital_name': hospital_name,
+        'speciality':speciality
+    })
+    print(count)
+    # Return True if the slot is full
+    return count >= 3*doctor_count
+
+def calculate_queue_number(appointment_date, time_slot, hospital_name, speciality):
+    # Count how many appointments have already been booked for the same slot
+    
+    count = appointment_collection.count_documents({
+        'appointment_date': appointment_date,
+        'time_slot': time_slot,
+        'hospital_name': hospital_name,
+        'speciality': speciality
+    })
+
+    return count+1
 
 @app.route('/confirmation',methods=['POST','GET'])
 def conform():
