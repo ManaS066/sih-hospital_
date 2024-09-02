@@ -185,32 +185,7 @@
         </table>
       </div>
 
-      <div class="card">
-        <h3>Appointment Status</h3>
-        <p>View your appointment status</p>
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Number</th>
-            <th>Appointment Date</th>
-            <th>Time-slot</th>
-            <th>Depeartment</th>
-            <th>Description</th>
-          </tr>
-          {% for contact in appointments %}
-          <tr>
-            <td>{{ contact.name }}</td>
-            <td>{{ contact.email }}</td>
-            <td>{{ contact.number }}</td>
-            <td>{{ contact.appointment_date }}</td>
-            <td>{{ contact.time_slot }}</td>
-            <td>{{ contact.speciality }}</td>
-            <td>{{ contact.disease_description }}</td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
+      <!--  -->
 
       <!-- <div class="card">
                 <h3>My Profile</h3>
