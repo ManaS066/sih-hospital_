@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -103,7 +102,13 @@
   <body>
     <div class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="#">
-        <img src="../static/images/delhi.png" alt="Delhi Logo" class="rounded-circle" width="40" height="40" />
+        <img
+          src="../static/images/delhi.png"
+          alt="Delhi Logo"
+          class="rounded-circle"
+          width="40"
+          height="40"
+        />
       </a>
       <h3 class="text-light">Government of NCT of Delhi</h3>
     </div>
@@ -111,9 +116,13 @@
     <div class="sidebar">
       <a href="#">Dashboard</a>
       <a href="/superadmin/addHospital" id="add-hospital-link">Add Hospital</a>
-      <a href="/superadmin/checkHospitalStatus" id="/superadmin/checkHospitalStatus">Check Hospital Status</a>
+      <a
+        href="/superadmin/checkHospitalStatus"
+        id="/superadmin/checkHospitalStatus"
+        >Check Hospital Status</a
+      >
       <a href="#" id="order-medicine-link">Order Medicine</a>
-      <a href="/admin/manage_appointment" id="appointment-link">Appointments</a>
+      <!-- <a href="/admin/manage_appointment" id="appointment-link">Appointments</a> -->
       <a href="/admin/contact-us" id="feedback-link">Feedback</a>
       <a href="#" id="blood-bank-status-link">Blood Bank Status</a>
       <a href="/superadmin_logout">Logout</a>
@@ -152,7 +161,9 @@
         </div>
         <div class="card">
           <h3>Total Ventilator Beds</h3>
-          <p id="total-opd-beds">{{available_ventilators}}/{{total_ventilators}}</p>
+          <p id="total-opd-beds">
+            {{available_ventilators}}/{{total_ventilators}}
+          </p>
         </div>
         <div class="card">
           <h3>Total ICU Beds</h3>
@@ -162,10 +173,8 @@
           <h3>Total General Wards</h3>
           <p id="total-general-wards">{{available_beds}}/{{total_beds}}</p>
         </div>
-
       </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -205,5 +214,4 @@
       loadDashboardSummary();
     </script>
   </body>
-
 </html>
