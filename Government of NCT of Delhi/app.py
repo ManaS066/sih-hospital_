@@ -23,7 +23,7 @@ import io
 
 # test pull
 app = Flask(__name__)
-# test push
+# test push+
 # app.config['SECRET_KEY']=secrets.token_hex()\
 app.secret_key = secrets.token_hex()
 
@@ -118,7 +118,7 @@ def user_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
+        print(username,password)
         # Find the user by username
         user = users_collection.find_one({'username': username})
 
