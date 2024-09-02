@@ -50,6 +50,8 @@ contact_collection = db['contact']
 superadmin_collection = db['Superadmin']
 hospital_data_collection = db['hospital_data']
 hospital_discharge_collection = db['discharged']
+inventory_collection=db['inventory']
+stock_collection=db['stock']
 
 
 # def token_required(expected_role):
@@ -919,6 +921,48 @@ def submit_discharge():
     return render_template('Patient_discharge.html')
 # where is the change
 
+@app.route('/admin/inv_admin',methods=['GET','POST'])
+@login_required('admin')
+def inv_details():
+    return render_template('inv_admin.html')
+
+@app.route('/admin/inv_med_order',methods=['GET','POST'])
+@login_required('admin')
+def inv_med():
+    if request.method=='POST':
+        medicine_name = request.form.get('medicine-name')
+        medicine_composition = request.form.get('medicine-composition')
+        medicine_quantity = request.form.get('medicine-quantity')
+        order_comment = request.form.get('order-comment')
+        hospital_name=session.get('hospital_name')
+        # Create a document to insert into MongoDB
+        order_data = {
+            "medicine_name": medicine_name,
+            "medicine_composition": medicine_composition,
+            "medicine_quantity": int(medicine_quantity),  # Convert to integer
+            "order_comment": order_comment,
+            "hospital_name":hospital_name
+        }
+
+        # Insert the document into the inventory collection
+        inventory_collection.insert_one(order_data)
+
+    # return "Order submitted successfully!"
+    return render_template('inv_med_order.html')
+
+@app.route('/admin/inv_order_status',methods=['GET','POST'])
+@login_required('admin')
+def order_status():
+    # data=
+    datas=inventory_collection.find({'hospital_name':session.get('hospital_name')})
+
+    return render_template('inv_order_status.html',datas=datas)
+
+@app.route('/admin/inv_stock_product',methods=['GET','POST'])
+@login_required('admin')
+def stock_details():
+    return render_template('inv_stock_product.html')
+    
 
 # show
 @app.route('/user_logout')
@@ -936,7 +980,7 @@ def admin_logout():
 @app.route('/superadmin_logout')
 def sueperadmin_logout():
     session.clear()
-    return redirect('/')
+    return redirect('/superadmin')
 
 
 if __name__ == '__main__':
