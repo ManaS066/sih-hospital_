@@ -1,154 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bed Availability</title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/css/style.css" />
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        /* background-color: #fff3c7; */
-        background-image: url(../static/images/bed.jpg);
-        margin: 0;
-        padding: 0;
-        background-repeat: no-repeat;
-      }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('../static/images/Pulmonology.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
 
-      .navbar {
-        background-color: #00637f !important;
-        padding: 10px;
-        color: white;
-      }
+        .navbar {
+            background-color: #00637f; /* Blue for navbar */
+            padding: 10px;
+            color: white;
+        }
 
-      .main-content {
-        padding: 20px;
-        text-align: center;
-      }
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+        
 
-      .card {
-        background-color: rgba(255, 255, 255, 0.441);
-        /* Light background with transparency */
-        border-radius: 10px;
-        /* Slightly rounded corners */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        /* Larger shadow for depth */
-        margin: 40px auto;
-        margin-top: 135px;
-        padding: 115px;
-        /* Increased padding for larger content area */
-        text-align: center;
-        width: 350px;
-        /* Increased width */
-        transition: transform 0.3s;
-        /* Smooth hover effect */
-      }
+        .main-content h2 {
+            background-color: #004080; /* Dark blue background for the header */
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-      .card:hover {
-        transform: scale(1.05); /* Slight zoom effect on hover */
-        box-shadow: 0 0 15px 3px rgba(42, 75, 75, 0.7),
-          0 0 15px 3px rgba(0, 255, 255, 0.7); /* Neon glow effect */
-        border: 2px solid rgba(49, 145, 145, 0.8);
-        /* Slight zoom effect on hover */
-      }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8); /* Light background with transparency */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            padding: 20px; /* Adjusted padding for better fit */
+            text-align: center;
+            width: 350px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-      .card h3 {
-        margin-top: 0;
-        color: #2c3e50;
-      }
+        .card h3 {
+            background-color: #004080; /* Dark blue for card titles */
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 0;
+        }
 
-      .card p {
-        font-size: 20px;
-        /* Slightly larger font for visibility */
-        color: #333;
-      }
+        .card p {
+            font-size: 20px;
+            color: #333; /* Dark text for contrast */
+        }
 
-      .grid-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 30px;
-        /* Increased gap for spacing */
-      }
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
 
-      /* 
-            .footer {
-                background-color: #00637f;
-                color: #fff;
-                text-align: center;
-                padding: 10px;
-                position: fixed;
-                bottom: 0;
-                width: 100%;
-            } */
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 255, 0.7); /* Blue glow effect on hover */
+            border: 2px solid rgba(0, 102, 204, 0.8);
+        }
     </style>
-  </head>
-
-  <body>
+</head>
+<body>
     <!-- Navigation Bar -->
     <div class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="#">
-        <img
-          src="../static/images/delhi.png"
-          alt="Delhi Logo"
-          class="rounded-circle"
-          width="40"
-          height="40"
-        />
-      </a>
-      <h3 class="text-light">Government of NCT of Delhi</h3>
+        <a class="navbar-brand" href="#">
+            <img src="../static/images/delhi.png" alt="Delhi Logo" class="rounded-circle" width="40" height="40" />
+        </a>
+        <h3 class="text-light">Government of NCT of Delhi</h3>
     </div>
 
     <!-- Main Content Area -->
     <div class="main-content">
-      <h2>Bed Availability Dashboard</h2>
-      <div class="grid-container">
-        <!-- General Beds Card -->
-        <div class="card">
-          <h3>General Beds</h3>
-          <p id="general-beds">{{available_beds}}/{{total_general_beds}}</p>
+        <h2>Bed Availability Dashboard</h2>
+        <div class="grid-container">
+            <!-- General Beds Card -->
+            <div class="card">
+                <h3>General Beds</h3>
+                <p id="general-beds">{{available_beds}}/{{total_general_beds}}</p>
+            </div>
+            <!-- Ventilator Beds Card (New) -->
+            <div class="card">
+                <h3>Ventilator Beds</h3>
+                <p id="ventilator-beds">{{available_ventilators}}/{{total_ventilators}}</p>
+            </div>
+            <!-- ICU Beds Card -->
+            <div class="card">
+                <h3>ICU Beds</h3>
+                <p id="icu-beds">{{available_icu_beds}}/{{total_icu_beds}}</p>
+            </div>
         </div>
-        <!-- ICU Beds Card -->
-        <div class="card">
-          <h3>ICU Beds</h3>
-          <p id="icu-beds">{{available_icu_beds}}/{{total_icu_beds}}</p>
-        </div>
-        <!-- Ventilator Beds Card -->
-        <div class="card">
-          <h3>Ventilator Beds</h3>
-          <p id="ventilator-beds">
-            {{available_ventilators}}/{{total_ventilators}}
-          </p>
-        </div>
-      </div>
     </div>
-
-    <!-- JavaScript to Fetch and Display Bed Availability -->
-    <!-- <script>
-            // Function to load bed availability data
-            async function loadBedAvailability() {
-                try {
-                    const response = await fetch("/bed-availability");
-                    const data = await response.json();
-
-                    // Update the bed availability metrics
-                    document.getElementById("general-beds").textContent =
-                        data.availableGeneralBeds + " / " + data.totalGeneralBeds;
-                    document.getElementById("icu-beds").textContent =
-                        data.availableIcuBeds + " / " + data.totalIcuBeds;
-                    document.getElementById("ventilator-beds").textContent =
-                        data.availableVentilatorBeds + " / " + data.totalVentilatorBeds;
-                } catch (error) {
-                    console.error("Error loading bed availability:", error);
-                    document.getElementById("general-beds").textContent = "Error";
-                    document.getElementById("icu-beds").textContent = "Error";
-                    document.getElementById("ventilator-beds").textContent = "Error";
-                }
-            }
-
-            // Load bed availability data on page load
-            loadBedAvailability();
-        </script> -->
-  </body>
+</body>
 </html>
