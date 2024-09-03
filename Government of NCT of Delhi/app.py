@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from pymongo.server_api import ServerApi
 from pymongo.mongo_client import MongoClient
 import smtplib
-from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session,send_file,after_this_request
+from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session, send_file, after_this_request
 import os
 import secrets
 from pymongo import MongoClient
@@ -13,12 +13,12 @@ from functools import wraps
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.units import inch
-from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
 from reportlab.graphics.barcode.qr import QrCodeWidget
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics import renderPDF
-from reportlab.lib.enums import TA_CENTER,TA_LEFT
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 import qrcode
 import io
 
@@ -51,8 +51,8 @@ contact_collection = db['contact']
 superadmin_collection = db['Superadmin']
 hospital_data_collection = db['hospital_data']
 hospital_discharge_collection = db['discharged']
-inventory_collection=db['inventory']
-stock_collection=db['stock']
+inventory_collection = db['inventory']
+stock_collection = db['stock']
 
 
 # def token_required(expected_role):
@@ -100,7 +100,7 @@ def login_required(role):
 @app.route('/', methods=['GET', 'POST'])
 def landing():
     if request.method == 'POST':
-        name= request.form['name']
+        name = request.form['name']
         email = request.form['email']
         number = request.form['number']
         comment = request.form['comment']
@@ -141,11 +141,11 @@ def user_login():
                 print(f'user session details:{session}')
                 return redirect('/user_app')
             else:
-                flash('Incorrect Password','error')
+                flash('Incorrect Password', 'error')
                 return redirect('/user_login')
 
         else:
-            flash('User not found','error')
+            flash('User not found', 'error')
             return redirect('/user_login')
 
     return render_template('user_login.html')
@@ -172,7 +172,6 @@ def user_register():
 
         existing_user = users_collection.find_one({'username': user_name})
         existing_email = users_collection.find_one({'email': email})
-
 
         if existing_user:
             return 'Username already exists. Please choose a different username.'
@@ -218,22 +217,26 @@ def appointment():
 
         # Check if the selected time slot is available
         is_slot_full = check_and_allocate_time_slot(
-            appointment_date, time_slot, hospital_name,speciality)
+            appointment_date, time_slot, hospital_name, speciality)
         print(is_slot_full)
         # if is_slot_full:
         #     # If the slot is full, find the next available slot
         #     appointment_date, time_slot = find_next_available_slot(
         #         appointment_date, hospital_name)
-        doctor_count=doctors_collection.count_documents({'hospital_name':hospital_name,'specialization':speciality})
+        doctor_count = doctors_collection.count_documents(
+            {'hospital_name': hospital_name, 'specialization': speciality})
         print(doctor_count)
         print(speciality)
         if not doctor_count:
-            flash(f'The docotor for the selected field is not available in {hospital_name}.Sorry for the inconvenience', 'error')
+            flash(f'The docotor for the selected field is not available in {
+                  hospital_name}.Sorry for the inconvenience', 'error')
             return redirect('/appointment')
         if is_slot_full:
-            flash('The selected time slot is full. Please choose another time or date.', 'error')
+            flash(
+                'The selected time slot is full. Please choose another time or date.', 'error')
             return redirect('/appointment')
-        queue_number = calculate_queue_number(appointment_date, time_slot, hospital_name, speciality)
+        queue_number = calculate_queue_number(
+            appointment_date, time_slot, hospital_name, speciality)
         print(queue_number)
         appointment_data = {
             'name': name,
@@ -246,7 +249,7 @@ def appointment():
             'speciality': speciality,
             'disease_description': disease_description,
             'hospital_name': hospital_name,
-            'queue_number':queue_number
+            'queue_number': queue_number
         }
         appointment_collection.insert_one(appointment_data)
 
@@ -258,30 +261,34 @@ def appointment():
 
     return render_template('appointment.html', hospitals=hospital_names)
 
-#This is the queueing system for the appiontments:
+# This is the queueing system for the appiontments:
 
-def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name,speciality):
+
+def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, speciality):
     # Check the number of appointments in the given time slot
     print('check_and_allocate_time_slot is called')
-    doctor_count=doctors_collection.count_documents({'hospital_name':hospital_name,'specialization':speciality})
+    doctor_count = doctors_collection.count_documents(
+        {'hospital_name': hospital_name, 'specialization': speciality})
     print(doctor_count)
-    
+
 # Convert to datetime object
     print(appointment_date)
-    print(f"Checking for date: {appointment_date}, time slot: {time_slot}, hospital: {hospital_name}")
+    print(f"Checking for date: {appointment_date}, time slot: {
+          time_slot}, hospital: {hospital_name}")
     count = appointment_collection.count_documents({
         'appointment_date': appointment_date,
         'time_slot': time_slot,
         'hospital_name': hospital_name,
-        'speciality':speciality
+        'speciality': speciality
     })
     print(count)
     # Return True if the slot is full
     return count >= 3*doctor_count
 
+
 def calculate_queue_number(appointment_date, time_slot, hospital_name, speciality):
     # Count how many appointments have already been booked for the same slot
-    
+
     count = appointment_collection.count_documents({
         'appointment_date': appointment_date,
         'time_slot': time_slot,
@@ -291,9 +298,11 @@ def calculate_queue_number(appointment_date, time_slot, hospital_name, specialit
 
     return count+1
 
-@app.route('/confirmation',methods=['POST','GET'])
+
+@app.route('/confirmation', methods=['POST', 'GET'])
 def conform():
     return render_template('conformation.html')
+
 
 @app.route('/admin/add_patient', methods=['GET', 'POST'])
 # @token_required('admin')
@@ -310,49 +319,49 @@ def add_patient():
         bed_type = request.form['bedtype']
         bed_no = request.form['bedno']
 
-        session['bed_type']=bed_type
+        session['bed_type'] = bed_type
         session['patient_name'] = name
         hospital_name_patient = session.get('hospital_name')
-        if bed_type=='general':
+        if bed_type == 'general':
             data = {
-            'name': name,
-            'dob': dob,
-            'gender': gender,
-            'address': address,
-            'phone': phone,
-            'email': email,
-            "aadhaar": aadhaar,
-            "bed_type": bed_type,
-            "bed no": "G"+bed_no,
-            "hospital_name": hospital_name_patient
-        }
-        elif bed_type=='icu':
+                'name': name,
+                'dob': dob,
+                'gender': gender,
+                'address': address,
+                'phone': phone,
+                'email': email,
+                "aadhaar": aadhaar,
+                "bed_type": bed_type,
+                "bed no": "G"+bed_no,
+                "hospital_name": hospital_name_patient
+            }
+        elif bed_type == 'icu':
             data = {
-            'name': name,
-            'dob': dob,
-            'gender': gender,
-            'address': address,
-            'phone': phone,
-            'email': email,
-            "aadhaar": aadhaar,
-            "bed_type": bed_type,
-            "bed no": "I"+bed_no,
-            "hospital_name": hospital_name_patient
-        }
-        
+                'name': name,
+                'dob': dob,
+                'gender': gender,
+                'address': address,
+                'phone': phone,
+                'email': email,
+                "aadhaar": aadhaar,
+                "bed_type": bed_type,
+                "bed no": "I"+bed_no,
+                "hospital_name": hospital_name_patient
+            }
+
         else:
             data = {
-            'name': name,
-            'dob': dob,
-            'gender': gender,
-            'address': address,
-            'phone': phone,
-            'email': email,
-            "aadhaar": aadhaar,
-            "bed_type": bed_type,
-            "bed no": "V"+bed_no,
-            "hospital_name": hospital_name_patient
-        }
+                'name': name,
+                'dob': dob,
+                'gender': gender,
+                'address': address,
+                'phone': phone,
+                'email': email,
+                "aadhaar": aadhaar,
+                "bed_type": bed_type,
+                "bed no": "V"+bed_no,
+                "hospital_name": hospital_name_patient
+            }
 
         print(hospital_name_patient)
 
@@ -360,17 +369,19 @@ def add_patient():
 
         hospital_data_collection.update_one(
             {'hospital_name': hospital_name_patient},
-            {'$inc': {f'occupied_{bed_type}': 1}}  # Increment the occupied beds count by 1
+            # Increment the occupied beds count by 1
+            {'$inc': {f'occupied_{bed_type}': 1}}
         )
         return redirect(url_for('confirmation'))
     return render_template('add patient.html')
 
-@app.route('/admin/patient_details',methods=['GET','POST'])
+
+@app.route('/admin/patient_details', methods=['GET', 'POST'])
 @login_required('admin')
 def patient_details():
-    patients=patients_collection.find({'hospital_name':session.get('hospital_name')})
-    return render_template('manage_patient.html',patients=patients)
-    
+    patients = patients_collection.find(
+        {'hospital_name': session.get('hospital_name')})
+    return render_template('manage_patient.html', patients=patients)
 
 
 @app.route('/admin/confirmation')
@@ -422,11 +433,11 @@ def admin_login():
                 return redirect('/admin')
 
             else:
-                flash('Wrong Password','error')
+                flash('Wrong Password', 'error')
                 return redirect('/admin_login')
 
         else:
-            flash('User not found','error')
+            flash('User not found', 'error')
             return redirect('/admin_login')
     return render_template("login_admin.html")
 
@@ -443,20 +454,23 @@ def admin():
     if data:
         g_beds = data['number_of_general_beds']
         vacent_general = g_beds-data['occupied_general']
-        icu_beds= data['number_of_icu_beds']
+        icu_beds = data['number_of_icu_beds']
         vacent_icu = icu_beds-data['occupied_icu']
         v_beds = data['number_of_ventilators']
         vacent_ventilator = v_beds-data['occupied_ventilator']
-        total_patient = patients_collection.count_documents({'hospital_name': hospital_name})
-        total_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
-        nurses=data['total_number_of_nurses']
-        staff=data['administrative_staff_count']
+        total_patient = patients_collection.count_documents(
+            {'hospital_name': hospital_name})
+        total_doc = doctors_collection.count_documents(
+            {"hospital_name": hospital_name})
+        nurses = data['total_number_of_nurses']
+        staff = data['administrative_staff_count']
 
-        return render_template('admin_dashboard.html',count=total_appointment,general_total=g_beds,icu_total= icu_beds,vantilator_total =v_beds,patient = total_patient,doc=total_doc,
-                               vacent_general=vacent_general,vacent_icu=vacent_icu,vacent_ventilator=vacent_ventilator,hospital_name=hospital_name,nurses=nurses,staff=staff)
+        return render_template('admin_dashboard.html', count=total_appointment, general_total=g_beds, icu_total=icu_beds, vantilator_total=v_beds, patient=total_patient, doc=total_doc,
+                               vacent_general=vacent_general, vacent_icu=vacent_icu, vacent_ventilator=vacent_ventilator, hospital_name=hospital_name, nurses=nurses, staff=staff)
     else:
         return redirect('/admin/add_detail')
-    
+
+
 @app.route("/admin/contact-us")
 @login_required('admin')
 def admin_contact_us():
@@ -551,7 +565,6 @@ def doctor_register():
         hospital_name_doctor = hospital_data.get("hospital_name")
         session['hospital_name'] = hospital_name_doctor
 
-
         # print(hospital_name_patient)
         doctor_data = {
             'name': name,
@@ -564,7 +577,7 @@ def doctor_register():
             'aadhar': aadhar,
             "hospital_name": hospital_name_doctor
         }
-        if doctors_collection.find_one({'username': username}) or doctors_collection.find_one({'email':email}):
+        if doctors_collection.find_one({'username': username}) or doctors_collection.find_one({'email': email}):
             return redirect('/add_doc')
         else:
             doctors_collection.insert_one(doctor_data)
@@ -601,7 +614,7 @@ def doc_login():
             else:
                 # Password does not match
                 # flash('Invalid username or password', 'error')
-                flash('Wrong Password','error')
+                flash('Wrong Password', 'error')
                 return redirect('/doctor_login')
         else:
             # Username not found
@@ -612,9 +625,11 @@ def doc_login():
     # Replace with your login template
     return render_template('doctor login.html')
 
+
 @app.route('/stock_detail')
 def detail():
     return render_template('inv_stock_product.html')
+
 
 @app.route('/doctor_app', methods=["POST", "GET"])
 @login_required('doc')
@@ -631,12 +646,12 @@ def doctor_app():
 def superadmin():
     no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
     total_doctor = len(doctors_collection.distinct("username"))
-    active_patient =len(patients_collection.distinct("name"))
+    active_patient = len(patients_collection.distinct("name"))
 
     total_beds_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_beds": {"$sum": "$number_of_general_beds"},
                 "total_occupied_beds": {"$sum": "$occupied_general"}
             }
@@ -650,7 +665,7 @@ def superadmin():
     total_icu_beds_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_icu_beds": {"$sum": "$number_of_icu_beds"},
                 "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
             }
@@ -659,7 +674,7 @@ def superadmin():
     total_nurse_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_nurse": {"$sum": "$total_number_of_nurses"},
             }
         }
@@ -667,7 +682,7 @@ def superadmin():
     total_admin_staff = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_adminstaff": {"$sum": "$administrative_staff_count"},
             }
         }
@@ -676,13 +691,13 @@ def superadmin():
     total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
     occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
     total_nurse = total_nurse_data.get('total_nurse')
-    total_adminstaff  =total_admin_staff.get('total_adminstaff')
+    total_adminstaff = total_admin_staff.get('total_adminstaff')
     available_icu_beds = total_icu_beds - occupied_icu_beds
 
     total_ventilators_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_ventilators": {"$sum": "$number_of_ventilators"},
                 "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
             }
@@ -690,52 +705,52 @@ def superadmin():
     ]).next()
 
     total_ventilators = total_ventilators_data.get('total_ventilators', 0)
-    occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+    occupied_ventilators = total_ventilators_data.get(
+        'total_occupied_ventilators', 0)
     available_ventilators = total_ventilators - occupied_ventilators
 
     total_nurses = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_nurses": {"$sum": "$total_number_of_nurses"}
             }
         }
     ]).next()
-    total_nurses=total_nurses.get('total_nurses')
+    total_nurses = total_nurses.get('total_nurses')
 
     total_staff = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_staff": {"$sum": "$administrative_staff_count"}
             }
         }
     ]).next()
-    total_staff=total_staff.get('total_staff')
+    total_staff = total_staff.get('total_staff')
     return render_template('super_admin_dash.html',
-                           no_hospital=no_of_hospital, 
-                           doctor=total_doctor, 
-                           patient=active_patient, 
-                           total_beds=total_beds, 
-                           available_beds=available_beds, 
-                           total_icu_beds=total_icu_beds, 
-                           available_icu_beds=available_icu_beds, 
+                           no_hospital=no_of_hospital,
+                           doctor=total_doctor,
+                           patient=active_patient,
+                           total_beds=total_beds,
+                           available_beds=available_beds,
+                           total_icu_beds=total_icu_beds,
+                           available_icu_beds=available_icu_beds,
                            total_ventilators=total_ventilators,
                            available_ventilators=available_ventilators,
-                           total_adminstaff = total_adminstaff,total_nurse = total_nurse)
+                           total_adminstaff=total_adminstaff, total_nurse=total_nurse)
 
 
 @app.route('/bed_status')
-
 def status():
     no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
     total_doctor = len(doctors_collection.distinct("username"))
-    active_patient =len(patients_collection.distinct("name"))
+    active_patient = len(patients_collection.distinct("name"))
 
     total_beds_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_beds": {"$sum": "$number_of_general_beds"},
                 "total_occupied_beds": {"$sum": "$occupied_general"}
             }
@@ -749,7 +764,7 @@ def status():
     total_icu_beds_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_icu_beds": {"$sum": "$number_of_icu_beds"},
                 "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
             }
@@ -763,7 +778,7 @@ def status():
     total_ventilators_data = hospital_data_collection.aggregate([
         {
             "$group": {
-                "_id": None, 
+                "_id": None,
                 "total_ventilators": {"$sum": "$number_of_ventilators"},
                 "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
             }
@@ -771,7 +786,8 @@ def status():
     ]).next()
 
     total_ventilators = total_ventilators_data.get('total_ventilators', 0)
-    occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+    occupied_ventilators = total_ventilators_data.get(
+        'total_occupied_ventilators', 0)
     available_ventilators = total_ventilators - occupied_ventilators
 
     return render_template('bed_status.html',
@@ -785,7 +801,8 @@ def status():
                            total_ventilators=total_ventilators,
                            available_ventilators=available_ventilators)
 
-@app.route('/select_hs',methods=['GET','POST'])
+
+@app.route('/select_hs', methods=['GET', 'POST'])
 @login_required('user')
 def select():
     if request.method == 'POST':
@@ -796,7 +813,6 @@ def select():
 
         data = hospital_data_collection.find_one(
             {'hospital_name': hospital_name})
-        
 
         print(data)
         if data:
@@ -811,12 +827,12 @@ def select():
             available_beds = total_general_beds - occupied_general_beds
             available_icu_beds = total_icu_beds - occupied_icu_beds
             available_ventilator = total_ventilators - occupied_ventilators
-            return render_template('bed_status.html',available_beds=available_beds, available_icu_beds=available_icu_beds,available_ventilators=available_ventilator,total_general_beds=total_general_beds,total_icu_beds=total_icu_beds,total_ventilators=total_ventilators)
+            return render_template('bed_status.html', available_beds=available_beds, available_icu_beds=available_icu_beds, available_ventilators=available_ventilator, total_general_beds=total_general_beds, total_icu_beds=total_icu_beds, total_ventilators=total_ventilators)
         else:
             return "No hospital found"
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-    return render_template('select_hs_for_beds.html',hospitals= hospital_names)
+    return render_template('select_hs_for_beds.html', hospitals=hospital_names)
 
 
 @app.route("/superadmin_login", methods=['GET', 'POST'])
@@ -831,9 +847,9 @@ def superadmin_login():
             session['role'] = 'superadmin'
             return redirect('/superadmin')
         else:
-            flash('Access Denied','error')
+            flash('Access Denied', 'error')
             return redirect('/superadmin_login')
-        
+
     return render_template("Super_Admin_login.html")
 
 
@@ -846,8 +862,10 @@ def add_hospital():
         pa = request.form['hospitalpass']
         password = bcrypt.generate_password_hash(pa).decode('utf-8')
 
-        existing_hospital= admin_collection.find_one({'hospital_name': hospital_name})
-        existing_hospital_email = admin_collection.find_one({'hospital_mail': hospital_mail})
+        existing_hospital = admin_collection.find_one(
+            {'hospital_name': hospital_name})
+        existing_hospital_email = admin_collection.find_one(
+            {'hospital_mail': hospital_mail})
 
         if existing_hospital:
             return 'Username already exists. Please choose a different username.'
@@ -897,7 +915,8 @@ def check_hospital():
             return "No hospital found"
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-    return render_template('super_admin_check_hospital.html',hospitals= hospital_names)
+    return render_template('super_admin_check_hospital.html', hospitals=hospital_names)
+
 
 @app.route('/admin/discharge', methods=['POST', 'GET'])
 @login_required('admin')
@@ -916,14 +935,14 @@ def submit_discharge():
         medications = request.form.get('medications')
         contact_info = request.form.get('contact_info')
         gender = request.form.get('gender')
-        address=request.form.get('address')
-        bed_type=request.form.get('bedtype')
+        address = request.form.get('address')
+        bed_type = request.form.get('bedtype')
 
-        hospital_name_patient=session.get('hospital_name')
+        hospital_name_patient = session.get('hospital_name')
         data_discharge = {
             'patient_id': patient_id,
             'patient_name': patient_name,
-            'admission_date': admission_date,   
+            'admission_date': admission_date,
             'discharge_date': discharge_date,
             'diagnosis': diagnosis,
             'treatment': treatment,
@@ -932,29 +951,34 @@ def submit_discharge():
             'follow_up_instructions': follow_up_instructions,
             'medications': medications,
             'contact_info': contact_info,
-            'gender':gender,
-            'address':address
+            'gender': gender,
+            'address': address
         }
         hospital_discharge_collection.insert_one(data_discharge)
         hospital_data_collection.update_one(
             {'hospital_name': hospital_name_patient},
-            {'$inc': {f'occupied_{bed_type}': -1}}  # Increment the occupied beds count by 1
+            # Increment the occupied beds count by 1
+            {'$inc': {f'occupied_{bed_type}': -1}}
         )
         # Generate PDF with the provided details
         pdf_buffer = io.BytesIO()
         doc = SimpleDocTemplate(pdf_buffer, pagesize=A4)
         styles = getSampleStyleSheet()
-        #Patient details inside the pdf
+        # Patient details inside the pdf
         elements = []
         elements.append(Paragraph("Patient ID Card", styles['Title']))
         elements.append(Spacer(1, 12))
-        elements.append(Paragraph(f"Full Name: {patient_name}", styles['Normal']))
-        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
+        elements.append(
+            Paragraph(f"Full Name: {patient_name}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {
+                        admission_date}", styles['Normal']))
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
-        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Phone Number: {
+                        contact_info}", styles['Normal']))
         elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
-        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {
+                        discharge_summary}", styles['Normal']))
 
         # Generate QR code
         qr = qrcode.QRCode(
@@ -976,38 +1000,39 @@ def submit_discharge():
         elements.append(Image(qr_buffer, width=100, height=100))
 
         doc.build(elements)
-        
 
         pdf_buffer.seek(0)
         # @after_this_request
         # def redirect_to_admin(reponse=302):
         #     return redirect('/admin')
         return send_file(pdf_buffer, as_attachment=True, download_name='patient_id_card.pdf', mimetype='application/pdf')
-        # return redirect('/admin') 
+        # return redirect('/admin')
     return render_template('Patient_discharge.html')
 # where is the change
 
-@app.route('/admin/inv_admin',methods=['GET','POST'])
+
+@app.route('/admin/inv_admin', methods=['GET', 'POST'])
 @login_required('admin')
 def inv_details():
     return render_template('inv_admin.html')
 
-@app.route('/admin/inv_med_order',methods=['GET','POST'])
+
+@app.route('/admin/inv_med_order', methods=['GET', 'POST'])
 @login_required('admin')
 def inv_med():
-    if request.method=='POST':
+    if request.method == 'POST':
         medicine_name = request.form.get('medicine-name')
         medicine_composition = request.form.get('medicine-composition')
         medicine_quantity = request.form.get('medicine-quantity')
         order_comment = request.form.get('order-comment')
-        hospital_name=session.get('hospital_name')
+        hospital_name = session.get('hospital_name')
         # Create a document to insert into MongoDB
         order_data = {
             "medicine_name": medicine_name,
             "medicine_composition": medicine_composition,
             "medicine_quantity": int(medicine_quantity),  # Convert to integer
             "order_comment": order_comment,
-            "hospital_name":hospital_name
+            "hospital_name": hospital_name
         }
 
         # Insert the document into the inventory collection
@@ -1016,19 +1041,22 @@ def inv_med():
     # return "Order submitted successfully!"
     return render_template('inv_med_order.html')
 
-@app.route('/admin/inv_order_status',methods=['GET','POST'])
+
+@app.route('/admin/inv_order_status', methods=['GET', 'POST'])
 @login_required('admin')
 def order_status():
     # data=
-    datas=inventory_collection.find({'hospital_name':session.get('hospital_name')})
+    datas = inventory_collection.find(
+        {'hospital_name': session.get('hospital_name')})
 
-    return render_template('inv_order_status.html',datas=datas)
+    return render_template('inv_order_status.html', datas=datas)
 
-@app.route('/admin/inv_stock_product',methods=['GET','POST'])
+
+@app.route('/admin/inv_stock_product', methods=['GET', 'POST'])
 @login_required('admin')
 def stock_details():
     return render_template('inv_stock_product.html')
-    
+
 
 # show
 @app.route('/user_logout')
