@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -118,7 +117,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <img src="../static/images/delhi.png" alt="Delhi Logo" width="40" height="40" />
+          <img
+            src="../static/images/delhi.png"
+            alt="Delhi Logo"
+            width="40"
+            height="40"
+          />
         </a>
         <h3 class="text-light">Government of NCT of Delhi</h3>
         <div class="collapse navbar-collapse" id="navbarColor01">
@@ -130,13 +134,17 @@
               <a class="nav-link text-light" href="/appointment">Appointment</a>
             </li>
             <li class="nav-item mr-3">
-              <a class="nav-link text-light" href="/select_hs">Bed Availability</a>
+              <a class="nav-link text-light" href="/select_hs"
+                >Bed Availability</a
+              >
             </li>
             <li class="nav-item mr-3">
               <a class="nav-link text-light" href="/#doctor">Doctors</a>
             </li>
             <li class="nav-item mr-3">
-              <a class="nav-link text-light" href="/#OurDepartments">Departments</a>
+              <a class="nav-link text-light" href="/#OurDepartments"
+                >Departments</a
+              >
             </li>
             <li class="nav-item mr-3">
               <a class="nav-link text-light" href="/">Contact Us</a>
@@ -150,11 +158,19 @@
     </nav>
     <!-- Main Content -->
     <div class="main-content">
-      <h1 style="color: #00ff22c0;">Welcome, <span class="highlight">{{ user.name }}</span></h1>
+      <h1 style="color: #00ff22c0">
+        Welcome, <span class="highlight">{{ user.name }}</span>
+      </h1>
 
-
-      <div class="card"
-        style="padding: 20px; border-radius: 10px; box-shadow: 0 0 15px rgba(26, 255, 0, 0.4); transition: box-shadow 0.3s ease;">
+      <div
+        class="card"
+        style="
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 15px rgba(26, 255, 0, 0.4);
+          transition: box-shadow 0.3s ease;
+        "
+      >
         <h3>My Appointments</h3>
         <p>View your upcoming and past appointments.</p>
         <table>
@@ -166,6 +182,7 @@
             <th>Time-slot</th>
             <th>Department</th>
             <th>Description</th>
+            <th>Queue Number</th>
           </tr>
           {% for contact in appointments %}
           <tr>
@@ -176,6 +193,7 @@
             <td>{{ contact.time_slot }}</td>
             <td>{{ contact.speciality }}</td>
             <td>{{ contact.disease_description }}</td>
+            <td>{{ contact.queue_number}}</td>
           </tr>
           {% endfor %}
         </table>
@@ -196,5 +214,4 @@
             </div> -->
     </div>
   </body>
-
 </html>
