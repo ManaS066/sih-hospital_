@@ -228,12 +228,10 @@ def appointment():
         print(doctor_count)
         print(speciality)
         if not doctor_count:
-            flash(f'The docotor for the selected field is not available in {
-                  hospital_name}.Sorry for the inconvenience', 'error')
+            flash(f'The docotor for the selected field is not available in {hospital_name}.Sorry for the inconvenience', 'error')
             return redirect('/appointment')
         if is_slot_full:
-            flash(
-                'The selected time slot is full. Please choose another time or date.', 'error')
+            flash('The selected time slot is full. Please choose another time or date.', 'error')
             return redirect('/appointment')
         queue_number = calculate_queue_number(
             appointment_date, time_slot, hospital_name, speciality)
@@ -258,8 +256,8 @@ def appointment():
     # If GET request, just render the appointment form
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-
-    return render_template('appointment.html', hospitals=hospital_names)
+    today = datetime.today().strftime('%Y-%m-%d')
+    return render_template('appointment.html', hospitals=hospital_names,today=today)
 
 # This is the queueing system for the appiontments:
 
@@ -273,8 +271,7 @@ def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, spe
 
 # Convert to datetime object
     print(appointment_date)
-    print(f"Checking for date: {appointment_date}, time slot: {
-          time_slot}, hospital: {hospital_name}")
+    print(f"Checking for date: {appointment_date}, time slot: {time_slot}, hospital: {hospital_name}")
     count = appointment_collection.count_documents({
         'appointment_date': appointment_date,
         'time_slot': time_slot,
@@ -970,15 +967,12 @@ def submit_discharge():
         elements.append(Spacer(1, 12))
         elements.append(
             Paragraph(f"Full Name: {patient_name}", styles['Normal']))
-        elements.append(Paragraph(f"Admission Date: {
-                        admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
-        elements.append(Paragraph(f"Phone Number: {
-                        contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
         elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
-        elements.append(Paragraph(f"Discharge Summary: {
-                        discharge_summary}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
 
         # Generate QR code
         qr = qrcode.QRCode(
