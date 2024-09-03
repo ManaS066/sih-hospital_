@@ -11,7 +11,6 @@
         font-family: "Roboto", sans-serif;
         background-image: url("../static/images/Pulmonology.jpeg");
         background-size: cover;
-        /* background-position: center; */
         background-repeat: no-repeat;
         margin: 0;
         padding: 0;
@@ -19,7 +18,6 @@
 
       .navbar {
         background-color: #00637f;
-        /* Blue for navbar */
         padding: 10px;
         color: white;
       }
@@ -31,7 +29,6 @@
 
       .main-content h2 {
         background-color: #004080;
-        /* Dark blue background for the header */
         color: white;
         padding: 10px;
         border-radius: 8px;
@@ -40,20 +37,41 @@
 
       .card {
         background-color: rgba(255, 255, 255, 0.8);
-        /* Light background with transparency */
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         margin: 20px auto;
         padding: 20px;
-        /* Adjusted padding for better fit */
         text-align: center;
         width: 350px;
         transition: transform 0.3s, box-shadow 0.3s;
       }
 
+      .dropdown-container {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .dropdown {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 90%;
+        font-size: 16px;
+      }
+
+      button[name="check"] {
+        background-color: #00637f;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
       .card h3 {
         background-color: #004080;
-        /* Dark blue for card titles */
         color: white;
         padding: 20px;
         border-radius: 8px;
@@ -63,7 +81,6 @@
       .card p {
         font-size: 45px;
         color: #333;
-        /* Dark text for contrast */
       }
 
       .grid-container {
@@ -76,48 +93,51 @@
       .card:hover {
         transform: scale(1.05);
         box-shadow: 0 0 15px rgba(0, 0, 255, 0.7);
-        /* Blue glow effect on hover */
         border: 2px solid rgba(0, 102, 204, 0.8);
       }
     </style>
   </head>
 
   <body>
-    <!-- Navigation Bar -->
-    <!-- <div class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">
-            <img src="../static/images/delhi.png" alt="Delhi Logo" class="rounded-circle" width="40" height="40" />
-        </a>
-        <h3 class="text-light">Government of NCT of Delhi</h3>
-    </div> -->
+    <div class="navbar">
+      <h3 class="text-light">Government of NCT of Delhi</h3>
+    </div>
 
     <!-- Main Content Area -->
     <div class="main-content">
       <h2>Bed Availability Dashboard</h2>
+
+      <!-- Hospital Selection Form -->
+      <div class="dropdown-container">
+        <form action="/bed_status" method="POST">
+          <select id="hospital-dropdown" name="hs_name" class="dropdown">
+            <option value="" disabled selected>Select Hospital</option>
+            {% for hospital in hospitals %}
+            <option value="{{ hospital }}">{{ hospital }}</option>
+            {% endfor %}
+          </select>
+          <br /><br />
+          <button type="submit" name="check">Click to check</button>
+        </form>
+      </div>
+
       <div class="grid-container">
         <!-- General Beds Card -->
         <div class="card">
           <h3>General Beds</h3>
-          <br />
-          <br />
-
-          <p id="general-beds">{{available_beds}}/{{total_general_beds}}</p>
+          <p id="general-beds">{{ available_beds }}/{{ total_general_beds }}</p>
         </div>
-        <!-- Ventilator Beds Card (New) -->
+
+        <!-- Ventilator Beds Card -->
         <div class="card">
           <h3>Ventilator Beds</h3>
-          <br />
-          <br />
-          <p id="ventilator-beds">
-            {{available_ventilators}}/{{total_ventilators}}
-          </p>
+          <p id="ventilator-beds">{{ available_ventilators }}/{{ total_ventilators }}</p>
         </div>
+
         <!-- ICU Beds Card -->
         <div class="card">
           <h3>ICU Beds</h3>
-          <br />
-          <br />
-          <p id="icu-beds">{{available_icu_beds}}/{{total_icu_beds}}</p>
+          <p id="icu-beds">{{ available_icu_beds }}/{{ total_icu_beds }}</p>
         </div>
       </div>
     </div>

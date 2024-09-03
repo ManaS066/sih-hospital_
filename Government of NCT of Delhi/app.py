@@ -228,12 +228,10 @@ def appointment():
         print(doctor_count)
         print(speciality)
         if not doctor_count:
-            flash(f'The docotor for the selected field is not available in {
-                  hospital_name}.Sorry for the inconvenience', 'error')
+            flash(f'The docotor for the selected field is not available in {hospital_name}.Sorry for the inconvenience', 'error')
             return redirect('/appointment')
         if is_slot_full:
-            flash(
-                'The selected time slot is full. Please choose another time or date.', 'error')
+            flash('The selected time slot is full. Please choose another time or date.', 'error')
             return redirect('/appointment')
         queue_number = calculate_queue_number(
             appointment_date, time_slot, hospital_name, speciality)
@@ -258,8 +256,8 @@ def appointment():
     # If GET request, just render the appointment form
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-
-    return render_template('appointment.html', hospitals=hospital_names)
+    today = datetime.today().strftime('%Y-%m-%d')
+    return render_template('appointment.html', hospitals=hospital_names,today=today)
 
 # This is the queueing system for the appiontments:
 
@@ -273,8 +271,7 @@ def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, spe
 
 # Convert to datetime object
     print(appointment_date)
-    print(f"Checking for date: {appointment_date}, time slot: {
-          time_slot}, hospital: {hospital_name}")
+    print(f"Checking for date: {appointment_date}, time slot: {time_slot}, hospital: {hospital_name}")
     count = appointment_collection.count_documents({
         'appointment_date': appointment_date,
         'time_slot': time_slot,
@@ -741,63 +738,124 @@ def superadmin():
                            total_adminstaff=total_adminstaff, total_nurse=total_nurse)
 
 
-@app.route('/bed_status')
+@app.route('/bed_status', methods=['GET', 'POST'])
 def status():
+    # Get list of hospitals for dropdown menu
+    hospitals = hospital_data_collection.find()
+    hospital_names = [hospital['hospital_name'] for hospital in hospitals]
+
+    # Common data to be calculated
     no_of_hospital = len(hospital_data_collection.distinct("hospital_name"))
     total_doctor = len(doctors_collection.distinct("username"))
     active_patient = len(patients_collection.distinct("name"))
 
-    total_beds_data = hospital_data_collection.aggregate([
-        {
-            "$group": {
-                "_id": None,
-                "total_beds": {"$sum": "$number_of_general_beds"},
-                "total_occupied_beds": {"$sum": "$occupied_general"}
+    if request.method == 'POST':
+        hs_name = request.form.get('hs_name')
+        query = {}
+
+        if hs_name:
+            query = {"hospital_name": hs_name}
+
+        # General Beds
+        total_beds_data = hospital_data_collection.aggregate([
+            {"$match": query},
+            {
+                "$group": {
+                    "_id": None,
+                    "total_beds": {"$sum": "$number_of_general_beds"},
+                    "total_occupied_beds": {"$sum": "$occupied_general"}
+                }
             }
-        }
-    ]).next()
+        ])
+        total_beds_data = next(total_beds_data, {})
+        total_beds = total_beds_data.get('total_beds', 0)
+        occupied_beds = total_beds_data.get('total_occupied_beds', 0)
+        available_beds = total_beds - occupied_beds
 
-    total_beds = total_beds_data.get('total_beds', 0)
-    occupied_beds = total_beds_data.get('total_occupied_beds', 0)
-    available_beds = total_beds - occupied_beds
-
-    total_icu_beds_data = hospital_data_collection.aggregate([
-        {
-            "$group": {
-                "_id": None,
-                "total_icu_beds": {"$sum": "$number_of_icu_beds"},
-                "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
+        # ICU Beds
+        total_icu_beds_data = hospital_data_collection.aggregate([
+            {"$match": query},
+            {
+                "$group": {
+                    "_id": None,
+                    "total_icu_beds": {"$sum": "$number_of_icu_beds"},
+                    "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
+                }
             }
-        }
-    ]).next()
+        ])
+        total_icu_beds_data = next(total_icu_beds_data, {})
+        total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
+        occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+        available_icu_beds = total_icu_beds - occupied_icu_beds
 
-    total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
-    occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
-    available_icu_beds = total_icu_beds - occupied_icu_beds
-
-    total_ventilators_data = hospital_data_collection.aggregate([
-        {
-            "$group": {
-                "_id": None,
-                "total_ventilators": {"$sum": "$number_of_ventilators"},
-                "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
+        # Ventilators
+        total_ventilators_data = hospital_data_collection.aggregate([
+            {"$match": query},
+            {
+                "$group": {
+                    "_id": None,
+                    "total_ventilators": {"$sum": "$number_of_ventilators"},
+                    "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
+                }
             }
-        }
-    ]).next()
+        ])
+        total_ventilators_data = next(total_ventilators_data, {})
+        total_ventilators = total_ventilators_data.get('total_ventilators', 0)
+        occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+        available_ventilators = total_ventilators - occupied_ventilators
 
-    total_ventilators = total_ventilators_data.get('total_ventilators', 0)
-    occupied_ventilators = total_ventilators_data.get(
-        'total_occupied_ventilators', 0)
-    available_ventilators = total_ventilators - occupied_ventilators
+    else:
+        # Show overall status if no hospital is selected (GET request)
+        total_beds_data = hospital_data_collection.aggregate([
+            {
+                "$group": {
+                    "_id": None,
+                    "total_beds": {"$sum": "$number_of_general_beds"},
+                    "total_occupied_beds": {"$sum": "$occupied_general"}
+                }
+            }
+        ]).next()
+
+        total_beds = total_beds_data.get('total_beds', 0)
+        occupied_beds = total_beds_data.get('total_occupied_beds', 0)
+        available_beds = total_beds - occupied_beds
+
+        total_icu_beds_data = hospital_data_collection.aggregate([
+            {
+                "$group": {
+                    "_id": None,
+                    "total_icu_beds": {"$sum": "$number_of_icu_beds"},
+                    "total_occupied_icu_beds": {"$sum": "$occupied_icu"}
+                }
+            }
+        ]).next()
+
+        total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
+        occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+        available_icu_beds = total_icu_beds - occupied_icu_beds
+
+        total_ventilators_data = hospital_data_collection.aggregate([
+            {
+                "$group": {
+                    "_id": None,
+                    "total_ventilators": {"$sum": "$number_of_ventilators"},
+                    "total_occupied_ventilators": {"$sum": "$occupied_ventilator"}
+                }
+            }
+        ]).next()
+
+        total_ventilators = total_ventilators_data.get('total_ventilators', 0)
+        occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+        available_ventilators = total_ventilators - occupied_ventilators
 
     return render_template('bed_status.html',
-                           no_hospital=no_of_hospital,
-                           doctor=total_doctor,
-                           patient=active_patient,
-                           total_general_beds=total_beds,
-                           available_beds=available_beds,
-                           total_icu_beds=total_icu_beds,
-                           available_icu_beds=available_icu_beds,
+                           no_hospital=no_of_hospital, 
+                           doctor=total_doctor, 
+                           patient=active_patient, 
+                           total_general_beds=total_beds, 
+                           available_beds=available_beds, 
+                           total_icu_beds=total_icu_beds, 
+                           available_icu_beds=available_icu_beds, 
                            total_ventilators=total_ventilators,
                            available_ventilators=available_ventilators)
 
@@ -970,15 +1028,12 @@ def submit_discharge():
         elements.append(Spacer(1, 12))
         elements.append(
             Paragraph(f"Full Name: {patient_name}", styles['Normal']))
-        elements.append(Paragraph(f"Admission Date: {
-                        admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
-        elements.append(Paragraph(f"Phone Number: {
-                        contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
         elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
-        elements.append(Paragraph(f"Discharge Summary: {
-                        discharge_summary}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
 
         # Generate QR code
         qr = qrcode.QRCode(
