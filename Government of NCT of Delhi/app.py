@@ -54,6 +54,16 @@ hospital_discharge_collection = db['discharged']
 inventory_collection = db['inventory']
 stock_collection = db['stock']
 
+today_date = datetime.today().strftime('%Y-%m-%d')
+# Query to find documents where the date is less than today
+query = {'appointment_date': {'$lt': today_date}}
+
+# Delete the matching documents
+result = appointment_collection.delete_many(query)
+
+print(f"Deleted {result.deleted_count} appointments.")
+
+
 
 # def token_required(expected_role):
 #     def decorator(f):
@@ -257,7 +267,11 @@ def appointment():
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
     today = datetime.today().strftime('%Y-%m-%d')
-    return render_template('appointment.html', hospitals=hospital_names,today=today)
+    max_date = (datetime.today() + timedelta(days=15)).strftime('%Y-%m-%d')
+    print(max_date)
+
+
+    return render_template('appointment.html', hospitals=hospital_names,today=today,mx_date=max_date)
 
 # This is the queueing system for the appiontments:
 
@@ -280,7 +294,7 @@ def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, spe
     })
     print(count)
     # Return True if the slot is full
-    return count >= 3*doctor_count
+    return count >= 3*int(doctor_count/3)
 
 
 def calculate_queue_number(appointment_date, time_slot, hospital_name, speciality):
@@ -968,7 +982,8 @@ def check_hospital():
             {'hospital_name': hospital_name})
 
         if data:
-            return render_template('superadmin_hospital_status.html', data=data)
+            no_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
+            return render_template('superadmin_hospital_status.html', data=data,no_doc = no_doc)
         else:
             return "No hospital found"
     hospitals = hospital_data_collection.find()
