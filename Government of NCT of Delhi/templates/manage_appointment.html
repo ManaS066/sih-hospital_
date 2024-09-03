@@ -51,6 +51,7 @@
           <th>Time-slot</th>
           <th>Depeartment</th>
           <th>Description</th>
+          <th>Queue Number</th>
         </tr>
         {% for contact in appointments %}
         <tr>
@@ -61,6 +62,7 @@
           <td>{{ contact.time_slot }}</td>
           <td>{{ contact.speciality }}</td>
           <td>{{ contact.disease_description }}</td>
+          <td>{{contact.queue_number}}</td>
         </tr>
         {% endfor %}f
       </table>
