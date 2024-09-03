@@ -225,6 +225,8 @@ def appointment():
         #     appointment_date, time_slot = find_next_available_slot(
         #         appointment_date, hospital_name)
         doctor_count=doctors_collection.count_documents({'hospital_name':hospital_name,'specialization':speciality})
+        print(doctor_count)
+        print(speciality)
         if not doctor_count:
             flash(f'The docotor for the selected field is not available in {hospital_name}.Sorry for the inconvenience', 'error')
             return redirect('/appointment')
