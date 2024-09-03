@@ -791,13 +791,13 @@ def status():
     available_ventilators = total_ventilators - occupied_ventilators
 
     return render_template('bed_status.html',
-                           no_hospital=no_of_hospital, 
-                           doctor=total_doctor, 
-                           patient=active_patient, 
-                           total_general_beds=total_beds, 
-                           available_beds=available_beds, 
-                           total_icu_beds=total_icu_beds, 
-                           available_icu_beds=available_icu_beds, 
+                           no_hospital=no_of_hospital,
+                           doctor=total_doctor,
+                           patient=active_patient,
+                           total_general_beds=total_beds,
+                           available_beds=available_beds,
+                           total_icu_beds=total_icu_beds,
+                           available_icu_beds=available_icu_beds,
                            total_ventilators=total_ventilators,
                            available_ventilators=available_ventilators)
 
