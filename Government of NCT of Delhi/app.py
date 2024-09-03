@@ -523,6 +523,7 @@ def add_details():
 
     # Insert the data into the hospital collection
         hospital_data_collection.insert_one(data)
+        return redirect('/admin')
     return render_template('hospital_details.html',)
 
 
