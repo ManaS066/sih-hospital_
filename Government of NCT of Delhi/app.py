@@ -778,7 +778,7 @@ def status():
                            no_hospital=no_of_hospital, 
                            doctor=total_doctor, 
                            patient=active_patient, 
-                           total_beds=total_beds, 
+                           total_general_beds=total_beds, 
                            available_beds=available_beds, 
                            total_icu_beds=total_icu_beds, 
                            available_icu_beds=available_icu_beds, 
