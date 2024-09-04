@@ -1,4 +1,4 @@
-# sih-hospital
+# SIH - Hospital
 ![Screenshot 2024-08-15 235259](https://github.com/user-attachments/assets/f1f8b416-fe17-49f9-ac4b-33731f7eb0b0)
 
 ![Untitled-2024-08-15-2355](https://github.com/user-attachments/assets/038616ab-b263-419c-9ce2-d6dcd03690ac)
