@@ -21,9 +21,11 @@ from reportlab.graphics import renderPDF
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 import qrcode
 import io
+from log_out import logout_bp
 
 # test pull
 app = Flask(__name__)
+app.register_blueprint(logout_bp)
 # test push
 # app.config['SECRET_KEY']=secrets.token_hex()\
 app.secret_key = secrets.token_hex()
@@ -1129,22 +1131,7 @@ def stock_details():
 
 
 # show
-@app.route('/user_logout')
-def user_logout():
-    session.clear()
-    return redirect('/')
 
-
-@app.route('/admin_logout')
-def admin_logout():
-    session.clear()
-    return redirect('/')
-
-
-@app.route('/superadmin_logout')
-def sueperadmin_logout():
-    session.clear()
-    return redirect('/superadmin')
 
 
 if __name__ == '__main__':
