@@ -1129,10 +1129,7 @@ def order_status():
 def stock_details():
     return render_template('inv_stock_product.html')
 
-
 # show
-
-
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
