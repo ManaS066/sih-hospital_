@@ -208,6 +208,8 @@ def user_register():
 def all_doc():
     return render_template('doctor.html')
 
+def add_days(date, days):
+    return (date + timedelta(days=days)).strftime('%Y-%m-%d')
 
 @app.route('/appointment', methods=['POST', 'GET'])
 @login_required('user')
@@ -269,11 +271,14 @@ def appointment():
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
     today = datetime.today().strftime('%Y-%m-%d')
+    # future_date=add_days(today,15)
     max_date = (datetime.today() + timedelta(days=15)).strftime('%Y-%m-%d')
-    print(max_date)
+    # max_date = add_days(datetime.today(), 15)
+
+    print(f' max date: {max_date}')
 
 
-    return render_template('appointment.html', hospitals=hospital_names,today=today,mx_date=max_date)
+    return render_template('appointment.html', hospitals=hospital_names,today=today,max_date=max_date)
 
 # This is the queueing system for the appiontments:
 

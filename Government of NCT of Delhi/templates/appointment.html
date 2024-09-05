@@ -108,10 +108,9 @@
                 <!-- Appointment Date Input (limited to 15 days) -->
                 <div class="mb-3">
                   <label for="dateInput" class="form-label">Appointment Date</label>
-                  <input type="date" id="dateInput" name="dat" min="{{ today }}" max="{{ today | add_days(15) }}" <!--
-                    Show only next 15 days -->
-                  class="form-control"
-                  />
+                  <input type="date" id="dateInput" name="dat" min="{{ today }}" max="{{ max_date }}" class="form-control">
+
+                  
                 </div>
 
                 <!-- Time Slot Selection -->
