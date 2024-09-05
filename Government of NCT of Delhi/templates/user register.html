@@ -399,12 +399,14 @@
           passwordError.textContent = "";
         }
 
+        if (isValid) {
+          document.getElementById("Registration Successful").style.display = "block";
+          return false; // Prevent actual form submission for demonstration
+        }
+
         return isValid;
       }
     </script>
-
-
-
     <!-- <script>
             const registrationForm = document.getElementById("registrationForm");
             const name = document.getElementById("name");
