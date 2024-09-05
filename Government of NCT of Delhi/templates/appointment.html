@@ -19,14 +19,14 @@
       /* Appointment Box Hover Effect */
       .form-data {
         transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        background-color: #a2b5ba;
+        background-color: #ffaa008c;
         border: 2px solid transparent;
       }
 
       .form-data:hover {
         transform: scale(1.02);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-color: #00637f;
+        border-color: #dd00ffc9;
         /* Highlighted border color */
       }
 
@@ -46,14 +46,14 @@
           </a>
           <h3 class="mehran">Government of NCT of Delhi</h3>
           <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav ms-auto justify-content-end navbar1">
+            <!-- <ul class="navbar-nav ms-auto justify-content-end navbar1">
               <li class="nav-item mr-3">
                 <a class="nav-link text-light" href="/">Home</a>
               </li>
               <li class="nav-item mr-3">
                 <a class="nav-link text-light" href="/templates/user login.html">Login</a>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </nav>
@@ -108,9 +108,10 @@
                 <!-- Appointment Date Input (limited to 15 days) -->
                 <div class="mb-3">
                   <label for="dateInput" class="form-label">Appointment Date</label>
-                  <input type="date" id="dateInput" name="dat" min="{{ today }}" max="{{ max_date }}" class="form-control">
+                  <input type="date" id="dateInput" name="dat" min="{{ today }}" max="{{ max_date }}"
+                    class="form-control">
 
-                  
+
                 </div>
 
                 <!-- Time Slot Selection -->
@@ -120,6 +121,21 @@
                     <option value="" disabled selected>Select a time slot</option>
                     <option value="08:00 - 09:00">08:00 - 09:00</option>
                     <option value="09:00 - 10:00">09:00 - 10:00</option>
+                    <!-- <option value="" disabled selected>
+                      Select a time slot
+                    </option> -->
+                    <!-- <option value="08:00 - 09:00">08:00 - 09:00</option>
+                    <option value="09:00 - 10:00">09:00 - 10:00</option> -->
+                    <option value="10:00 - 11:00">10:00 - 11:00</option>
+                    <option value="11:00 - 12:00">11:00 - 12:00</option>
+                    <option value="12:00 - 13:00">12:00 - 13:00</option>
+                    <option value="13:00 - 14:00">13:00 - 14:00</option>
+                    <option value="14:00 - 15:00">14:00 - 15:00</option>
+                    <option value="15:00 - 16:00">15:00 - 16:00</option>
+                    <option value="16:00 - 17:00">16:00 - 17:00</option>
+                    <option value="17:00 - 18:00">17:00 - 18:00</option>
+                    <option value="18:00 - 19:00">18:00 - 19:00</option>
+                    <option value="19:00 - 20:00">19:00 - 20:00</option>
                     <!-- Other time slots... -->
                   </select>
                 </div>
@@ -130,6 +146,22 @@
                   <select id="diseaseInput" name="diseaseInput" class="form-control">
                     <option value="" disabled selected>Select an option</option>
                     <option value="Medicine">Medicine</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Orthopedic">Orthopedic</option>
+                    <option value="Mental_health">Mental Health</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Cancer">Cancer</option>
+                    <option value="Covid-19">COVID-19</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Infectious Diseases">Infectious Diseases</option>
+                    <option value="ENT">ENT (Otolaryngology)</option>
+                    <option value="Plastic Surgery">Plastic Surgery</option>
+                    <option value="Radiology">Radiology</option>
+                    <option value="Pulmonology">Pulmonology</option>
+                    <option value="Gastroenterology">Gastroenterology</option>
                     <!-- Other specialities... -->
                   </select>
                 </div>
