@@ -870,6 +870,7 @@ def status():
         available_ventilators = total_ventilators - occupied_ventilators
 
     return render_template('bed_status.html',
+                           hospitals = hospital_names,
                            no_hospital=no_of_hospital, 
                            doctor=total_doctor, 
                            patient=active_patient, 
@@ -881,37 +882,37 @@ def status():
                            available_ventilators=available_ventilators)
 
 
-@app.route('/select_hs', methods=['GET', 'POST'])
-@login_required('user')
-def select():
-    if request.method == 'POST':
-        hospital_name = request.form['hname']
-        print(hospital_name)
-        if not hospital_name:
-            return "Hospital name is missing", 400  # Bad Request
+# @app.route('/select_hs', methods=['GET', 'POST'])
+# @login_required('user')
+# def select():
+#     if request.method == 'POST':
+#         hospital_name = request.form['hname']
+#         print(hospital_name)
+#         if not hospital_name:
+#             return "Hospital name is missing", 400  # Bad Request
 
-        data = hospital_data_collection.find_one(
-            {'hospital_name': hospital_name})
+#         data = hospital_data_collection.find_one(
+#             {'hospital_name': hospital_name})
 
-        print(data)
-        if data:
-            total_general_beds = data.get('number_of_general_beds', 0)
-            occupied_general_beds = data.get('occupied_general', 0)
-            total_icu_beds = data.get('number_of_icu_beds', 0)
-            occupied_icu_beds = data.get('occupied_icu', 0)
-            total_ventilators = data.get('number_of_ventilators', 0)
-            occupied_ventilators = data.get('occupied_ventilator', 0)
+#         print(data)
+#         if data:
+#             total_general_beds = data.get('number_of_general_beds', 0)
+#             occupied_general_beds = data.get('occupied_general', 0)
+#             total_icu_beds = data.get('number_of_icu_beds', 0)
+#             occupied_icu_beds = data.get('occupied_icu', 0)
+#             total_ventilators = data.get('number_of_ventilators', 0)
+#             occupied_ventilators = data.get('occupied_ventilator', 0)
 
-            # Calculate available beds
-            available_beds = total_general_beds - occupied_general_beds
-            available_icu_beds = total_icu_beds - occupied_icu_beds
-            available_ventilator = total_ventilators - occupied_ventilators
-            return render_template('bed_status.html', available_beds=available_beds, available_icu_beds=available_icu_beds, available_ventilators=available_ventilator, total_general_beds=total_general_beds, total_icu_beds=total_icu_beds, total_ventilators=total_ventilators)
-        else:
-            return "No hospital found"
-    hospitals = hospital_data_collection.find()
-    hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-    return render_template('select_hs_for_beds.html', hospitals=hospital_names)
+#             # Calculate available beds
+#             available_beds = total_general_beds - occupied_general_beds
+#             available_icu_beds = total_icu_beds - occupied_icu_beds
+#             available_ventilator = total_ventilators - occupied_ventilators
+#             return render_template('bed_status.html', available_beds=available_beds, available_icu_beds=available_icu_beds, available_ventilators=available_ventilator, total_general_beds=total_general_beds, total_icu_beds=total_icu_beds, total_ventilators=total_ventilators)
+#         else:
+#             return "No hospital found"
+#     hospitals = hospital_data_collection.find()
+#     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
+#     return render_template('select_hs_for_beds.html', hospitals=hospital_names)
 
 
 @app.route("/superadmin_login", methods=['GET', 'POST'])

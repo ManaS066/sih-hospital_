@@ -58,7 +58,7 @@
       }
 
       .card {
-        background-color: #fff8e36d;
+        background-color: #ffffffc8;
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
@@ -92,6 +92,7 @@
       table {
         width: 95%;
         margin: 20px auto;
+        border-radius: 50%;
         border-collapse: collapse;
       }
 
@@ -100,10 +101,15 @@
         border: 1px solid #dddddd;
         text-align: left;
         padding: 10px;
+        
       }
 
       th {
         background-color: #f2f2f2;
+      }
+
+      .queue_number{
+        color : #ff0055;
       }
     </style>
   </head>
@@ -130,7 +136,7 @@
               <a class="nav-link text-light" href="/appointment">Appointment</a>
             </li>
             <li class="nav-item mr-3">
-              <a class="nav-link text-light" href="/select_hs"
+              <a class="nav-link text-light" href="/bed_status"
                 >Bed Availability</a
               >
             </li>
@@ -169,8 +175,8 @@
       >
         <h3>My Appointments</h3>
         <p>View your upcoming and past appointments.</p>
-        <table>
-          <tr>
+        <table >
+          <tr >
             <th>Name</th>
             <th>Email</th>
             <th>Number</th>
@@ -191,7 +197,7 @@
             <td>{{ contact.time_slot }}</td>
             <td>{{ contact.speciality }}</td>
             <td>{{ contact.disease_description }}</td>
-            <td>{{ contact.queue_number}}</td>
+            <td class="queue_number">{{ contact.queue_number}}</td>
           </tr>
           {% endfor %}
         </table>
