@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from pymongo.server_api import ServerApi
 from pymongo.mongo_client import MongoClient
 import smtplib
-from flask import Flask, flash, render_template, request, redirect, url_for, make_response, session, send_file, after_this_request
+from flask import Flask, flash, jsonify, render_template, request, redirect, url_for, make_response, session, send_file, after_this_request
 import os
 import secrets
 from pymongo import MongoClient
@@ -211,6 +211,7 @@ def all_doc():
 def add_days(date, days):
     return (date + timedelta(days=days)).strftime('%Y-%m-%d')
 
+# Route to book an appointment
 @app.route('/appointment', methods=['POST', 'GET'])
 @login_required('user')
 def appointment():
@@ -226,30 +227,32 @@ def appointment():
         speciality = request.form['diseaseInput']
         disease_description = request.form['diseaseDescription']
         hospital_name = request.form['hospital']
-        # total_no_of_appointments=hospital_data_collection.count_documents({"hospital_name":hospital_name})
-        # print(total_no_of_appointments)
+        doctorname = request.form['doctor']
+
+        # Fetch doctor names based on selected hospital and specialization
+        doctor_names = doctors_collection.find({'hospital_name': hospital_name, 'specialization': speciality})
+        doctor_names_list = [doctor['name'] for doctor in doctor_names]
 
         # Check if the selected time slot is available
-        is_slot_full = check_and_allocate_time_slot(
-            appointment_date, time_slot, hospital_name, speciality)
+        is_slot_full = check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, speciality)
         print(is_slot_full)
-        # if is_slot_full:
-        #     # If the slot is full, find the next available slot
-        #     appointment_date, time_slot = find_next_available_slot(
-        #         appointment_date, hospital_name)
-        doctor_count = doctors_collection.count_documents(
-            {'hospital_name': hospital_name, 'specialization': speciality})
+        
+        doctor_count = len(doctor_names_list)
         print(doctor_count)
         print(speciality)
+        
         if not doctor_count:
-            flash(f'The docotor for the selected field is not available in {hospital_name}.Sorry for the inconvenience', 'error')
+            flash(f'Doctor for the selected field is not available in {hospital_name}. Sorry for the inconvenience', 'error')
             return redirect('/appointment')
+        
         if is_slot_full:
             flash('The selected time slot is full. Please choose another time or date.', 'error')
             return redirect('/appointment')
-        queue_number = calculate_queue_number(
-            appointment_date, time_slot, hospital_name, speciality)
+        
+        queue_number = calculate_queue_number(appointment_date, time_slot, hospital_name, speciality)
         print(queue_number)
+        
+        # Store the appointment in the database
         appointment_data = {
             'name': name,
             'username': user_name,
@@ -261,24 +264,45 @@ def appointment():
             'speciality': speciality,
             'disease_description': disease_description,
             'hospital_name': hospital_name,
-            'queue_number': queue_number
+            'queue_number': queue_number,
+            'appointed_doc': doctorname
         }
         appointment_collection.insert_one(appointment_data)
 
-        # After saving or processing, redirect or render a success page
+        # After saving, redirect to the confirmation page
         return redirect('/confirmation')
-    # If GET request, just render the appointment form
+
+    # If GET request, render the appointment form
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
+    
     today = datetime.today().strftime('%Y-%m-%d')
-    # future_date=add_days(today,15)
     max_date = (datetime.today() + timedelta(days=15)).strftime('%Y-%m-%d')
-    # max_date = add_days(datetime.today(), 15)
+    
+    return render_template('appointment.html', hospitals=hospital_names, today=today, max_date=max_date)
 
-    print(f' max date: {max_date}')
 
+# New route to handle AJAX request for fetching doctors
+@app.route('/get-doctors/<hospital>/<speciality>', methods=['GET'])
+@login_required('user')
+def get_doctors(hospital, speciality):
+    # Log the incoming values
+    print(f"Fetching doctors for hospital: {hospital}, specialization: {speciality}")
 
-    return render_template('appointment.html', hospitals=hospital_names,today=today,max_date=max_date)
+    # Fetch doctors based on the hospital and specialization
+    doctor_names = doctors_collection.find({'hospital_name': hospital, 'specialization': speciality})
+
+    # Log the result from the query
+    doctor_names_list = [doctor['name'] for doctor in doctor_names]
+    print(f"Found doctors: {doctor_names_list}")
+
+    # Return the list of doctors in JSON format
+    if doctor_names_list:
+        return jsonify({'doctors': doctor_names_list})
+    else:
+        # Log if no doctors are found
+        print("No doctors found for the given hospital and specialization")
+        return jsonify({'doctors': []})
 
 # This is the queueing system for the appiontments:
 
