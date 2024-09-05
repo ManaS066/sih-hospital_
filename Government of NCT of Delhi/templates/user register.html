@@ -146,6 +146,14 @@
       .strong {
         color: green;
       }
+
+      .input-group .form-control {
+        border-right: none;
+      }
+
+      .input-group-append .input-group-text {
+        border-left: none;
+      }
     </style>
   </head>
 
@@ -260,11 +268,22 @@
 
             <div class="form-group">
               <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password" required
-                oninput="checkPasswordStrength()" />
+              <div class="input-group">
+                <input type="password" class="form-control" id="password" name="password" required
+                  oninput="checkPasswordStrength()" />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fas fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"
+                      style="cursor: pointer;"></i>
+                  </span>
+                </div>
+              </div>
               <small class="strength" id="passwordStrength"></small>
               <small class="error" id="passwordError"></small>
             </div>
+
+            <!-- Font Awesome Icon Library -->
+            <script src="" crossorigin="anonymous"></script>
 
 
 
@@ -407,6 +426,26 @@
         return isValid;
       }
     </script>
+
+    <script>
+      // Function to toggle the password visibility
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("password");
+        const toggleIcon = document.getElementById("togglePassword");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.classList.remove("fa-eye");
+          toggleIcon.classList.add("fa-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.classList.remove("fa-eye-slash");
+          toggleIcon.classList.add("fa-eye");
+        }
+      }
+    </script>
+
+
     <!-- <script>
             const registrationForm = document.getElementById("registrationForm");
             const name = document.getElementById("name");
