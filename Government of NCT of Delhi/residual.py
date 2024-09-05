@@ -35,10 +35,14 @@ def generate_pdf(data):
         ["Appointment No.", "Appointment Date", "Patient Name", "Mobile No."],
         [data["appointment_no"], data["appointment_date"], data["patient_name"], data["mobile_no"]]
     ]
+    table_data2 = [
+        ["Appointment No.", "Appointment Date", "Patient Name", "Mobile No."],
+        [data["appointment_no"], data["appointment_date"], data["patient_name"], data["mobile_no"]]
+    ]
     table = Table(table_data, style=table_style)
-
+    table2 = Table(table_data2, style=table_style)
     # Build the document
-    doc.build(header_elements + [table], onFirstPage=header, onLaterPages=footer)
+    doc.build(header_elements + [table] +[table2], onFirstPage=header, onLaterPages=footer)
 
 # Static data dictionary
 data = {
