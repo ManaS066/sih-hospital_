@@ -18,3 +18,8 @@ def admin_logout():
 def sueperadmin_logout():
     session.clear()
     return redirect('/superadmin')
+
+@logout_bp.route('/doctor_logout')
+def doctor_logout():
+    session.clear()
+    return redirect('/')
