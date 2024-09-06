@@ -232,6 +232,44 @@
             .contact-box #captcha-input {
                 border-radius: 4px;
             }
+            .alert {
+        position: fixed; /* Fixed position to stay at top */
+        top: 10px; /* Distance from the top */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for centering */
+        margin: 0;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #faf9f9;
+        color: #00000c;
+        border: 1px solid #090909;
+        z-index: 1000; /* Ensure it's on top of other elements */
+        width: 200px;
+        text-align: center;
+        height: 50px;
+      }
+      /* .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      } */
+      
+      .alert-success {
+        background-color: rgba(12, 12, 12, 0.5);
+        color: #fdfefd;
+        border: 1px solid #040404;
+
+      }
+      .closebtn {
+        padding-left: 5px;
+    position: absolute;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #fff;
+}
         </style>
     </head>
 
@@ -329,6 +367,20 @@
                 </div>
             </nav>
         </section>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            <div>
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
         <!-- HOME SECTION  -->
         <section class="carousel" id="carousel">
             <div id="demo" class="carousel slide" data-bs-ride="carousel">
