@@ -162,7 +162,7 @@
 
                 <section id="feedback">
                     <h3>Feedback/Help</h3>
-                    <p>Contact support: <a href="mailto:support@example.com">support@example.com</a></p>
+                    <p>Contact support: <a href="mailto:support@example.com">nicdelhi2024@gmail.com</a></p>
                     <button id="feedback-btn">Provide Feedback</button>
                 </section>
             </div>
@@ -171,7 +171,7 @@
         <script>
             const donorId = 'YOUR_DONOR_ID'; // Replace with actual donor ID
 
-            fetch(`http://localhost:3000/donor/${donorId}`)
+            fetch(`"mongodb+srv://manasranjanpradhan2004:root@hms.m7j9t.mongodb.net/?retryWrites=true&w=majority&appName=HMS"/${donorId}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('name').innerText = `Name: ${data.name}`;
