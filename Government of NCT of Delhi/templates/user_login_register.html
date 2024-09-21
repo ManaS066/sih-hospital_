@@ -165,14 +165,14 @@
         <span>User Login</span>
       </div>
       <div class="form">
-        <form>
+        <form action="/user_login" method="post">
           <div class="inputBox inputBoxFront">
             <label><i class="fa-solid fa-user"></i></label>
-            <input type="text" placeholder="Username" class="input" required>
+            <input type="text" placeholder="Username" class="input" name="username" required>
           </div>
           <div class="inputBox inputBoxFront">
             <label><i class="fa-solid fa-lock"></i></label>
-            <input type="password" placeholder="Password" class="input" required>
+            <input type="password" placeholder="Password" class="input" name="password" required>
           </div>
           <button type="submit" class="btn">Log in</button>
           <div class="user">New user? <span class="newUser">Sign Up</span></div>
@@ -187,30 +187,30 @@
         <span>User Register</span>
       </div>
       <div class="form formBack">
-        <form id="registerForm">
+        <form id="registerForm" action="/user_register" method="post">
           <div class="inputBox inputBoxBack">
             <label><i class="fa-solid fa-user"></i></label>
-            <input type="text" id="name" placeholder="Name" class="input" required>
+            <input type="text" id="name" placeholder="Name" class="input" name="name" required>
           </div>
 
           <div class="inputBox inputBoxBack">
             <label><i class="fa-solid fa-envelope"></i></label>
-            <input type="email" id="email" placeholder="Email id" class="input" required>
+            <input type="email" id="email" placeholder="Email id" class="input" name="email" required>
           </div>
 
           <div class="inputBox inputBoxBack">
             <label><i class="fa-solid fa-user"></i></label>
-            <input type="text" id="username" placeholder="Username" class="input" required>
+            <input type="text" id="username" placeholder="Username" class="input" name="username" required>
           </div>
 
           <div class="inputBox inputBoxBack">
             <label><i class="fa-solid fa-phone"></i></label>
-            <input type="tel" id="phone" placeholder="Phone Number" class="input" required pattern="[6-9]{1}[0-9]{9}">
+            <input type="tel" id="phone" placeholder="Phone Number" class="input" name="phone" required pattern="[6-9]{1}[0-9]{9}">
           </div>
 
           <div class="inputBox inputBoxBack" style="position: relative;">
             <label><i class="fa-solid fa-lock"></i></label>
-            <input type="password" id="password" placeholder="Password" class="input" required>
+            <input type="password" id="password" placeholder="Password" class="input" name="password" required>
             <i class="fa-solid fa-eye" id="togglePassword"
               style="cursor: pointer; position: absolute; right: 10px; top: 10px;"></i>
           </div>

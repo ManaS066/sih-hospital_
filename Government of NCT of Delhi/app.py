@@ -160,7 +160,7 @@ def user_login():
             flash('User not found', 'error')
             return redirect('/user_login')
 
-    return render_template('user_login.html')
+    return render_template('user_login_register.html')
 
 
 @app.route('/user_app', methods=['GET', 'POST'])
@@ -201,7 +201,7 @@ def user_register():
         }
         users_collection.insert_one(user_data)
         return redirect('/user_login')
-    return render_template('user register.html')
+    return render_template('user_login_register.html')
 
 
 @app.route('/all_doctor')
