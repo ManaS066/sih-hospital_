@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Contact Us Data</title>
+    <title>Admin Appointment Data</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
+        background-image: url(../static/images/registration.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
       }
 
       h1 {
@@ -24,7 +28,7 @@
 
       th,
       td {
-        border: 1px solid #dddddd;
+        border: 1px solid #ddddddab;
         text-align: left;
         padding: 8px;
       }
@@ -64,8 +68,9 @@
           <td>{{ contact.disease_description }}</td>
           <td>{{contact.queue_number}}</td>
         </tr>
-        {% endfor %}f
+        {% endfor %}
       </table>
     </div>
   </body>
+
 </html>
