@@ -156,9 +156,6 @@
             }
 
 
-
-
-
             .card-button {
                 display: inline-block;
                 padding: 10px 15px;
@@ -174,8 +171,6 @@
             .card-button:hover {
                 background-color: #171818;
             }
-
-
 
             .faq-box {
                 background-color: #fff;
@@ -1269,7 +1264,7 @@
         <br>
         <br>
         <div class="faq-section"
-            style="border: 2px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 600px; margin: 20px auto; background-color: #f9f9f9;">
+            style="border: 2px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 800px; margin: 20px auto; background-color: #f9f9f9;">
             <h2>Frequently Asked Questions (FAQ)</h2>
 
             <div class="faq-box">
@@ -1442,7 +1437,7 @@
                     <div class="col-lg-6 col-12">
                         <!-- Start Newsletter Form -->
                         <div class="subscribe-form">
-                            <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+                            <form action="mail/mail.gmail" method="get" target="_blank" class="newsletter-inner">
                                 <input name="EMAIL" placeholder="Your email address" class="common-input"
                                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your email address'"
                                     required type="email">
@@ -1664,6 +1659,169 @@
             }
         </style>
 
+        <div class="page-section bg-light">
+            <div class="container-scrollable">
+                <h1 class="text-center wow fadeInUp">Latest News</h1>
+                <div>
+                    <div class="gallery-wrapper">
+                        <div class="gallery-item">
+                            <img src="../static/images/1.jpeg" alt="Description of photo 1">
+                            <div class="caption">
+                                <p>India launches nationwide initiative for AI.</p>
+                                <a href="#" target="_blank">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="../static/images/1.jpeg" alt="Description of photo 1">
+                            <div class="caption">
+                                <p>India launches nationwide initiative for AI.</p>
+                                <a href="#" target="_blank">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="../static/images/1.jpeg" alt="Description of photo 1">
+                            <div class="caption">
+                                <p>India launches nationwide initiative for AI.</p>
+                                <a href="#" target="_blank">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="../static/images/1.jpeg" alt="Description of photo 1">
+                            <div class="caption">
+                                <p>India launches nationwide initiative for AI.</p>
+                                <a href="#" target="_blank">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="../static/images/1.jpeg" alt="Description of photo 1">
+                            <div class="caption">
+                                <p>India launches nationwide initiative for AI.</p>
+                                <a href="#" target="_blank">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-4 wow zoomIn">
+                        <a href="https://timesofindia.indiatimes.com/life-style/health-fitness/health-news?curpg=2"
+                            class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .page-section {
+                padding: 60px 0;
+                background-color: #f8f9fa;
+                /* Light background */
+            }
+
+            .page-section h1 {
+                font-size: 36px;
+                font-weight: 700;
+                margin-bottom: 40px;
+                text-transform: uppercase;
+                color: #333;
+                text-align: center;
+            }
+
+            .container-scrollable {
+                padding-bottom: 20px;
+                overflow-x: hidden;
+            }
+
+            .gallery-wrapper {
+                display: flex;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                padding-bottom: 20px;
+            }
+
+            .gallery-item {
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                margin-right: 10px;
+                min-width: 300px;
+                text-align: center;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .gallery-item:hover {
+                transform: translateY(-10px);
+            }
+
+            .gallery-item img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-bottom: 2px solid #007bff;
+            }
+
+            .caption {
+                padding: 15px;
+            }
+
+            .caption p {
+                font-size: 16px;
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .caption a {
+                color: #007bff;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+            .caption a:hover {
+                text-decoration: underline;
+            }
+
+            .col-12.text-center {
+                margin-top: 30px;
+            }
+
+            .btn-primary {
+                background-color: #007bff;
+                border: none;
+                color: #fff;
+                padding: 10px 25px;
+                border-radius: 5px;
+                text-transform: uppercase;
+                transition: background-color 0.3s ease-in-out;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+            /* Hide horizontal scrollbar but still allow scrolling */
+            .gallery-wrapper::-webkit-scrollbar {
+                display: none;
+            }
+
+            .gallery-wrapper {
+                -ms-overflow-style: none;
+                /* Internet Explorer 10+ */
+                scrollbar-width: none;
+                /* Firefox */
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .gallery-item {
+                    min-width: 250px;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .gallery-item {
+                    min-width: 200px;
+                }
+            }
+        </style>
 
 
         <footer style="background-color: #A0DEFF; padding: 20px; border-top: 1px solid #ddd;">
@@ -1706,11 +1864,6 @@
                         </li>
                         <li><a href="https://www.linkedin.com/in/debabrata-mishra-148121289/">Debarata Mishra</a>
                         </li>
-                        <li><a href="https://www.linkedin.com/in/diptesh-narendra-9a5049270/">Dipetesh Narendra</a>
-                        </li>
-                        <li><a href="https://www.linkedin.com/in/kanha-biswal17/">Khana Biswal</a></li>
-                        <li><a href="#">Alpha</a></li>
-
                     </ul>
                 </div>
             </div>

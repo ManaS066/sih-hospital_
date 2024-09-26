@@ -75,7 +75,6 @@ result = appointment_collection.delete_many(query)
 print(f"Deleted {result.deleted_count} appointments.")
 
 
-
 # def token_required(expected_role):
 #     def decorator(f):
 #         @wraps(f)
@@ -217,10 +216,13 @@ def user_register():
 def all_doc():
     return render_template('doctor.html')
 
+
 def add_days(date, days):
     return (date + timedelta(days=days)).strftime('%Y-%m-%d')
 
 # Route to book an appointment
+
+
 @app.route('/appointment', methods=['POST', 'GET'])
 @login_required('user')
 def appointment():
@@ -239,28 +241,33 @@ def appointment():
         doctorname = request.form['doctor']
 
         # Fetch doctor names based on selected hospital and specialization
-        doctor_names = doctors_collection.find({'hospital_name': hospital_name, 'specialization': speciality})
+        doctor_names = doctors_collection.find(
+            {'hospital_name': hospital_name, 'specialization': speciality})
         doctor_names_list = [doctor['name'] for doctor in doctor_names]
 
         # Check if the selected time slot is available
-        is_slot_full = check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, speciality)
+        is_slot_full = check_and_allocate_time_slot(
+            appointment_date, time_slot, hospital_name, speciality)
         print(is_slot_full)
-        
+
         doctor_count = len(doctor_names_list)
         print(doctor_count)
         print(speciality)
-        
+
         if not doctor_count:
-            flash(f'Doctor for the selected field is not available in {hospital_name}. Sorry for the inconvenience', 'error')
+            flash(f'Doctor for the selected field is not available in {
+                  hospital_name}. Sorry for the inconvenience', 'error')
             return redirect('/appointment')
-        
+
         if is_slot_full:
-            flash('The selected time slot is full. Please choose another time or date.', 'error')
+            flash(
+                'The selected time slot is full. Please choose another time or date.', 'error')
             return redirect('/appointment')
-        
-        queue_number = calculate_queue_number(appointment_date, time_slot, hospital_name, speciality)
+
+        queue_number = calculate_queue_number(
+            appointment_date, time_slot, hospital_name, speciality)
         print(queue_number)
-        
+
         # Store the appointment in the database
         appointment_data = {
             'name': name,
@@ -284,10 +291,10 @@ def appointment():
     # If GET request, render the appointment form
     hospitals = hospital_data_collection.find()
     hospital_names = [hospital['hospital_name'] for hospital in hospitals]
-    
+
     today = datetime.today().strftime('%Y-%m-%d')
     max_date = (datetime.today() + timedelta(days=15)).strftime('%Y-%m-%d')
-    
+
     return render_template('appointment.html', hospitals=hospital_names, today=today, max_date=max_date)
 
 
@@ -296,10 +303,12 @@ def appointment():
 @login_required('user')
 def get_doctors(hospital, speciality):
     # Log the incoming values
-    print(f"Fetching doctors for hospital: {hospital}, specialization: {speciality}")
+    print(f"Fetching doctors for hospital: {
+          hospital}, specialization: {speciality}")
 
     # Fetch doctors based on the hospital and specialization
-    doctor_names = doctors_collection.find({'hospital_name': hospital, 'specialization': speciality})
+    doctor_names = doctors_collection.find(
+        {'hospital_name': hospital, 'specialization': speciality})
 
     # Log the result from the query
     doctor_names_list = [doctor['name'] for doctor in doctor_names]
@@ -325,7 +334,8 @@ def check_and_allocate_time_slot(appointment_date, time_slot, hospital_name, spe
 
 # Convert to datetime object
     print(appointment_date)
-    print(f"Checking for date: {appointment_date}, time slot: {time_slot}, hospital: {hospital_name}")
+    print(f"Checking for date: {appointment_date}, time slot: {
+          time_slot}, hospital: {hospital_name}")
     count = appointment_collection.count_documents({
         'appointment_date': appointment_date,
         'time_slot': time_slot,
@@ -839,7 +849,8 @@ def status():
         ])
         total_icu_beds_data = next(total_icu_beds_data, {})
         total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
-        occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+        occupied_icu_beds = total_icu_beds_data.get(
+            'total_occupied_icu_beds', 0)
         available_icu_beds = total_icu_beds - occupied_icu_beds
 
         # Ventilators
@@ -855,7 +866,8 @@ def status():
         ])
         total_ventilators_data = next(total_ventilators_data, {})
         total_ventilators = total_ventilators_data.get('total_ventilators', 0)
-        occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+        occupied_ventilators = total_ventilators_data.get(
+            'total_occupied_ventilators', 0)
         available_ventilators = total_ventilators - occupied_ventilators
 
     else:
@@ -885,7 +897,8 @@ def status():
         ]).next()
 
         total_icu_beds = total_icu_beds_data.get('total_icu_beds', 0)
-        occupied_icu_beds = total_icu_beds_data.get('total_occupied_icu_beds', 0)
+        occupied_icu_beds = total_icu_beds_data.get(
+            'total_occupied_icu_beds', 0)
         available_icu_beds = total_icu_beds - occupied_icu_beds
 
         total_ventilators_data = hospital_data_collection.aggregate([
@@ -899,18 +912,19 @@ def status():
         ]).next()
 
         total_ventilators = total_ventilators_data.get('total_ventilators', 0)
-        occupied_ventilators = total_ventilators_data.get('total_occupied_ventilators', 0)
+        occupied_ventilators = total_ventilators_data.get(
+            'total_occupied_ventilators', 0)
         available_ventilators = total_ventilators - occupied_ventilators
 
     return render_template('bed_status.html',
-                           hospitals = hospital_names,
-                           no_hospital=no_of_hospital, 
-                           doctor=total_doctor, 
-                           patient=active_patient, 
-                           total_general_beds=total_beds, 
-                           available_beds=available_beds, 
-                           total_icu_beds=total_icu_beds, 
-                           available_icu_beds=available_icu_beds, 
+                           hospitals=hospital_names,
+                           no_hospital=no_of_hospital,
+                           doctor=total_doctor,
+                           patient=active_patient,
+                           total_general_beds=total_beds,
+                           available_beds=available_beds,
+                           total_icu_beds=total_icu_beds,
+                           available_icu_beds=available_icu_beds,
                            total_ventilators=total_ventilators,
                            available_ventilators=available_ventilators)
 
@@ -1023,8 +1037,9 @@ def check_hospital():
             {'hospital_name': hospital_name})
 
         if data:
-            no_doc= doctors_collection.count_documents({"hospital_name":hospital_name})
-            return render_template('superadmin_hospital_status.html', data=data,no_doc = no_doc)
+            no_doc = doctors_collection.count_documents(
+                {"hospital_name": hospital_name})
+            return render_template('superadmin_hospital_status.html', data=data, no_doc=no_doc)
         else:
             return "No hospital found"
     hospitals = hospital_data_collection.find()
@@ -1084,12 +1099,15 @@ def submit_discharge():
         elements.append(Spacer(1, 12))
         elements.append(
             Paragraph(f"Full Name: {patient_name}", styles['Normal']))
-        elements.append(Paragraph(f"Admission Date: {admission_date}", styles['Normal']))
+        elements.append(Paragraph(f"Admission Date: {
+                        admission_date}", styles['Normal']))
         elements.append(Paragraph(f"Gender: {gender}", styles['Normal']))
         elements.append(Paragraph(f"Address: {address}", styles['Normal']))
-        elements.append(Paragraph(f"Phone Number: {contact_info}", styles['Normal']))
+        elements.append(Paragraph(f"Phone Number: {
+                        contact_info}", styles['Normal']))
         elements.append(Paragraph(f"Diagnosis: {diagnosis}", styles['Normal']))
-        elements.append(Paragraph(f"Discharge Summary: {discharge_summary}", styles['Normal']))
+        elements.append(Paragraph(f"Discharge Summary: {
+                        discharge_summary}", styles['Normal']))
 
         # Generate QR code
         qr = qrcode.QRCode(
@@ -1169,6 +1187,7 @@ def stock_details():
     return render_template('inv_stock_product.html')
 
 # show
+
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
