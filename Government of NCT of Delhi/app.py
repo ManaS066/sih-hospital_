@@ -18,19 +18,19 @@ import qrcode
 import io
 from log_out import logout_bp
 
-API_KEY='a67ff8af513644a890cf681916c3484c'
-endpoint = 'https://newsapi.org/v2/top-headlines'
-news_parameters ={
-    'country': 'in',
-    'apiKey': API_KEY,
-    'pageSize': 10,
-    'category': 'health',
+# API_KEY='a67ff8af513644a890cf681916c3484c'
+# endpoint = 'https://newsapi.org/v2/top-headlines'
+# news_parameters ={
+#     'country': 'in',
+#     'apiKey': API_KEY,
+#     'pageSize': 10,
+#     'category': 'health',
 
-}
-response_s = requests.get(endpoint,params=news_parameters)
-print(response_s.status_code)
-d=response_s.json()
-print(d)
+# }
+# response_s = requests.get(endpoint,params=news_parameters)
+# print(response_s.status_code)
+# d=response_s.json()
+# print(d)
 
 # test pull
 app = Flask(__name__)
