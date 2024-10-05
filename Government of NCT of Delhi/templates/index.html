@@ -1822,7 +1822,171 @@
             </style>
         </div>
 
-        <!-- <div class="page-section bg-light">
+
+        <!-- Testimonial Section -->
+        <class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <p class="d-inline-block border rounded-pill py-1 px-4">Testimonial</p>
+                    <h1>What Say Our Patients!</h1>
+                </div>
+                <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="testimonial-item text-center">
+                        <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="img/testimonial-1.jpg"
+                            style="width: 100px; height: 100px;">
+                        <div class="testimonial-text rounded text-center p-4">
+                            <p>"The staff was very helpful and the treatment was excellent!"</p>
+                            <h5 class="mb-1">John Doe</h5>
+                            <span class="fst-italic">Software Engineer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item text-center">
+                        <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="img/testimonial-2.jpg"
+                            style="width: 100px; height: 100px;">
+                        <div class="testimonial-text rounded text-center p-4">
+                            <p>"I felt very cared for during my visit. Highly recommend!"</p>
+                            <h5 class="mb-1">Jane Smith</h5>
+                            <span class="fst-italic">Teacher</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item text-center">
+                        <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="img/testimonial-3.jpg"
+                            style="width: 100px; height: 100px;">
+                        <div class="testimonial-text rounded text-center p-4">
+                            <p>"A great experience overall, the doctors are very professional."</p>
+                            <h5 class="mb-1">Mike Johnson</h5>
+                            <span class="fst-italic">Designer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item text-center">
+                        <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="img/testimonial-4.jpg"
+                            style="width: 100px; height: 100px;">
+                        <div class="testimonial-text rounded text-center p-4">
+                            <p>"I received prompt and efficient service during my appointment."</p>
+                            <h5 class="mb-1">Sara Lee</h5>
+                            <span class="fst-italic">Nurse</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item text-center">
+                        <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="img/testimonial-5.jpg"
+                            style="width: 100px; height: 100px;">
+                        <div class="testimonial-text rounded text-center p-4">
+                            <p>"The staff made me feel comfortable and the treatment worked wonders."</p>
+                            <h5 class="mb-1">Tom Brown</h5>
+                            <span class="fst-italic">Photographer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="owl-nav">
+                    <button type="button" class="owl-prev"><span>&lt;</span></button>
+                    <button type="button" class="owl-next"><span>&gt;</span></button>
+                </div>
+            </div>
+            </div>
+
+            <style>
+                .container-xxl.py-5 {
+                    padding-top: 60px;
+                    padding-bottom: 60px;
+                    background-color: #f9f9f9;
+                }
+
+                .text-center.mb-5 h1 {
+                    font-size: 36px;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                    color: #333;
+                }
+
+                .owl-carousel .testimonial-item {
+                    background: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                    padding: 20px;
+                    transition: transform 0.3s ease;
+                }
+
+                .testimonial-item img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    border: 2px solid #007bff;
+                }
+
+                .testimonial-text {
+                    padding: 15px;
+                    text-align: center;
+                }
+
+                .testimonial-text p {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #555;
+                    margin-bottom: 15px;
+                }
+
+                .testimonial-text h5 {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #333;
+                }
+
+                .testimonial-text span {
+                    font-size: 14px;
+                    font-style: italic;
+                    color: #777;
+                }
+
+                .owl-nav {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                }
+
+                .owl-nav button {
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                }
+
+                .owl-nav button:hover {
+                    background-color: #0056b3;
+                }
+
+                /* Responsive adjustments */
+                @media (max-width: 768px) {
+                    .owl-carousel .testimonial-item {
+                        max-width: 80%;
+                    }
+                }
+            </style>
+
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $(".testimonial-carousel").owlCarousel({
+                        items: 1, // Only show one item at a time
+                        loop: true,
+                        autoplay: true,
+                        autoplayTimeout: 3000,
+                        autoplayHoverPause: true,
+                        nav: true,
+                        navText: ['<', '>'],
+                    });
+                });
+            </script>
+
+            <!-- <div class="page-section bg-light">
             <div class="container-scrollable">
                 <h1 class="text-center wow fadeInUp">Latest News</h1>
                 <div>
@@ -2001,198 +2165,268 @@
         </script> -->
 
 
-        <footer style="background-color: #A0DEFF; padding: 40px; border-top: 1px solid #ddd;">
-            <div
-                style="max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px; margin-right: 20px; display: flex; flex-direction: column;">
-                    <h3 style="color: #005f73; margin-bottom: 15px;">Contact Us</h3>
-                    <div style="line-height: 1.6;">
-                        <strong style="display: block; margin-bottom: 10px;">SmartCare Ninjas</strong>
-                        <span style="display: block; margin-bottom: 5px;">Delhi, 110001</span>
-                        <span style="display: block; margin-bottom: 5px;">
-                            Phone: <a href="tel:+919875643210"
-                                style="color: #005f73; text-decoration: none;">+91-9876543210</a>
-                        </span>
-                        <span style="display: block; margin-bottom: 5px;">Fax: +91-112345680</span>
-                        <strong style="display: block; margin-top: 10px;">
-                            Email: <a href="mailto:nicdelhi2024@gmail.com"
-                                style="color: #005f73; text-decoration: none;">nicdelhi2024@gmail.com</a>
-                        </strong>
+            <footer style="background-color: #A0DEFF; padding: 40px; border-top: 1px solid #ddd;">
+                <div
+                    style="max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px; margin-right: 20px; display: flex; flex-direction: column;">
+                        <h3 style="color: #005f73; margin-bottom: 15px;">Contact Us</h3>
+                        <div style="line-height: 1.6;">
+                            <strong style="display: block; margin-bottom: 10px;">SmartCare Ninjas</strong>
+                            <span style="display: block; margin-bottom: 5px;">Delhi, 110001</span>
+                            <span style="display: block; margin-bottom: 5px;">
+                                Phone: <a href="tel:+919875643210"
+                                    style="color: #005f73; text-decoration: none;">+91-9876543210</a>
+                            </span>
+                            <span style="display: block; margin-bottom: 5px;">Fax: +91-112345680</span>
+                            <strong style="display: block; margin-top: 10px;">
+                                Email: <a href="mailto:nicdelhi2024@gmail.com"
+                                    style="color: #005f73; text-decoration: none;">nicdelhi2024@gmail.com</a>
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; min-width: 250px; margin-right: 20px;">
+                        <h3 style="color: #005f73; margin-bottom: 10px;">Important Links</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><a href="https://goicharters.nic.in/public/website/home"
+                                    style="color: #005f73; text-decoration: none;">Citizen Charter</a></li>
+                            <li><a href="https://www.pmindia.gov.in/en/"
+                                    style="color: #005f73; text-decoration: none;">Govt
+                                    Online
+                                    Donation</a></li>
+                            <li><a href="https://pmnrf.gov.in/en/faqs/donation"
+                                    style="color: #005f73; text-decoration: none;">Govt
+                                    Offline Donation</a></li>
+                            <li><a href="https://www.indiacode.nic.in/handle/123456789/2065"
+                                    style="color: #005f73; text-decoration: none;">Right To Information Act 2005</a>
+                            </li>
+                            <li><a href="https://dopt.gov.in/rti/proactive-disclosures/proactive-disclosure"
+                                    style="color: #005f73; text-decoration: none;">Proactive Disclosure</a></li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1; min-width: 250px; margin-right: 20px;">
+                        <h3 style="color: #005f73; margin-bottom: 10px;">Quick Links</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><a href="https://mohfw.gov.in/" style="color: #005f73; text-decoration: none;">MoHFW</a>
+                            </li>
+                            <li><a href="https://ngodarpan.gov.in/index.php/home"
+                                    style="color: #005f73; text-decoration: none;">NGOs Associated with Govt</a></li>
+                            <li><a href="https://www.missiondelhi.in/"
+                                    style="color: #005f73; text-decoration: none;">Mission
+                                    Delhi</a></li>
+                            <li><a href="https://www.india.gov.in/" style="color: #005f73; text-decoration: none;">Mera
+                                    Aspataal</a>
+                            </li>
+                            <li><a href="https://www.mygov.in/" style="color: #005f73; text-decoration: none;">M
+                                    Government</a></li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1; min-width: 250px; margin-right: 20px;">
+                        <h3 style="color: #005f73; margin-bottom: 10px;">Team Members</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><a href="https://www.linkedin.com/in/abhisekpanda2004/"
+                                    style="color: #005f73; text-decoration: none;">Abhisek Panda</a></li>
+                            <li><a href="https://www.linkedin.com/in/manas-ranjan-pradhan/"
+                                    style="color: #005f73; text-decoration: none;">Manas Ranjan Paradhan</a></li>
+                            <li><a href="https://www.linkedin.com/in/debabrata-mishra-148121289/"
+                                    style="color: #005f73; text-decoration: none;">Debarata Mishra</a></li>
+                        </ul>
                     </div>
                 </div>
-
-                <div style="flex: 1; min-width: 250px; margin-right: 20px;">
-                    <h3 style="color: #005f73; margin-bottom: 10px;">Important Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="https://goicharters.nic.in/public/website/home"
-                                style="color: #005f73; text-decoration: none;">Citizen Charter</a></li>
-                        <li><a href="https://www.pmindia.gov.in/en/" style="color: #005f73; text-decoration: none;">Govt
-                                Online
-                                Donation</a></li>
-                        <li><a href="https://pmnrf.gov.in/en/faqs/donation"
-                                style="color: #005f73; text-decoration: none;">Govt
-                                Offline Donation</a></li>
-                        <li><a href="https://www.indiacode.nic.in/handle/123456789/2065"
-                                style="color: #005f73; text-decoration: none;">Right To Information Act 2005</a></li>
-                        <li><a href="https://dopt.gov.in/rti/proactive-disclosures/proactive-disclosure"
-                                style="color: #005f73; text-decoration: none;">Proactive Disclosure</a></li>
-                    </ul>
+                <div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd; margin-top: 20px;">
+                    <p style="margin: 0; color: #005f73;">
+                        Copyright © SmartCare Ninjas, All rights reserved. |
+                        <a href="#" style="color: #005f73; text-decoration: none;">Disclaimer</a> |
+                        <a href="#" style="color: #005f73; text-decoration: none;">Website Policy</a> |
+                        <a href="#" style="color: #005f73; text-decoration: none;">Privacy Policy</a>
+                    </p>
+                    <p style="margin: 0; color: #005f73;">Webmaster & Webinformation Manager: Abhisek Panda, Dy.
+                        Director,
+                        Team
+                        SmartCare Ninjas</p>
                 </div>
-                <div style="flex: 1; min-width: 250px; margin-right: 20px;">
-                    <h3 style="color: #005f73; margin-bottom: 10px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="https://mohfw.gov.in/" style="color: #005f73; text-decoration: none;">MoHFW</a>
-                        </li>
-                        <li><a href="https://ngodarpan.gov.in/index.php/home"
-                                style="color: #005f73; text-decoration: none;">NGOs Associated with Govt</a></li>
-                        <li><a href="https://www.missiondelhi.in/"
-                                style="color: #005f73; text-decoration: none;">Mission
-                                Delhi</a></li>
-                        <li><a href="https://www.india.gov.in/" style="color: #005f73; text-decoration: none;">Mera
-                                Aspataal</a>
-                        </li>
-                        <li><a href="https://www.mygov.in/" style="color: #005f73; text-decoration: none;">M
-                                Government</a></li>
-                    </ul>
-                </div>
-                <div style="flex: 1; min-width: 250px; margin-right: 20px;">
-                    <h3 style="color: #005f73; margin-bottom: 10px;">Team Members</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="https://www.linkedin.com/in/abhisekpanda2004/"
-                                style="color: #005f73; text-decoration: none;">Abhisek Panda</a></li>
-                        <li><a href="https://www.linkedin.com/in/manas-ranjan-pradhan/"
-                                style="color: #005f73; text-decoration: none;">Manas Ranjan Paradhan</a></li>
-                        <li><a href="https://www.linkedin.com/in/debabrata-mishra-148121289/"
-                                style="color: #005f73; text-decoration: none;">Debarata Mishra</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd; margin-top: 20px;">
-                <p style="margin: 0; color: #005f73;">
-                    Copyright © SmartCare Ninjas, All rights reserved. |
-                    <a href="#" style="color: #005f73; text-decoration: none;">Disclaimer</a> |
-                    <a href="#" style="color: #005f73; text-decoration: none;">Website Policy</a> |
-                    <a href="#" style="color: #005f73; text-decoration: none;">Privacy Policy</a>
-                </p>
-                <p style="margin: 0; color: #005f73;">Webmaster & Webinformation Manager: Abhisek Panda, Dy. Director,
-                    Team
-                    SmartCare Ninjas</p>
-            </div>
-            <style>
-                footer {
-                    background-color: #A0DEFF;
-                    padding: 40px;
-                    border-top: 1px solid #ddd;
-                }
-
-                footer h3 {
-                    color: #005f73;
-                    margin-bottom: 10px;
-                }
-
-                footer p,
-                footer a {
-                    color: #005f73;
-                    text-decoration: none;
-                    line-height: 1.6;
-                }
-
-                footer a:hover {
-                    text-decoration: underline;
-                }
-
-                @media (max-width: 768px) {
+                <style>
                     footer {
-                        padding: 20px;
+                        background-color: #A0DEFF;
+                        padding: 40px;
+                        border-top: 1px solid #ddd;
                     }
 
-                    footer div {
-                        margin-bottom: 20px;
+                    footer h3 {
+                        color: #005f73;
+                        margin-bottom: 10px;
                     }
-                }
-            </style>
-        </footer>
-        <script>
-            const submit1 = document.querySelector("#submit1");
-            const submit2 = document.querySelector("#submit2");
-            const submit3 = document.querySelector("#submit3");
-            submit1.addEventListener("click", (e) => {
-                name = localStorage.getItem('username')
-                pass = localStorage.getItem("password")
-                console.log(name);
-                if (name && pass) {
-                    window.location.href = "/appointment";
+
+                    footer p,
+                    footer a {
+                        color: #005f73;
+                        text-decoration: none;
+                        line-height: 1.6;
+                    }
+
+                    footer a:hover {
+                        text-decoration: underline;
+                    }
+
+                    @media (max-width: 768px) {
+                        footer {
+                            padding: 20px;
+                        }
+
+                        footer div {
+                            margin-bottom: 20px;
+                        }
+                    }
+                </style>
+            </footer>
+            <script>
+                const submit1 = document.querySelector("#submit1");
+                const submit2 = document.querySelector("#submit2");
+                const submit3 = document.querySelector("#submit3");
+                submit1.addEventListener("click", (e) => {
+                    name = localStorage.getItem('username')
+                    pass = localStorage.getItem("password")
+                    console.log(name);
+                    if (name && pass) {
+                        window.location.href = "/appointment";
+
+                    }
+                    else {
+                        window.location.href = "/login"
+                    }
+                })
+                submit2.addEventListener("click", (e) => {
+                    name = localStorage.getItem('username')
+                    pass = localStorage.getItem("password")
+                    console.log(name);
+                    if (name && pass) {
+                        window.location.href = "/appointment"
+                    }
+                    else {
+                        window.location.href = "/login"
+                    }
+                })
+                submit3.addEventListener("click", (e) => {
+                    name = localStorage.getItem('username')
+                    pass = localStorage.getItem("password")
+                    console.log(name);
+                    if (name && pass) {
+                        window.location.href = "/appointment"
+                    }
+                    else {
+                        window.location.href = "/login"
+                    }
+                })
+
+
+            </script>
+
+            <script>
+                const userLogin = document.querySelector("userApp");
+                userLogin.addEventListener("click", (e) => {
+                    name = localStorage.getItem('username')
+                    pass = localStorage.getItem("password")
+                    console.log(name);
+                    if (name && pass) {
+                        window.location.href = "/user";
+
+                    }
+                    else {
+                        window.location.href = "/login"
+                    }
+                })
+            </script>
+
+
+
+            <script>
+                // Select the <li> element
+                const logoutButton = document.getElementById('logoutButton');
+
+                // Add event listener for click event
+                logoutButton.addEventListener('click', logout);
+
+                // Define the logout function
+                function logout() {
+                    // Erase local storage data
+                    localStorage.clear();
+                    // Redirect or do any other necessary action
+                    // For example, redirect to login page
 
                 }
-                else {
-                    window.location.href = "/login"
-                }
-            })
-            submit2.addEventListener("click", (e) => {
-                name = localStorage.getItem('username')
-                pass = localStorage.getItem("password")
-                console.log(name);
-                if (name && pass) {
-                    window.location.href = "/appointment"
-                }
-                else {
-                    window.location.href = "/login"
-                }
-            })
-            submit3.addEventListener("click", (e) => {
-                name = localStorage.getItem('username')
-                pass = localStorage.getItem("password")
-                console.log(name);
-                if (name && pass) {
-                    window.location.href = "/appointment"
-                }
-                else {
-                    window.location.href = "/login"
-                }
-            })
+            </script>
 
+            <script src="../static/js/script.js"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        </script>
+            <!-- Back to Top Button -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top">
+                <i class="bi bi-arrow-up"></i>
+                <style>
+                    /* Back to Top Button Styles */
+                    .back-to-top {
+                        position: fixed;
+                        bottom: 20px;
+                        /* Distance from the bottom */
+                        right: 20px;
+                        /* Distance from the right */
+                        background-color: #007bff;
+                        /* Button color */
+                        color: #fff;
+                        /* Icon color */
+                        border: none;
+                        /* No border */
+                        border-radius: 50%;
+                        /* Circular shape */
+                        width: 50px;
+                        /* Width of the button */
+                        height: 50px;
+                        /* Height of the button */
+                        display: flex;
+                        /* Centering icon */
+                        justify-content: center;
+                        /* Centering icon */
+                        align-items: center;
+                        /* Centering icon */
+                        transition: background-color 0.3s ease;
+                        /* Smooth transition */
+                        z-index: 1000;
+                        /* Ensure it is above other elements */
+                    }
 
-        <script>
-            const userLogin = document.querySelector("userApp");
-            userLogin.addEventListener("click", (e) => {
-                name = localStorage.getItem('username')
-                pass = localStorage.getItem("password")
-                console.log(name);
-                if (name && pass) {
-                    window.location.href = "/user";
+                    .back-to-top:hover {
+                        background-color: #0056b3;
+                        /* Darker shade on hover */
+                    }
 
-                }
-                else {
-                    window.location.href = "/login"
-                }
-            })
-        </script>
+                    .back-to-top i {
+                        font-size: 20px;
+                        /* Size of the icon */
+                    }
 
+                    /* Optional: Hide the button initially and show on scroll */
+                    .back-to-top {
+                        display: none;
+                        /* Initially hidden */
+                    }
 
+                    /* Show button when scrolling down */
+                </style>
+                <script>window.onscroll = function () {
+                        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                            document.querySelector('.back-to-top').style.display = 'flex'; // Show button
+                        }
 
-        <script>
-            // Select the <li> element
-            const logoutButton = document.getElementById('logoutButton');
+                        else {
+                            document.querySelector('.back-to-top').style.display = 'none'; // Hide button
+                        }
+                    }
 
-            // Add event listener for click event
-            logoutButton.addEventListener('click', logout);
+                </script>;
+            </a>
 
-            // Define the logout function
-            function logout() {
-                // Erase local storage data
-                localStorage.clear();
-                // Redirect or do any other necessary action
-                // For example, redirect to login page
-
-            }
-        </script>
-
-        <script src="../static/js/script.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 
 </html>
