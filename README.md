@@ -226,3 +226,24 @@ A robust technological solution that addresses queuing models, bed availability,
 ### Security:
 - **SSL/TLS Encryption** 🔐: To ensure secure communication between the client and server.
 - **Authentication and Authorization** 🔑: To manage user access and protect sensitive patient and hospital data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div align="center">
+    <a href="#top">
+        <img src="https://img.shields.io/badge/Back%20to%20Top-000000?style=for-the-badge&logo=github&logoColor=white" alt="Back to Top">
+    </a>
+</div>
+
+### Show some ❤️ by starring this awesome repository!
