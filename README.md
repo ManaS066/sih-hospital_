@@ -79,23 +79,60 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 The project is currently under development, and contributions are welcome to enhance its functionality. Future updates will focus on improving user interfaces, adding more features, and integrating with additional healthcare systems.
 
+Sure! Here’s a detailed description for the main webpages in your Hospital Management System, similar to the format you provided for the additional pages:
+
+---
+
 ## Required Webpages
 
-1. 🏥 **Landing Page**
-2. 📝 **User Registration**
-3. 🔐 **User Login**
-4. 📊 **User Dashboard**
-5. 🦸‍♂️ **Super Admin**
-6. 🔒 **Super Admin Login**
-7. 📋 **Admin Dashboard**
-8. 🔑 **Admin Login**
-9. 👩‍⚕️ **Add Patient**
-10. 👨‍⚕️ **Add Doctor**
-11. 💊 **Inventory (Medicine)**
-12. 🩺 **Doctor Dashboard**
-13. 💬 **Feedback**
-14. 🛏️ **Bed Availability**
-15. 🗓️ **OPD Availability**
+### 🏥 Landing Page
+A welcoming and informative homepage that provides an overview of the hospital's services, mission, and values. It features quick links to essential functions like user registration, login, and services offered.
+
+### 📝 User Registration
+A dedicated page for new users to create an account, capturing essential personal details such as name, email, phone number, and password. This page includes form validation to ensure accurate data entry and a secure registration process.
+
+### 🔐 User Login
+A secure login page for users to access their accounts by entering their registered email and password. The page also provides options for password recovery and assistance in case of login issues.
+
+### 📊 User Dashboard
+A personalized dashboard for users to view and manage their profiles, appointments, and feedback. It offers insights into upcoming appointments, notifications, and access to relevant health resources.
+
+### 🦸‍♂️ Super Admin
+A dedicated interface for super admins to oversee the entire hospital management system. This page includes advanced management features, analytics, and controls to ensure smooth operations across the platform.
+
+### 🔒 Super Admin Login
+A secure login page specifically for super admins, requiring high-level credentials to access sensitive administrative features and controls.
+
+### 📋 Admin Dashboard
+An admin dashboard providing an overview of hospital operations, including patient statistics, bed occupancy, and inventory management. Admins can also manage user roles and permissions from this page.
+
+### 🔑 Admin Login
+A secure login page for hospital administrators to access the admin dashboard and manage hospital operations effectively.
+
+### 👩‍⚕️ Add Patient
+A form page for admins and doctors to input new patient information, including personal details, medical history, and contact information. This page ensures that patient records are accurately captured and stored.
+
+### 👨‍⚕️ Add Doctor
+A dedicated page for adding new doctor profiles, including their qualifications, specialties, and availability. This page helps maintain an up-to-date roster of healthcare professionals within the hospital.
+
+### 💊 Inventory (Medicine)
+A comprehensive inventory management page that tracks medicines and supplies, allowing users to view current stock levels, expiration dates, and reorder supplies when necessary.
+
+### 🩺 Doctor Dashboard
+A personalized dashboard for doctors to manage their appointments, view patient records, and access relevant medical information. It facilitates streamlined workflows and enhances patient care.
+
+### 💬 Feedback
+A page where patients can submit their feedback on services received, allowing the hospital to gather insights and improve its offerings based on patient experiences.
+
+### 🛏️ Bed Availability
+A real-time overview of bed availability in different wards, helping hospital staff manage admissions and discharges effectively. This page assists in ensuring optimal utilization of hospital resources.
+
+### 🗓️ OPD Availability
+A dedicated page for managing and displaying the availability of outpatient department (OPD) services, allowing patients to check and book appointments based on real-time availability.
+
+---
+
+Feel free to add any specific details or features as needed!
 
 ### Additional Pages
 
