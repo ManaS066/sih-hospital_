@@ -316,6 +316,22 @@ A robust technological solution that addresses queuing models, bed availability,
 
 ![Contributors](https://contrib.rocks/image?repo=ManaS066/sih-hospital_)
 
+## Stargazers
+
+<div align='center'>
+
+[![Stargazers repo roster for @ManaS066/sih-hospital_](https://reporoster.com/stars/ManaS066/sih-hospital_)](https://github.com/ManaS066/sih-hospital_/stargazers)
+
+</div>
+
+## Forkers
+
+<div align='center'>
+
+[![Forkers repo roster for @ManaS066/sih-hospital_](https://reporoster.com/forks/ManaS066/sih-hospital_)](https://github.com/ManaS066/sih-hospital_/network/members)
+
+</div>
+
 
 <div align="center">
     <a href="#top">
