@@ -75,18 +75,19 @@ To get a local copy of this project up and running, follow these steps:
 
 This Hospital Management System is designed to optimize queuing models and resource availability to enhance patient care. It integrates seamlessly with city-wide healthcare modules for real-time data sharing. The system addresses critical challenges in patient flow, bed availability, and resource management, ultimately improving healthcare delivery and patient experiences.
 
-## 🤝 Contributing
+## <img src="https://github.com/Meetjain1/wanderlust/assets/133582566/90f3930e-5a12-4a4e-8ac9-0dc7d5396adb" width="35" height="35"> Contribution
 
-Contributions are welcome! If you'd like to help improve this project, please follow these steps:
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. **Fork the repository** 🍴
-2. **Create a new branch** 🌿
-3. **Make your changes** ✏️
-4. **Commit your changes** 📦
-5. **Push to the branch** 🔄
-6. **Open a pull request** 📬
+- If you have any suggestions for the project, such as reporting a bug, improving the UI, or enhancing the README.md file, feel free to **open an issue** to discuss it or directly create a pull request with the necessary changes.
+- Please make sure to check your spelling and grammar.
+- Create individual pull requests for each suggestion to keep changes focused and manageable.
 
-Your feedback and contributions can help enhance this project and benefit the community!
+Your involvement helps to improve the project and make it better for everyone. Thank you for your contributions!
+
+Kindly go through [CONTRIBUTING.md](CONTRIBUTING.md) to understand everything from setup to contributing guidelines.
+
+If you would like to contribute to the project, please follow our contribution guidelines.
 
 ## 📜 License
 
