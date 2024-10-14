@@ -312,7 +312,7 @@ A robust technological solution that addresses queuing models, bed availability,
 <hr>
 
 # 📸 Website Preview
-<img src="./home.png" />
+<img src="./img/1.png" />
 <img src="./benefits.png" />
 <img src="./genre.png" />
 
