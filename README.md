@@ -44,6 +44,23 @@ To get a local copy of this project up and running, follow these steps:
    http://localhost:5000
    ```
 
+<hr>
+
+<div align="center">
+
+### 💻 **Tech Stacks**
+
+![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
+![Python](https://img.shields.io/badge/Python-%233B5998.svg?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+
+</div>
+
+<hr>
+
 ## ✨ Features
 
 - **User Registration & Login**: Secure user authentication for patients and admin roles.
