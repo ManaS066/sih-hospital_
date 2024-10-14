@@ -89,6 +89,27 @@ Kindly go through [CONTRIBUTING.md](CONTRIBUTING.md) to understand everything fr
 
 If you would like to contribute to the project, please follow our contribution guidelines.
 
+
+<!-- Code of conduct -->
+
+## <h2><img src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png" width="35" height="35"> Code of Conduct</h2>
+
+We are committed to fostering a welcoming and inclusive environment for everyone. All contributors and participants are expected to uphold the following values:
+
+- Be respectful of different viewpoints and experiences.
+- Show empathy toward others.
+- Use inclusive language.
+
+Please read and follow our [Code of Conduct](Code_of_Conduct.md) to foster an inclusive community.
+If anyone violates these standards, they may be banned from the community.
+
+<hr>
+
+⭐️ Support Our Project
+If you find this project helpful, please consider giving it a star on GitHub! Your support helps to grow the project and reach more contributors.
+
+<hr>
+
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
