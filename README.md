@@ -1,7 +1,3 @@
-Here's a polished README for your Hospital Management System project, incorporating all the required sections and details in a structured format:
-
----
-
 # 🌟 Hospital Management System 🌟
 
 ## SIH - Hospital
@@ -201,7 +197,3 @@ A robust technological solution that addresses queuing models, bed availability,
 ### Security:
 - **SSL/TLS Encryption** 🔐: To ensure secure communication between the client and server.
 - **Authentication and Authorization** 🔑: To manage user access and protect sensitive patient and hospital data.
-
----
-
-Feel free to adjust any sections further if needed!
