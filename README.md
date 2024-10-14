@@ -79,10 +79,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 The project is currently under development, and contributions are welcome to enhance its functionality. Future updates will focus on improving user interfaces, adding more features, and integrating with additional healthcare systems.
 
-Sure! Here’s a detailed description for the main webpages in your Hospital Management System, similar to the format you provided for the additional pages:
-
----
-
 ## Required Webpages
 
 ### 🏥 Landing Page
@@ -129,10 +125,6 @@ A real-time overview of bed availability in different wards, helping hospital st
 
 ### 🗓️ OPD Availability
 A dedicated page for managing and displaying the availability of outpatient department (OPD) services, allowing patients to check and book appointments based on real-time availability.
-
----
-
-Feel free to add any specific details or features as needed!
 
 ### Additional Pages
 
