@@ -311,6 +311,10 @@ A robust technological solution that addresses queuing models, bed availability,
 
 <hr>
 
+##  <h2 align = "center"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Red%20Heart.png" width="35" height="35">Our Contributors</h2>
+ <h3>Thank you for contributing to our repository</h3>
+
+![Contributors](https://contrib.rocks/image?repo=ManaS066/sih-hospital_)
 
 
 <div align="center">
